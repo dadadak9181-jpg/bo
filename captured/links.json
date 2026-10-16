@@ -1,0 +1,214 @@
+[
+  {
+    "text": "GA매뉴얼",
+    "href": "https://iga.pe.kr/index.php"
+  },
+  {
+    "text": "홈(메인)\n▼",
+    "href": "https://iga.pe.kr/index.php"
+  },
+  {
+    "text": "📌 홈(메인) 바로가기",
+    "href": "https://iga.pe.kr/index.php"
+  },
+  {
+    "text": "메인모듬링크\n                                                                                    ▶",
+    "href": "https://iga.pe.kr/board/system_links.php"
+  },
+  {
+    "text": "📌 메인모듬링크 바로가기",
+    "href": "https://iga.pe.kr/board/system_links.php"
+  },
+  {
+    "text": "보험전산 링크",
+    "href": "https://iga.pe.kr/board/system_links.php"
+  },
+  {
+    "text": "고객센터/팩스번호",
+    "href": "https://iga.pe.kr/board/faxlist.php"
+  },
+  {
+    "text": "청구_이메일/URL링크",
+    "href": "https://iga.pe.kr/board/claims_online.php"
+  },
+  {
+    "text": "청구한도금액안내",
+    "href": "https://iga.pe.kr/board/claim_limits.php"
+  },
+  {
+    "text": "청구 우편주소",
+    "href": "https://iga.pe.kr/board/claim_post_address.php"
+  },
+  {
+    "text": "청구서_모아보기",
+    "href": "https://iga.pe.kr/board/claim_forms.php"
+  },
+  {
+    "text": "보험사별 수납일",
+    "href": "https://iga.pe.kr/board/auto_transfer_days.php"
+  },
+  {
+    "text": "카드정보",
+    "href": "https://iga.pe.kr/board/card_payment_info.php"
+  },
+  {
+    "text": "GA인트라넷링크",
+    "href": "https://iga.pe.kr/board/intranet_list.php"
+  },
+  {
+    "text": "영업자료\n▼",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=sosikji"
+  },
+  {
+    "text": "📌 영업자료 바로가기",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=sosikji"
+  },
+  {
+    "text": "매일영업이슈",
+    "href": "https://iga.pe.kr/board/sales_issue/index.php"
+  },
+  {
+    "text": "월별소식지",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=sosikji"
+  },
+  {
+    "text": "영업전략자료",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=sales_lab"
+  },
+  {
+    "text": "상품정보",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=goods_ins"
+  },
+  {
+    "text": "보험니즈자료\n                                                                                    ▶",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=needs_disease"
+  },
+  {
+    "text": "📌 보험니즈자료 바로가기",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=needs_disease"
+  },
+  {
+    "text": "질병니즈자료",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=needs_disease"
+  },
+  {
+    "text": "보험상품이자계산기",
+    "href": "https://iga.pe.kr/board/calculator/interest.php"
+  },
+  {
+    "text": "질문과답변",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=qna"
+  },
+  {
+    "text": "보험북마크\n                                                                                    ▶",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=youtube"
+  },
+  {
+    "text": "📌 보험북마크 바로가기",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=youtube"
+  },
+  {
+    "text": "유투브채널",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=youtube"
+  },
+  {
+    "text": "Today_NEWS",
+    "href": "https://iga.pe.kr/board/news/"
+  },
+  {
+    "text": "🔒 로그인/회원가입",
+    "href": "https://iga.pe.kr/member/login.php"
+  },
+  {
+    "text": "📁 홈(메인)",
+    "href": "https://iga.pe.kr/index.php"
+  },
+  {
+    "text": "└ 메인모듬링크",
+    "href": "https://iga.pe.kr/board/system_links.php"
+  },
+  {
+    "text": "• 보험전산 링크",
+    "href": "https://iga.pe.kr/board/system_links.php"
+  },
+  {
+    "text": "• 고객센터/팩스번호",
+    "href": "https://iga.pe.kr/board/faxlist.php"
+  },
+  {
+    "text": "• 청구_이메일/URL링크",
+    "href": "https://iga.pe.kr/board/claims_online.php"
+  },
+  {
+    "text": "• 청구한도금액안내",
+    "href": "https://iga.pe.kr/board/claim_limits.php"
+  },
+  {
+    "text": "• 청구 우편주소",
+    "href": "https://iga.pe.kr/board/claim_post_address.php"
+  },
+  {
+    "text": "• 청구서_모아보기",
+    "href": "https://iga.pe.kr/board/claim_forms.php"
+  },
+  {
+    "text": "• 보험사별 수납일",
+    "href": "https://iga.pe.kr/board/auto_transfer_days.php"
+  },
+  {
+    "text": "• 카드정보",
+    "href": "https://iga.pe.kr/board/card_payment_info.php"
+  },
+  {
+    "text": "└ GA인트라넷링크",
+    "href": "https://iga.pe.kr/board/intranet_list.php"
+  },
+  {
+    "text": "📁 영업자료",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=sosikji"
+  },
+  {
+    "text": "└ 매일영업이슈",
+    "href": "https://iga.pe.kr/board/sales_issue/index.php"
+  },
+  {
+    "text": "└ 월별소식지",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=sosikji"
+  },
+  {
+    "text": "└ 영업전략자료",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=sales_lab"
+  },
+  {
+    "text": "└ 상품정보",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=goods_ins"
+  },
+  {
+    "text": "└ 보험니즈자료",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=needs_disease"
+  },
+  {
+    "text": "• 질병니즈자료",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=needs_disease"
+  },
+  {
+    "text": "└ 보험상품이자계산기",
+    "href": "https://iga.pe.kr/board/calculator/interest.php"
+  },
+  {
+    "text": "└ 질문과답변",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=qna"
+  },
+  {
+    "text": "└ 보험북마크",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=youtube"
+  },
+  {
+    "text": "• 유투브채널",
+    "href": "https://iga.pe.kr/board/board.php?bo_table=youtube"
+  },
+  {
+    "text": "• Today_NEWS",
+    "href": "https://iga.pe.kr/board/news/"
+  }
+]
