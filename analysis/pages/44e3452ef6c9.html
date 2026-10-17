@@ -1,0 +1,2616 @@
+<!DOCTYPE html><html lang="ko"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>보험사별 전산 주소 퀵뷰</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
+
+        .wrapper { max-width: 1440px; margin: 25px auto 60px auto; padding: 0 16px; }
+
+        .header-box { background: #fff; padding: 24px 28px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .header-box h1 { font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 6px 0; }
+        .header-box p { margin: 0; font-size: 14px; color: #64748b; font-weight: 600; }
+
+        .tab-wrap { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { padding: 11px 24px; font-size: 15px; font-weight: 800; border-radius: 8px; text-decoration: none; border: 1px solid #cbd5e1; background: #fff; color: #475569; transition: 0.2s; }
+        .tab-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; box-shadow: 0 4px 12px rgba(15,23,42,0.15); }
+        .tab-btn:hover:not(.active) { background: #f1f5f9; }
+
+        /* =========================================================================
+           💻 PC 전용 테이블 스타일 (851px 이상에서만 출력)
+           ========================================================================= */
+        .pc-table-card { 
+            display: block;
+            background: #fff; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 14px; 
+            overflow-x: auto; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+        }
+        
+        table.sys-table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+            text-align: center;
+            min-width: 1200px;
+        }
+        
+        table.sys-table thead th {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 14px 6px;
+            font-size: 13.5px;
+            font-weight: 800;
+            border-right: 1px solid #334155;
+            white-space: nowrap;
+        }
+        table.sys-table thead th:last-child { border-right: none; }
+
+        table.sys-table tbody td {
+            padding: 8px 4px;
+            border-bottom: 1px solid #cbd5e1;
+            vertical-align: middle;
+            font-size: 13px;
+            height: 66px;
+        }
+        table.sys-table tbody tr:hover { background: #f1f5f9; }
+
+        .logo-box { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 100%; 
+            max-width: 160px; 
+            height: 52px; 
+            margin: 0 auto; 
+            padding: 2px 4px;
+        }
+        .logo-img { 
+            width: 100%; 
+            max-width: 150px; 
+            height: 100%; 
+            max-height: 46px !important; 
+            object-fit: contain; 
+            display: block; 
+        }
+
+        .ga-btn-container { 
+            display: grid; 
+            grid-template-columns: 95px 75px; 
+            gap: 6px; 
+            align-items: center; 
+            justify-content: center; 
+            width: 100%; 
+            height: 100%;
+        }
+
+        .ga-col-btn { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 95px; 
+        }
+        .ga-col-browser { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 75px; 
+        }
+
+        .app-icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 0 10px;
+            height: 32px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            flex-shrink: 0;
+            width: 88px;
+        }
+        .app-icon-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+        }
+        .app-icon-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+        .btn-theme-pc { background: #2563eb; color: #ffffff; }
+        .btn-theme-pc:hover { background: #1d4ed8; }
+
+        .btn-theme-exclusive { background: #7c3aed; color: #ffffff; }
+        .btn-theme-exclusive:hover { background: #6d28d9; }
+
+        .btn-theme-android { background: #059669; color: #ffffff; }
+        .btn-theme-android:hover { background: #047857; }
+
+        .btn-theme-ios { background: #0284c7; color: #ffffff; }
+        .btn-theme-ios:hover { background: #0369a1; }
+
+        .btn-theme-tab-android { background: #d97706; color: #ffffff; }
+        .btn-theme-tab-android:hover { background: #b45309; }
+
+        .btn-theme-tab-ios { background: #475569; color: #ffffff; }
+        .btn-theme-tab-ios:hover { background: #334155; }
+
+        .btn-theme-web { background: #e11d48; color: #ffffff; }
+        .btn-theme-web:hover { background: #be123c; }
+
+        .btn-disabled { color: #cbd5e1; font-weight: 800; font-size: 15px; user-select: none; }
+
+        /* 관리자 브라우저 설정 라디오 그룹 */
+        .admin-radio-group { 
+            display: inline-flex; 
+            gap: 2px; 
+            background: #f1f5f9; 
+            padding: 2px 3px; 
+            border-radius: 6px; 
+            border: 1px solid #cbd5e1; 
+            align-items: center; 
+            height: 28px; 
+        }
+        .browser-radio-label { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 22px; 
+            padding: 0 4px; 
+            border-radius: 4px; 
+            font-size: 10px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            color: #64748b; 
+            transition: 0.15s; 
+            user-select: none; 
+        }
+        .browser-radio-label input[type="radio"] { display: none; }
+        .browser-radio-label:hover { background: #e2e8f0; color: #0f172a; }
+        .browser-radio-label.checked-edge { background: #0078d4; color: #fff; }
+        .browser-radio-label.checked-chrome { background: #ea4335; color: #fff; }
+        .browser-radio-label.checked-both { background: #059669; color: #fff; }
+        .browser-radio-label.checked-none { background: #64748b; color: #fff; }
+
+        /* 일반 사용자 브라우저 아이콘 */
+        .browser-badge-container { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 4px; 
+            height: 28px; 
+        }
+        .browser-img-icon { width: 22px; height: 22px; object-fit: contain; vertical-align: middle; }
+
+        /* =========================================================================
+           📱 모바일 전용 반응형 카드 뷰 (850px 이하에서 작동)
+           ========================================================================= */
+        .mobile-card-wrap {
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .m-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 16px 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .m-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f1f5f9;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .m-brand-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 55%;
+        }
+        .m-logo-box {
+            height: 38px;
+            max-width: 140px;
+            display: flex;
+            align-items: center;
+        }
+        .m-logo-img {
+            max-width: 130px;
+            max-height: 36px;
+            object-fit: contain;
+        }
+        .m-comp-txt {
+            font-size: 15px;
+            font-weight: 900;
+            color: #0f172a;
+        }
+
+        .m-ga-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .m-ga-btn {
+            height: 36px !important;
+            padding: 0 14px !important;
+            font-size: 13px !important;
+            width: auto !important;
+            box-shadow: 0 2px 6px rgba(37,99,235,0.2) !important;
+        }
+
+        /* 모바일 하단 링크 버튼 2열 그리드 */
+        .m-links-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .m-link-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            gap: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+        .m-link-item svg {
+            width: 13px;
+            height: 13px;
+            fill: currentColor;
+        }
+        .m-link-disabled {
+            background: #f8fafc;
+            color: #cbd5e1;
+            border: 1px dashed #e2e8f0;
+            pointer-events: none;
+        }
+
+        .m-admin-ctrl-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 8px 10px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11.5px;
+            color: #64748b;
+            font-weight: 700;
+        }
+
+        .by-me-footer { margin-top: 50px; padding: 25px 20px; background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center; font-size: 13.5px; color: #64748b; line-height: 1.6; }
+        .by-me-footer b { color: #002b5e; font-size: 15px; }
+
+        /* 🚨 모바일 미디어 쿼리 전환점 */
+        @media (max-width: 850px) {
+            .wrapper { margin: 15px auto 40px auto; padding: 0 12px; }
+            .header-box { padding: 18px 16px; border-radius: 12px; margin-bottom: 16px; }
+            .header-box h1 { font-size: 20px; }
+            .header-box p { font-size: 12.5px; }
+            .tab-wrap { margin-bottom: 14px; gap: 6px; }
+            .tab-btn { padding: 9px 18px; font-size: 13.5px; flex: 1; text-align: center; }
+
+            /* PC 테이블 숨김, 모바일 전용 카드 뷰 노출 */
+            .pc-table-card { display: none !important; }
+            .mobile-card-wrap { display: flex !important; }
+        }
+
+        @media (max-width: 480px) {
+            .m-links-grid { grid-template-columns: repeat(2, 1fr); }
+            .m-card-top { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .m-brand-box { max-width: 100%; }
+            .m-ga-box { width: 100%; justify-content: space-between; }
+            .m-ga-btn { flex: 1; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+
+<style>
+    .navbar { background-color: #ffffff; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 65px; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 900; box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-container { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+    
+    .nav-left { display: flex; height: 100%; align-items: center; margin:0; padding:0; }
+    .nav-item { position: relative; display: inline-block; height: 100%; }
+    .nav-item > a { color: #334155; font-weight: 700; font-size: 15px; padding: 0 18px; display: flex; align-items: center; height: 65px; transition: color 0.2s; text-decoration: none; box-sizing: border-box;}
+    .nav-item:hover > a { color: #2563eb; }
+
+    .nav-dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 220px; box-shadow: 0px 10px 25px rgba(0,0,0,0.1); z-index: 1001; top: 100%; left: 0; border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; border-top: none; }
+    .nav-dropdown-content a { color: #475569; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; border-bottom: 1px solid #f1f5f9; transition: 0.2s; font-weight: 500; text-decoration: none; position: relative; }
+    .nav-dropdown-content a:hover { background-color: #f8fafc; color: #2563eb; }
+
+    .nav-sub-item { position: relative; width: 100%; }
+    .nav-sub-dropdown { display: none; position: absolute; left: 100%; top: 0; background-color: #ffffff; min-width: 210px; box-shadow: 5px 10px 25px rgba(0,0,0,0.1); z-index: 1002; border-radius: 0 8px 8px 8px; border: 1px solid #e2e8f0; }
+    .nav-sub-dropdown a { padding: 11px 16px; font-size: 13.5px; border-bottom: 1px solid #f1f5f9; }
+
+    .arrow-indicator { font-size: 11px; margin-left: 6px; transition: transform 0.2s ease; display: inline-block; }
+    .arrow-sub { font-size: 11px; margin-left: 6px; color: #94a3b8; transition: transform 0.2s ease; display: inline-block; }
+
+    @media (min-width: 851px) {
+        .nav-item:hover > .nav-dropdown-content { display: block; }
+        .nav-sub-item:hover > .nav-sub-dropdown { display: block; }
+        .mobile-only-link { display: none !important; }
+    }
+    
+    .nav-right { display: flex; gap: 12px; align-items: center; margin:0; padding:0; height: 100%; }
+    .visitor-counter { background: #f8fafc; border: 1px solid #e2e8f0; padding: 5px 10px; border-radius: 6px; font-size: 12px; color: #64748b; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+    .visitor-counter span { color: #0ea5e9; }
+    
+    .nav-group-btn { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #334155; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; cursor: pointer; transition: 0.2s; text-decoration: none; }
+    .nav-group-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+    .btn-sitemap { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 13.5px; font-weight: 800; padding: 7px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; text-decoration: none; }
+    .btn-sitemap:hover { background: #2563eb; color: #ffffff; border-color: #2563eb; }
+    
+    .nav-right-dropdown { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-right-content { display: none; position: absolute; right: 0; top: 100%; background: #fff; min-width: 215px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; overflow: hidden; z-index: 1000; }
+    @media (min-width: 851px) {
+        .nav-right-dropdown:hover .nav-right-content { display: block; }
+    }
+    .nav-right-content a { display: block; padding: 12px 16px; font-size: 13.5px; color: #475569; text-decoration: none; font-weight: 600; border-bottom: 1px solid #f1f5f9; transition: 0.2s; }
+    .nav-right-content a:hover { background: #f8fafc; color: #2563eb; }
+    .nav-right-content a.danger:hover { color: #ef4444; background: #fef2f2; }
+
+    .nav-mobile-toggle { display: none; font-size: 26px; cursor: pointer; color: #334155; }
+
+    .nav-modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15,23,42,0.6); backdrop-filter: blur(5px); }
+    .nav-modal-content { background-color: #ffffff; margin: 3vh auto; padding: 40px; border-radius: 24px; width: 95%; position: relative; max-height: 94vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.25); box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-close-btn { position: absolute; right: 25px; top: 20px; font-size: 32px; cursor: pointer; color: #94a3b8; transition: 0.2s; line-height: 1; z-index:10; }
+    .nav-close-btn:hover { color: #ef4444; }
+    
+    #navIframeModal .nav-modal-content { padding: 0; max-width: 1100px; height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+    #navIframeModal .nav-close-btn { right: 20px; top: 15px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    #navIframeModal iframe { width: 100%; height: 100%; border: none; border-radius: 24px; }
+
+    #navSitemapModal .nav-modal-content { max-width: 1150px; padding: 35px 30px; }
+    .sitemap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 15px; margin-bottom: 25px; }
+    .sitemap-header h2 { margin: 0; font-size: 22px; font-weight: 900; color: #0f172a; }
+    .sitemap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .sitemap-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .sitemap-p1-title { font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 12px; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
+    .sitemap-p1-title a { color: inherit; text-decoration: none; }
+    .sitemap-p1-title a:hover { color: #2563eb; }
+    .sitemap-p2-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .sitemap-p2-item { font-size: 13.5px; font-weight: 700; }
+    .sitemap-p2-item > a { color: #334155; text-decoration: none; display: block; padding: 3px 0; }
+    .sitemap-p2-item > a:hover { color: #2563eb; }
+    .sitemap-p3-list { list-style: none; padding-left: 14px; margin: 4px 0 0 0; display: flex; flex-direction: column; gap: 4px; border-left: 2px solid #cbd5e1; }
+    .sitemap-p3-item { font-size: 12.5px; font-weight: 600; }
+    .sitemap-p3-item a { color: #64748b; text-decoration: none; }
+    .sitemap-p3-item a:hover { color: #2563eb; }
+
+    @media (max-width: 850px) {
+        .navbar { flex-direction: column; align-items: flex-start; height: auto; padding: 15px 20px; }
+        .nav-mobile-toggle { display: block; position: absolute; right: 20px; top: 18px; }
+        .nav-logo-area { display: block; font-weight: 800; font-size: 20px; color: #0f172a; text-decoration: none; }
+        .nav-container { display: none; flex-direction: column; width: 100%; gap: 15px; margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+        .nav-container.active { display: flex; }
+        .nav-left { flex-direction: column; align-items: flex-start; width: 100%; }
+        .nav-right { flex-direction: column; align-items: stretch; width: 100%; gap: 10px; }
+        .nav-item, .nav-right-dropdown { width: 100%; height: auto; }
+        
+        .nav-item > a, .nav-group-btn { 
+            height: auto; 
+            padding: 13px 8px; 
+            border-bottom: 1px solid #f1f5f9; 
+            width: 100%; 
+            border-radius: 0; 
+            border: none; 
+            background: transparent; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .nav-dropdown-content { 
+            display: none; 
+            position: static; 
+            box-shadow: none; 
+            border: none; 
+            border-left: 3px solid #2563eb; 
+            border-radius: 0; 
+            background: #f8fafc; 
+            padding-left: 8px; 
+            margin: 4px 0 10px 0; 
+            width: 100%; 
+        }
+        .nav-dropdown-content.open { 
+            display: block !important; 
+        }
+
+        .nav-dropdown-content a {
+            padding: 11px 12px;
+            font-size: 13.5px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .nav-sub-dropdown { 
+            display: none; 
+            position: static; 
+            border: none; 
+            box-shadow: none; 
+            background: #ffffff; 
+            padding-left: 12px; 
+            border-left: 2px solid #94a3b8; 
+            margin: 4px 0 8px 0; 
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+        .nav-sub-dropdown.open { 
+            display: block !important; 
+        }
+
+        .nav-sub-dropdown a {
+            padding: 9px 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .nav-parent-link.active-toggle .arrow-indicator {
+            transform: rotate(180deg);
+            color: #2563eb;
+        }
+
+        .nav-sub-parent.active-toggle .arrow-sub {
+            transform: rotate(90deg);
+            color: #2563eb;
+        }
+
+        .visitor-counter { justify-content: center; padding: 10px 0; }
+        .btn-sitemap { justify-content: center; width: 100%; padding: 10px; }
+    }
+</style>
+<link href="../assets/2b9f3e10cb8b.css" rel="stylesheet">
+<script src="../assets/4395c6aa4084.js"></script>
+
+<div class="navbar no-print">
+    <a href="947659214c33.html" class="nav-logo-area" style="display:none;">GA매뉴얼</a>
+    <div class="nav-mobile-toggle" onclick="toggleMobileNav()">☰</div>
+
+    <div class="nav-container" id="navMobileContainer">
+        <div class="nav-left">
+                                            <div class="nav-item">
+                                            <a href="947659214c33.html" class="nav-parent-link" data-has-children="true" style="">
+                            <span>홈(메인)</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="947659214c33.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 홈(메인) 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="44e3452ef6c9.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>메인모듬링크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="44e3452ef6c9.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 메인모듬링크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="44e3452ef6c9.html">
+                                                    보험전산 링크                                                </a>
+                                                                                                                                            <a href="e6ed6a9f92e2.html">
+                                                    고객센터/팩스번호                                                </a>
+                                                                                                                                            <a href="3153c6257bf8.html">
+                                                    청구_이메일/URL링크                                                </a>
+                                                                                                                                            <a href="75533ed272f1.html">
+                                                    청구한도금액안내                                                </a>
+                                                                                                                                            <a href="3b392eb2b880.html">
+                                                    청구 우편주소                                                </a>
+                                                                                                                                            <a href="75ddd1a0ebd6.html">
+                                                    청구서_모아보기                                                </a>
+                                                                                                                                            <a href="21587080263e.html">
+                                                    보험사별 수납일                                                </a>
+                                                                                                                                            <a href="c49fc0e88d53.html">
+                                                    카드정보                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="f2ca5133a8c2.html" class="" data-has-sub="false">
+                                        <span>GA인트라넷링크</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                                            <div class="nav-item">
+                                            <a href="efd4d09ef92f.html" class="nav-parent-link" data-has-children="true" style="">
+                            <span>영업자료</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="efd4d09ef92f.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 영업자료 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="96dc9c2d9f73.html" class="" data-has-sub="false">
+                                        <span>매일영업이슈</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="efd4d09ef92f.html" class="" data-has-sub="false">
+                                        <span>월별소식지</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="835c17bc6127.html" class="" data-has-sub="false">
+                                        <span>영업전략자료</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="cb73c93e4162.html" class="" data-has-sub="false">
+                                        <span>상품정보</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="27b61ac494e2.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험니즈자료</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="27b61ac494e2.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험니즈자료 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="27b61ac494e2.html">
+                                                    질병니즈자료                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="bdc5fd445533.html" class="" data-has-sub="false">
+                                        <span>보험상품이자계산기</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="969023e484dc.html" class="" data-has-sub="false">
+                                        <span>질문과답변</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="b9442215d61e.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험북마크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="b9442215d61e.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험북마크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="b9442215d61e.html">
+                                                    유투브채널                                                </a>
+                                                                                                                                            <a href="665f386a4d32.html">
+                                                    Today_NEWS                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                    </div>
+        
+        <div class="nav-right">
+            <button type="button" class="btn-sitemap" onclick="openNavSitemapModal()" title="전체 사이트 메뉴 구조 한눈에 보기">
+                <span>🗺️</span>
+                <span>사이트맵</span>
+            </button>
+
+            <form action="/board/search.php" method="get" style="display:flex; align-items:center; background:#f8fafc; border:1px solid #cbd5e1; border-radius:20px; padding:3px 10px; margin:0;">
+                <input type="text" name="keyword" placeholder="사이트 전체 검색..." style="border:none; background:transparent; font-size:13px; font-weight:600; color:#1e293b; outline:none; width:130px; font-family:inherit;">
+                <button type="submit" style="background:none; border:none; cursor:pointer; font-size:14px; padding:0; display:flex; align-items:center;" title="검색">🔍</button>
+            </form>
+
+            <div class="visitor-counter" title="오늘 접속자 / 전체 누적 접속자">
+                📊 <span>3</span> / 793            </div>
+            
+                            <span style="color: #94a3b8; font-size: 13px; margin-right: 8px; font-weight:700; cursor:pointer; background:#f1f5f9; padding:6px 12px; border-radius:20px;" onclick="openNavDevNoteModal()">
+                    Ver 3.0.01 ⓘ
+                </span>
+                        
+                            <a href="82a0d3621888.html" class="nav-group-btn" style="background:#2563eb; color:#fff; border:none; justify-content:center;">🔒 로그인/회원가입</a>
+                    </div>
+    </div>
+</div>
+
+<!-- 사이트맵 모달 팝업 -->
+<div id="navSitemapModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavSitemapModal()">×</span>
+        <div class="sitemap-header">
+            <h2>🗺️ 전체 사이트맵</h2>
+        </div>
+        <div class="sitemap-grid">
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="947659214c33.html">📁 홈(메인)</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="44e3452ef6c9.html">└ 메인모듬링크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="44e3452ef6c9.html">• 보험전산 링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="e6ed6a9f92e2.html">• 고객센터/팩스번호</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3153c6257bf8.html">• 청구_이메일/URL링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75533ed272f1.html">• 청구한도금액안내</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3b392eb2b880.html">• 청구 우편주소</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75ddd1a0ebd6.html">• 청구서_모아보기</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="21587080263e.html">• 보험사별 수납일</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="c49fc0e88d53.html">• 카드정보</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="f2ca5133a8c2.html">└ GA인트라넷링크</a>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="efd4d09ef92f.html">📁 영업자료</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="96dc9c2d9f73.html">└ 매일영업이슈</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="efd4d09ef92f.html">└ 월별소식지</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="835c17bc6127.html">└ 영업전략자료</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="cb73c93e4162.html">└ 상품정보</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="27b61ac494e2.html">└ 보험니즈자료</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="27b61ac494e2.html">• 질병니즈자료</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="bdc5fd445533.html">└ 보험상품이자계산기</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="969023e484dc.html">└ 질문과답변</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="b9442215d61e.html">└ 보험북마크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="b9442215d61e.html">• 유투브채널</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="665f386a4d32.html">• Today_NEWS</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                    </div>
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center; color:#64748b;">
+            Designed &amp; Developed by <b>보험명장 김영환</b> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<div id="navIframeModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavIframeModal()">×</span>
+        <iframe id="navMyAccountIframe" src=""></iframe>
+    </div>
+</div>
+
+<div id="navDevNoteModal" class="nav-modal">
+    <div class="nav-modal-content" style="max-width:700px;">
+        <span class="nav-close-btn" onclick="closeNavDevNoteModal()">×</span>
+        <h2 style="margin-top:0; color:#0f172a; border-bottom:2px solid #f1f5f9; padding-bottom:15px;">🛠️ 시스템 업데이트 노트</h2>
+        
+                    <div class="ql-snow" style="margin-top:20px; max-height:500px; overflow-y:auto; padding-right:10px;">
+                <div class="ql-editor" style="padding:0; line-height:1.7; color:#334155; font-size:15px; font-family:inherit;">
+                    <div class="note-version-block">
+<h4 style="color:#2563eb; margin-bottom:10px; margin-top:0;">[Ver 3.0.01] 업데이트 내역</h4>
+<ul style="padding-left:20px; margin-bottom:0;">
+<li>1. 뉴스 및 북마크 게시판 생성 적용.</li>
+<li>2. 대부분의 게시물 카톡 공유 적용.(웹에서 바로 공유 가능)</li>
+<li>3. Today이슈 &amp; 뉴스 06시~21시까지 네이버, 네이트, 다음 뉴스 검색 보험/건강뉴스 갈무리 기능 제공. 약간의 문장만 적용 기사 내용 각 포털 사이트로 연결됨.</li>
+<li>4. 보험상품이자계산기 프로그램 제작/출력기능 결과값 카톡전송기능제공</li>
+</ul>
+<hr style="border:0; border-top:1px dashed #cbd5e1; margin:20px 0;">
+</div>
+<h4>[Ver 3.000] 업데이트 내역</h4><ul><li>팩스서버 구성 및 지점별 팩스 서버 관리 솔루션 구성완료</li></ul><h4>[Ver 3.000] 업데이트 내역</h4><ul><li>전체적으로 디자인을 카드형으로 변경</li><li>1. 회원가입 기능(최소한의 정보 데이터 암호화)</li><li>2. 기존 링크를 최신 버전으로 전부 수정함.</li><li>3. 청구서와 관련 자료 모두를 업데이트함.</li><li>4. 각 보험사의 전산 설치 및 전산 사용 매뉴얼 등록</li><li>5. 모바일청약 업데이트</li><li>6. 신용카드 결제 업데이트</li><li>7. 본부연락처 추가 기능</li><li>+ 본인 소속의 원수사 지점장/총무/설계매니저 등록가능(본부장, 지점장, 총무가 등록(유료기능))</li><li>+ 원수사 전산 본인 코드 및 비번 저장 기능</li></ul>                </div>
+            </div>
+                
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center;">
+            <strong>Designed &amp; Developed by</strong><br>
+            <span style="color:#002b5e; font-size:15px; font-weight:bold;">보험명장 김영환</span> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<script>
+    let visitorLogId = sessionStorage.getItem('visitor_log_id') ? sessionStorage.getItem('visitor_log_id') : 0;
+    
+    fetch('/api/track.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'action=enter&page_url=' + encodeURIComponent(window.location.href) 
+            + '&ref=' + encodeURIComponent(document.referrer) 
+            + '&log_id=' + visitorLogId
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.log_id) {
+            visitorLogId = data.log_id;
+            sessionStorage.setItem('visitor_log_id', visitorLogId);
+        }
+    }).catch(e => console.log('추적기 대기'));
+
+    setInterval(() => {
+        if (visitorLogId > 0) {
+            fetch('/api/track.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'action=ping&log_id=' + visitorLogId
+            }).catch(() => {});
+        }
+    }, 10000);
+
+    window.addEventListener('beforeunload', function() {
+        if (visitorLogId > 0) {
+            navigator.sendBeacon('/api/track.php', new URLSearchParams({
+                'action': 'exit',
+                'log_id': visitorLogId
+            }));
+        }
+    });
+
+    function toggleMobileNav() {
+        const container = document.getElementById('navMobileContainer');
+        container.classList.toggle('active');
+        const logo = document.querySelector('.nav-logo-area');
+        if (window.innerWidth <= 850) {
+            logo.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // [1차 메뉴 모바일 터치 이벤트 제어]
+        const parentLinks = document.querySelectorAll('.nav-parent-link');
+        parentLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 하위 메뉴가 있을 경우: 링크 이동 차단 및 아코디언 토글
+                if (window.innerWidth <= 850) {
+                    const hasChildren = this.getAttribute('data-has-children') === 'true';
+                    const dropdown = this.nextElementSibling;
+                    
+                    if (hasChildren && dropdown && dropdown.classList.contains('nav-dropdown-content')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isOpen = dropdown.classList.contains('open');
+
+                        // 다른 열린 1차 메뉴 닫기 및 화살표 초기화
+                        document.querySelectorAll('.nav-dropdown-content').forEach(d => d.classList.remove('open'));
+                        document.querySelectorAll('.nav-parent-link').forEach(p => p.classList.remove('active-toggle'));
+
+                        // 현재 클릭한 메뉴 토글
+                        if (!isOpen) {
+                            dropdown.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+
+        // [2차 메뉴 모바일 터치 이벤트 제어]
+        const subParents = document.querySelectorAll('.nav-sub-parent');
+        subParents.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 3차 하위 메뉴가 있을 경우: 링크 이동 차단 및 3차 드롭다운 토글
+                if (window.innerWidth <= 850) {
+                    const hasSub = this.getAttribute('data-has-sub') === 'true';
+                    const subDrop = this.nextElementSibling;
+
+                    if (hasSub && subDrop && subDrop.classList.contains('nav-sub-dropdown')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isSubOpen = subDrop.classList.contains('open');
+                        const parentContainer = this.closest('.nav-dropdown-content');
+
+                        // 같은 1차 메뉴 내부의 다른 열린 2차 메뉴 닫기
+                        if (parentContainer) {
+                            parentContainer.querySelectorAll('.nav-sub-dropdown').forEach(d => d.classList.remove('open'));
+                            parentContainer.querySelectorAll('.nav-sub-parent').forEach(p => p.classList.remove('active-toggle'));
+                        }
+
+                        // 현재 클릭한 2차 메뉴 토글
+                        if (!isSubOpen) {
+                            subDrop.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    function toggleRightDropdown(btn) {
+        if (window.innerWidth <= 850) {
+            const dropdown = btn.nextElementSibling;
+            if (dropdown && dropdown.classList.contains('nav-right-content')) {
+                dropdown.classList.toggle('open');
+            }
+        }
+    }
+
+    function openNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function openNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    function openNavAccountModal(e) {
+        if(e) e.preventDefault();
+        document.getElementById("navMyAccountIframe").src = "/member/my_accounts.php";
+        document.getElementById("navIframeModal").style.display = "block";
+        document.body.style.overflow = "hidden";
+    }
+    function closeNavIframeModal() {
+        document.getElementById("navIframeModal").style.display = "none";
+        document.getElementById("navMyAccountIframe").src = ""; 
+        document.body.style.overflow = "auto";
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target == document.getElementById('navSitemapModal')) closeNavSitemapModal();
+        if (event.target == document.getElementById('navDevNoteModal')) closeNavDevNoteModal();
+        if (event.target == document.getElementById('navIframeModal')) closeNavIframeModal();
+    });
+
+    let navQuillEditor = null;
+    if (document.getElementById('nav_quill_editor')) {
+        navQuillEditor = new Quill('#nav_quill_editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+        
+        const noteHistoryRaw = document.getElementById('nav_dev_note_history').value;
+        navQuillEditor.clipboard.dangerouslyPasteHTML(noteHistoryRaw);
+    }
+
+    function saveNavDevNote(e) {
+        e.preventDefault();
+        const ver = document.getElementById('nav_dev_app_ver').value;
+        const appDate = document.getElementById('nav_dev_app_date').value; 
+        const newUpdate = document.getElementById('nav_dev_new_update').value;
+        const historyNote = navQuillEditor ? navQuillEditor.root.innerHTML : document.getElementById('nav_dev_note_history').value;
+        const btn = document.getElementById('navDevSaveBtn');
+        
+        btn.innerText = "저장 중...";
+        
+        const formData = new FormData();
+        formData.append('ajax_action', 'save_dev_note');
+        formData.append('app_ver', ver);
+        formData.append('app_date', appDate); 
+        formData.append('new_update', newUpdate);
+        formData.append('dev_note', historyNote);
+        
+        fetch('/index.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 'success') {
+                alert('버전 및 개발자 노트가 성공적으로 저장되었습니다.');
+                location.reload();
+            } else {
+                alert(data.msg ? data.msg : '저장에 실패했습니다.');
+                btn.innerText = "💾 변경사항 전체 저장하기";
+            }
+        });
+    }
+
+    function navRequireAuth(isNeedLogin) {
+        if (isNeedLogin) {
+            alert('로그인 후 이용 가능한 메뉴입니다.\n로그인 페이지로 이동합니다.');
+            location.href = '/member/login.php';
+        } else {
+            alert('해당 메뉴를 이용할 수 있는 권한이 아닙니다.\n관리자에게 문의해 주세요.');
+        }
+    }
+</script>
+<div class="wrapper">
+    <div class="header-box">
+        <div>
+            <h1>💻 보험사별 전산 주소 퀵뷰</h1>
+            <p>GA전산, 전용전산, 모바일 앱, 태블릿 전산 및 웹 전산 접속 링크를 원클릭으로 이용할 수 있습니다.</p>
+        </div>
+            </div>
+
+    <div class="tab-wrap">
+        <a href="ada9ec465852.html" class="tab-btn active">🛡 손해보험 전산</a>
+        <a href="2014649ea99e.html" class="tab-btn ">🌿 생명보험 전산</a>
+    </div>
+
+    <!-- =========================================================================
+         💻 [PC 전용 뷰] 1,200px 규격화된 정밀 테이블 (851px 이상에서만 출력)
+         ========================================================================= -->
+    <div class="pc-table-card">
+        <table class="sys-table">
+            <colgroup>
+                <col style="width: 15%;"> <!-- 1. 보험사 -->
+                <col style="width: 17%;"> <!-- 2. GA전산 -->
+                <col style="width: 11%;"> <!-- 3. 전용전산 -->
+                <col style="width: 11%;"> <!-- 4. Android -->
+                <col style="width: 10%;"> <!-- 5. IOS -->
+                <col style="width: 11%;"> <!-- 6. 태블릿(A) -->
+                <col style="width: 11%;"> <!-- 7. 아이패드 -->
+                <col style="width: 14%;"> <!-- 8. m_WEB -->
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>보험사</th>
+                    <th>GA전산</th>
+                    <th>전용전산</th>
+                    <th>Android</th>
+                    <th>IOS</th>
+                    <th>태블릿(A)</th>
+                    <th>아이패드</th>
+                    <th>m_WEB</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/052892652fcf.jpg" alt="메리츠화재" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://sales.meritzfire.com/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/51d4b307ca52.svg" alt="Microsoft Edge" class="browser-img-icon" title="Microsoft Edge 권장">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <a href="https://play.google.com/store/apps/details?id=kr.co.meritzfire_sag" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-android" title="Android 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                                <span>Android</span>
+                            </a>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/ab83035efe78.png" alt="삼성화재" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://erp.samsungfire.com/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/51d4b307ca52.svg" alt="Microsoft Edge" class="browser-img-icon" title="Microsoft Edge 지원">
+                                            <img src="../assets/933d2a40c6df.svg" alt="Google Chrome" class="browser-img-icon" title="Google Chrome 지원">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <a href="https://play.google.com/store/apps/details?id=com.samsungfire.salesplus.aosportal" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-android" title="Android 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                                <span>Android</span>
+                            </a>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <a href="https://apps.apple.com/kr/app/%EC%82%BC%EC%84%B1%ED%99%94%EC%9E%AC-%EC%98%81%EC%97%85-one%ED%8F%AC%ED%83%88/id1671468761" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-ios" title="iOS 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                                <span>IOS</span>
+                            </a>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/f339168f46ec.png" alt="KB손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="http://sales.kbinsure.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/51d4b307ca52.svg" alt="Microsoft Edge" class="browser-img-icon" title="Microsoft Edge 지원">
+                                            <img src="../assets/933d2a40c6df.svg" alt="Google Chrome" class="browser-img-icon" title="Google Chrome 지원">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <a href="https://play.google.com/store/apps/details?id=com.jiransoft.mdm.lig" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-android" title="Android 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                                <span>Android</span>
+                            </a>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/ef4b6ee616ca.png" alt="현대해상" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://sp.hi.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/51d4b307ca52.svg" alt="Microsoft Edge" class="browser-img-icon" title="Microsoft Edge 지원">
+                                            <img src="../assets/933d2a40c6df.svg" alt="Google Chrome" class="browser-img-icon" title="Google Chrome 지원">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <a href="https://play.google.com/store/apps/details?id=hi.co.kr.mobi.real&amp;pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-android" title="Android 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                                <span>Android</span>
+                            </a>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <a href="http://mam.hi.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-ios" title="iOS 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                                <span>IOS</span>
+                            </a>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/8c54df88098c.png" alt="DB손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://www.mdbins.com/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/933d2a40c6df.svg" alt="Google Chrome" class="browser-img-icon" title="Google Chrome 권장">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <a href="https://play.google.com/store/apps/details?id=com.idbsupport.gmp" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-android" title="Android 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                                <span>Android</span>
+                            </a>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <a href="https://apps.apple.com/kr/app/db-%EC%86%90%ED%95%B4%EB%B3%B4%ED%97%98-%EC%98%81%EC%97%85%EC%A7%80%EC%9B%90-%EC%8B%9C%EC%8A%A4%ED%85%9C/id1572598617" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-ios" title="iOS 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                                <span>IOS</span>
+                            </a>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/4a09475c3cac.jpg" alt="한화손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="http://portal.hwgeneralins.com/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/51d4b307ca52.svg" alt="Microsoft Edge" class="browser-img-icon" title="Microsoft Edge 권장">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <a href="https://mob.hwgeneralins.com/mobop/dist/index.htm" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-android" title="Android 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                                <span>Android</span>
+                            </a>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <a href="https://mob.hwgeneralins.com/mobop/dist/index.html" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-ios" title="iOS 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                                <span>IOS</span>
+                            </a>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/7b3f3edacaef.png" alt="NH농협손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://ss.nhfire.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/933d2a40c6df.svg" alt="Google Chrome" class="browser-img-icon" title="Google Chrome 권장">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/6e773f0771f3.png" alt="흥국화재" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="http://sales.heungkukfire.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/51d4b307ca52.svg" alt="Microsoft Edge" class="browser-img-icon" title="Microsoft Edge 지원">
+                                            <img src="../assets/933d2a40c6df.svg" alt="Google Chrome" class="browser-img-icon" title="Google Chrome 지원">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <a href="https://mdm.heungkukfire.co.kr:7412/resources/html/app.html" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-android" title="Android 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                                <span>Android</span>
+                            </a>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/28fa4eff0184.png" alt="하나손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://sfa.saleshana.com/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/933d2a40c6df.svg" alt="Google Chrome" class="browser-img-icon" title="Google Chrome 권장">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <a href="https://msf.saleshana.com:10143/msf/app.do" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-android" title="Android 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                                <span>Android</span>
+                            </a>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <a href="https://msf.saleshana.com:10143/msf/app.do" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-ios" title="iOS 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                                <span>IOS</span>
+                            </a>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/922cc89745bb.png" alt="롯데손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://lottero.lotteins.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/51d4b307ca52.svg" alt="Microsoft Edge" class="browser-img-icon" title="Microsoft Edge 지원">
+                                            <img src="../assets/933d2a40c6df.svg" alt="Google Chrome" class="browser-img-icon" title="Google Chrome 지원">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <a href="https://play.google.com/store/apps/details?id=kr.co.lotteins.a2mars" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-android" title="Android 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                                <span>Android</span>
+                            </a>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <a href="https://apps.apple.com/kr/app/wonder-%EC%9B%90%EB%8D%94/id1623338683" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-ios" title="iOS 전산 앱">
+                                <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                                <span>IOS</span>
+                            </a>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/94b2918c4fba.jpg" alt="AIG손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://ga.aig.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/51d4b307ca52.svg" alt="Microsoft Edge" class="browser-img-icon" title="Microsoft Edge 권장">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/229008f01383.png" alt="라이나손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://ga.linagi.com/3512" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/933d2a40c6df.svg" alt="Google Chrome" class="browser-img-icon" title="Google Chrome 권장">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/b1bb54b31d27.jpg" alt="신한EZ손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://ga.shinhanez.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/933d2a40c6df.svg" alt="Google Chrome" class="browser-img-icon" title="Google Chrome 권장">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 1. 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/70377bbe0867.jpg" alt="YBI예별손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 2. GA전산 -->
+                    <td>
+                        <div class="ga-btn-container">
+                            <div class="ga-col-btn">
+                                                                    <a href="https://ybanet.yebyeol.co.kr" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc" title="GA 전산 시스템 열기">
+                                        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                                        <span>GA전산</span>
+                                    </a>
+                                                            </div>
+
+                            <div class="ga-col-browser">
+                                                                    <div class="browser-badge-container">
+                                                                                    <img src="../assets/51d4b307ca52.svg" alt="Microsoft Edge" class="browser-img-icon" title="Microsoft Edge 권장">
+                                                                            </div>
+                                                            </div>
+                        </div>
+                    </td>
+
+                    <!-- 3. 전용전산 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 4. Android -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 5. IOS -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 6. 태블릿(A) -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 7. 아이패드 -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+
+                    <!-- 8. m_WEB -->
+                    <td>
+                                                    <span class="btn-disabled">-</span>
+                                            </td>
+                </tr>
+                
+                            </tbody>
+        </table>
+    </div>
+
+    <!-- =========================================================================
+         📱 [모바일 전용 뷰] 한 손 터치에 최적화된 반응형 카드 리스트 (850px 이하)
+         ========================================================================= -->
+    <div class="mobile-card-wrap">
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/052892652fcf.jpg" alt="메리츠화재" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://sales.meritzfire.com/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/51d4b307ca52.svg" alt="Edge" class="browser-img-icon" title="Edge 권장">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <a href="https://play.google.com/store/apps/details?id=kr.co.meritzfire_sag" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-android">
+                        <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                        <span>Android</span>
+                    </a>
+                
+                <!-- IOS -->
+                                    <div class="m-link-item m-link-disabled">IOS -</div>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/ab83035efe78.png" alt="삼성화재" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://erp.samsungfire.com/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/51d4b307ca52.svg" alt="Edge" class="browser-img-icon" title="Edge 지원">
+                                <img src="../assets/933d2a40c6df.svg" alt="Chrome" class="browser-img-icon" title="Chrome 지원">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <a href="https://play.google.com/store/apps/details?id=com.samsungfire.salesplus.aosportal" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-android">
+                        <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                        <span>Android</span>
+                    </a>
+                
+                <!-- IOS -->
+                                    <a href="https://apps.apple.com/kr/app/%EC%82%BC%EC%84%B1%ED%99%94%EC%9E%AC-%EC%98%81%EC%97%85-one%ED%8F%AC%ED%83%88/id1671468761" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-ios">
+                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                        <span>IOS</span>
+                    </a>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/f339168f46ec.png" alt="KB손해보험" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="http://sales.kbinsure.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/51d4b307ca52.svg" alt="Edge" class="browser-img-icon" title="Edge 지원">
+                                <img src="../assets/933d2a40c6df.svg" alt="Chrome" class="browser-img-icon" title="Chrome 지원">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <a href="https://play.google.com/store/apps/details?id=com.jiransoft.mdm.lig" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-android">
+                        <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                        <span>Android</span>
+                    </a>
+                
+                <!-- IOS -->
+                                    <div class="m-link-item m-link-disabled">IOS -</div>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/ef4b6ee616ca.png" alt="현대해상" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://sp.hi.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/51d4b307ca52.svg" alt="Edge" class="browser-img-icon" title="Edge 지원">
+                                <img src="../assets/933d2a40c6df.svg" alt="Chrome" class="browser-img-icon" title="Chrome 지원">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <a href="https://play.google.com/store/apps/details?id=hi.co.kr.mobi.real&amp;pcampaignid=web_share" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-android">
+                        <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                        <span>Android</span>
+                    </a>
+                
+                <!-- IOS -->
+                                    <a href="http://mam.hi.co.kr/" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-ios">
+                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                        <span>IOS</span>
+                    </a>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/8c54df88098c.png" alt="DB손해보험" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://www.mdbins.com/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/933d2a40c6df.svg" alt="Chrome" class="browser-img-icon" title="Chrome 권장">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <a href="https://play.google.com/store/apps/details?id=com.idbsupport.gmp" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-android">
+                        <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                        <span>Android</span>
+                    </a>
+                
+                <!-- IOS -->
+                                    <a href="https://apps.apple.com/kr/app/db-%EC%86%90%ED%95%B4%EB%B3%B4%ED%97%98-%EC%98%81%EC%97%85%EC%A7%80%EC%9B%90-%EC%8B%9C%EC%8A%A4%ED%85%9C/id1572598617" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-ios">
+                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                        <span>IOS</span>
+                    </a>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/4a09475c3cac.jpg" alt="한화손해보험" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="http://portal.hwgeneralins.com/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/51d4b307ca52.svg" alt="Edge" class="browser-img-icon" title="Edge 권장">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <a href="https://mob.hwgeneralins.com/mobop/dist/index.htm" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-android">
+                        <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                        <span>Android</span>
+                    </a>
+                
+                <!-- IOS -->
+                                    <a href="https://mob.hwgeneralins.com/mobop/dist/index.html" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-ios">
+                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                        <span>IOS</span>
+                    </a>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/7b3f3edacaef.png" alt="NH농협손해보험" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://ss.nhfire.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/933d2a40c6df.svg" alt="Chrome" class="browser-img-icon" title="Chrome 권장">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <div class="m-link-item m-link-disabled">Android -</div>
+                
+                <!-- IOS -->
+                                    <div class="m-link-item m-link-disabled">IOS -</div>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/6e773f0771f3.png" alt="흥국화재" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="http://sales.heungkukfire.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/51d4b307ca52.svg" alt="Edge" class="browser-img-icon" title="Edge 지원">
+                                <img src="../assets/933d2a40c6df.svg" alt="Chrome" class="browser-img-icon" title="Chrome 지원">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <a href="https://mdm.heungkukfire.co.kr:7412/resources/html/app.html" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-android">
+                        <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                        <span>Android</span>
+                    </a>
+                
+                <!-- IOS -->
+                                    <div class="m-link-item m-link-disabled">IOS -</div>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/28fa4eff0184.png" alt="하나손해보험" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://sfa.saleshana.com/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/933d2a40c6df.svg" alt="Chrome" class="browser-img-icon" title="Chrome 권장">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <a href="https://msf.saleshana.com:10143/msf/app.do" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-android">
+                        <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                        <span>Android</span>
+                    </a>
+                
+                <!-- IOS -->
+                                    <a href="https://msf.saleshana.com:10143/msf/app.do" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-ios">
+                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                        <span>IOS</span>
+                    </a>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/922cc89745bb.png" alt="롯데손해보험" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://lottero.lotteins.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/51d4b307ca52.svg" alt="Edge" class="browser-img-icon" title="Edge 지원">
+                                <img src="../assets/933d2a40c6df.svg" alt="Chrome" class="browser-img-icon" title="Chrome 지원">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <a href="https://play.google.com/store/apps/details?id=kr.co.lotteins.a2mars" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-android">
+                        <svg viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0003 0-.5517.4482-1.0003.9993-1.0003.5517 0 .9999.4486.9999 1.0003 0 .5517-.4482 1.0003-.9999 1.0003m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125c-1.8533 0-3.5902.2866-5.1368.8247L4.8409 5.4467a.4161.4161 0 00-.5676-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.75h24c-.3432-4.0911-2.6889-7.5633-6.1185-9.4286"></path></svg>
+                        <span>Android</span>
+                    </a>
+                
+                <!-- IOS -->
+                                    <a href="https://apps.apple.com/kr/app/wonder-%EC%9B%90%EB%8D%94/id1623338683" target="_blank" rel="noopener noreferrer" class="m-link-item btn-theme-ios">
+                        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.77 1.06-1.85.94-2.93-.93.04-2.03.62-2.69 1.39-.58.67-1.09 1.77-.95 2.83 1.04.08 2.07-.52 2.7-1.29z"></path></svg>
+                        <span>IOS</span>
+                    </a>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/94b2918c4fba.jpg" alt="AIG손해보험" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://ga.aig.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/51d4b307ca52.svg" alt="Edge" class="browser-img-icon" title="Edge 권장">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <div class="m-link-item m-link-disabled">Android -</div>
+                
+                <!-- IOS -->
+                                    <div class="m-link-item m-link-disabled">IOS -</div>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/229008f01383.png" alt="라이나손해보험" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://ga.linagi.com/3512" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/933d2a40c6df.svg" alt="Chrome" class="browser-img-icon" title="Chrome 권장">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <div class="m-link-item m-link-disabled">Android -</div>
+                
+                <!-- IOS -->
+                                    <div class="m-link-item m-link-disabled">IOS -</div>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/b1bb54b31d27.jpg" alt="신한EZ손해보험" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://ga.shinhanez.co.kr/" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/933d2a40c6df.svg" alt="Chrome" class="browser-img-icon" title="Chrome 권장">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <div class="m-link-item m-link-disabled">Android -</div>
+                
+                <!-- IOS -->
+                                    <div class="m-link-item m-link-disabled">IOS -</div>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+                <div class="m-card">
+            <!-- 1. 카드 상단: 로고 및 GA전산 버튼/브라우저 -->
+            <div class="m-card-top">
+                <div class="m-brand-box">
+                    <div class="m-logo-box">
+                                                    <img src="../assets/70377bbe0867.jpg" alt="YBI예별손해보험" class="m-logo-img">
+                                            </div>
+                </div>
+
+                <div class="m-ga-box">
+                                            <a href="https://ybanet.yebyeol.co.kr" target="_blank" rel="noopener noreferrer" class="app-icon-btn btn-theme-pc m-ga-btn" title="GA 전산 시스템">
+                            <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"></path></svg>
+                            <span>GA전산 바로가기</span>
+                        </a>
+                    
+                                            <div class="browser-badge-container">
+                                                            <img src="../assets/51d4b307ca52.svg" alt="Edge" class="browser-img-icon" title="Edge 권장">
+                                                    </div>
+                                    </div>
+            </div>
+
+            <!-- 관리자 모드 브라우저 설정창 (모바일) -->
+            
+            <!-- 2. 카드 하단: 나머지 6개 전산 링크 그리드 (전용전산, Android, IOS, 태블릿(A), 아이패드, m_WEB) -->
+            <div class="m-links-grid">
+                <!-- 전용전산 -->
+                                    <div class="m-link-item m-link-disabled">전용전산 -</div>
+                
+                <!-- Android -->
+                                    <div class="m-link-item m-link-disabled">Android -</div>
+                
+                <!-- IOS -->
+                                    <div class="m-link-item m-link-disabled">IOS -</div>
+                
+                <!-- 태블릿(A) -->
+                                    <div class="m-link-item m-link-disabled">태블릿(A) -</div>
+                
+                <!-- 아이패드 -->
+                                    <div class="m-link-item m-link-disabled">아이패드 -</div>
+                
+                <!-- m_WEB -->
+                                    <div class="m-link-item m-link-disabled">m_WEB -</div>
+                            </div>
+        </div>
+        
+            </div>
+
+    <div class="by-me-footer">
+        Designed &amp; Developed by <b>보험명장 김영환</b>(010-5532-6259)<br>
+        <span style="font-size:12px; color:#94a3b8;">GA매뉴얼 · 보험사 통합 전산 퀵링크 서비스</span>
+    </div>
+</div>
+
+<script>
+    function onRadioBrowserChange(insId, browserVal, radioInput) {
+        // PC 및 모바일 그룹 동시 클래스 갱신
+        const pcGroup = document.getElementById('radio_group_' + insId);
+        const mGroup = document.getElementById('radio_group_m_' + insId);
+
+        [pcGroup, mGroup].forEach(group => {
+            if (group) {
+                group.querySelectorAll('.browser-radio-label').forEach(label => {
+                    label.classList.remove('checked-edge', 'checked-chrome', 'checked-both', 'checked-none');
+                });
+                
+                const labels = group.querySelectorAll('.browser-radio-label');
+                labels.forEach(lbl => {
+                    const inp = lbl.querySelector('input');
+                    if (inp && inp.value === browserVal) {
+                        inp.checked = true;
+                        if (browserVal === 'edge') lbl.classList.add('checked-edge');
+                        else if (browserVal === 'chrome') lbl.classList.add('checked-chrome');
+                        else if (browserVal === 'both') lbl.classList.add('checked-both');
+                        else lbl.classList.add('checked-none');
+                    }
+                });
+            }
+        });
+
+        const formData = new FormData();
+        formData.append('action', 'save_browser');
+        formData.append('ins_id', insId);
+        formData.append('browser_val', browserVal);
+
+        fetch('system_links.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status !== 'success') {
+                alert(data.msg || '저장에 실패했습니다.');
+            }
+        })
+        .catch(err => {
+            alert('통신 중 오류가 발생했습니다.');
+        });
+    }
+</script>
+
+
+</body></html>

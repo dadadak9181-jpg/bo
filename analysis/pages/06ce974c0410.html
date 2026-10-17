@@ -1,0 +1,2564 @@
+<!DOCTYPE html><html lang="ko"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>보험사별 사고보험금 청구 우편주소 안내</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
+
+        .wrapper { max-width: 1440px; margin: 25px auto 60px auto; padding: 0 16px; }
+
+        .header-box { background: #fff; padding: 24px 28px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .header-box h1 { font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 6px 0; }
+        .header-box p { margin: 0; font-size: 14px; color: #64748b; font-weight: 600; }
+
+        .btn-print-main {
+            background: #0f172a;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(15,23,42,0.15);
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-print-main:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(15,23,42,0.25);
+        }
+
+        .tab-wrap { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { padding: 11px 24px; font-size: 15px; font-weight: 800; border-radius: 8px; text-decoration: none; border: 1px solid #cbd5e1; background: #fff; color: #475569; transition: 0.2s; }
+        .tab-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; box-shadow: 0 4px 12px rgba(15,23,42,0.15); }
+        .tab-btn:hover:not(.active) { background: #f1f5f9; }
+
+        /* =========================================================================
+           💻 PC 전용 테이블 스타일 (851px 이상에서만 출력)
+           ========================================================================= */
+        .pc-table-card { 
+            display: block;
+            background: #fff; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 14px; 
+            overflow-x: auto; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+        }
+        
+        table.post-table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+            text-align: center;
+            min-width: 1100px;
+        }
+        
+        table.post-table thead th {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 15px 8px;
+            font-size: 14px;
+            font-weight: 800;
+            border-right: 1px solid #334155;
+            white-space: nowrap;
+        }
+        table.post-table thead th:last-child { border-right: none; }
+
+        table.post-table tbody tr {
+            border-bottom: 2px solid #94a3b8;
+        }
+        table.post-table tbody tr:hover { background: #f8fafc; }
+
+        table.post-table tbody td {
+            padding: 12px 14px;
+            vertical-align: middle;
+            font-size: 13.5px;
+        }
+
+        .logo-box { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 100%; 
+            max-width: 175px; 
+            height: 52px; 
+            margin: 0 auto; 
+            padding: 2px 4px;
+        }
+        .logo-img { 
+            width: 100%; 
+            max-width: 165px; 
+            height: auto; 
+            max-height: 48px; 
+            object-fit: contain; 
+            display: block; 
+        }
+
+        .addr-group-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .addr-single-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: #ffffff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+        .addr-single-row:not(:last-child) {
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .addr-info-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .zip-badge {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 800;
+            font-size: 12.5px;
+            font-family: monospace;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+        }
+
+        .addr-text {
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.5;
+            word-break: keep-all;
+            font-size: 13.5px;
+        }
+
+        .btn-copy {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.2s;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-copy:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        /* =========================================================================
+           📱 [모바일 전용] 초슬림 2단(2열) 다단 그리드 뷰 (850px 이하)
+           ========================================================================= */
+        .mobile-card-wrap {
+            display: none;
+            grid-template-columns: repeat(2, 1fr); /* 🚨 좌우 2단 분할 */
+            gap: 10px;
+        }
+
+        .m-post-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .m-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 8px;
+            height: 38px;
+        }
+        .m-logo-box {
+            width: 100%;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .m-logo-img {
+            max-width: 100%;
+            max-height: 30px;
+            object-fit: contain;
+        }
+        .m-comp-txt {
+            font-size: 14px;
+            font-weight: 900;
+            color: #0f172a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .m-addr-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .m-addr-unit {
+            background: #f8fafc;
+            border: 1px solid #f1f5f9;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .m-addr-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+        }
+
+        .m-zip-badge {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 800;
+            font-family: monospace;
+            white-space: nowrap;
+        }
+
+        .m-btn-copy {
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .m-btn-copy:active {
+            background: #1d4ed8;
+        }
+
+        .m-addr-txt {
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            line-height: 1.4;
+            word-break: break-all;
+        }
+
+        .by-me-footer { margin-top: 50px; padding: 25px 20px; background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center; font-size: 13.5px; color: #64748b; line-height: 1.6; }
+        .by-me-footer b { color: #002b5e; font-size: 15px; }
+
+        #toast {
+            visibility: hidden;
+            min-width: 260px;
+            background-color: #0f172a;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px 18px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+        /* =========================================================================
+           🚨 [A4 1장 전용 인쇄 서식] (하단 여백 최소화 & 시원한 7.2pt 가독성)
+           ========================================================================= */
+        #print-section { display: none; }
+
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 4.5mm 4.5mm 3.5mm 4.5mm;
+            }
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-size: 7.2pt !important;
+                line-height: 1.28 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .wrapper, #toast, header, nav, .navbar {
+                display: none !important;
+            }
+            #print-section {
+                display: block !important;
+                width: 100% !important;
+            }
+            .print-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                border-bottom: 2px solid #0f172a;
+                padding-bottom: 2.5px;
+                margin-bottom: 3px;
+            }
+            .print-title {
+                font-size: 12pt;
+                font-weight: 900;
+                color: #0f172a;
+                margin: 0;
+                letter-spacing: -0.5px;
+            }
+            .print-sub {
+                font-size: 6.8pt;
+                color: #475569;
+                font-weight: 600;
+            }
+
+            .print-grid {
+                display: flex;
+                gap: 3.5mm;
+                width: 100%;
+            }
+            .print-col {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .print-sec-title {
+                font-size: 7.6pt;
+                font-weight: 900;
+                color: #ffffff;
+                background: #0f172a;
+                padding: 2.2px 5px;
+                border-radius: 2px;
+                margin-bottom: 2px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .print-sec-title.theme-deduct {
+                background: #334155;
+            }
+
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+                border-top: 1px solid #0f172a;
+                margin-bottom: 2px;
+            }
+            .print-table th {
+                background: #f1f5f9;
+                color: #334155;
+                font-weight: 800;
+                padding: 2px 2px;
+                font-size: 6.8pt;
+                border-bottom: 1px solid #cbd5e1;
+                border-right: 1px solid #e2e8f0;
+                text-align: center;
+            }
+            .print-table th:last-child { border-right: none; }
+
+            .print-table td {
+                padding: 3.2px 3.5px;
+                border-bottom: 0.5px solid #cbd5e1;
+                border-right: 0.5px solid #f1f5f9;
+                font-size: 7.2pt;
+                vertical-align: middle;
+            }
+            .print-table td:last-child { border-right: none; }
+
+            .print-comp {
+                font-weight: 800;
+                color: #0f172a;
+                font-size: 7.4pt;
+                text-align: center;
+                white-space: normal !important;
+                word-break: break-all !important;
+                overflow: visible !important;
+                text-overflow: clip !important;
+                line-height: 1.18;
+                padding-left: 1px;
+                padding-right: 1px;
+            }
+            .print-addr-block {
+                margin: 0.5px 0;
+                line-height: 1.25;
+                word-break: break-all;
+            }
+            .print-addr-block:not(:last-child) {
+                border-bottom: 0.5px dashed #cbd5e1;
+                padding-bottom: 1px;
+                margin-bottom: 1px;
+            }
+            .print-zip {
+                font-weight: 800;
+                color: #1d4ed8;
+                margin-right: 2px;
+                font-size: 7.0pt;
+                white-space: nowrap;
+            }
+
+            .deduct-container {
+                margin-top: 3px;
+                border-top: 1px solid #94a3b8;
+                padding-top: 2px;
+            }
+
+            .print-footer {
+                margin-top: 3px;
+                border-top: 1px dashed #cbd5e1;
+                padding-top: 2px;
+                display: flex;
+                justify-content: space-between;
+                font-size: 6.5pt;
+                color: #64748b;
+                font-weight: 600;
+            }
+        }
+
+        /* 🚨 모바일 미디어 쿼리 전환점 */
+        @media screen and (max-width: 850px) {
+            .wrapper { margin: 15px auto 40px auto; padding: 0 10px; }
+            .header-box { padding: 16px 14px; border-radius: 12px; margin-bottom: 14px; }
+            .header-box h1 { font-size: 19px; }
+            .header-box p { font-size: 12px; }
+            .btn-print-main { width: 100%; justify-content: center; margin-top: 6px; }
+            .tab-wrap { margin-bottom: 12px; gap: 6px; }
+            .tab-btn { padding: 8px 6px; font-size: 12.5px; flex: 1 1 calc(33.333% - 6px); text-align: center; white-space: nowrap; }
+
+            /* PC 테이블 숨김, 모바일 2단 카드 그리드 노출 */
+            .pc-table-card { display: none !important; }
+            .mobile-card-wrap { display: grid !important; }
+        }
+
+        @media screen and (max-width: 360px) {
+            .mobile-card-wrap { grid-template-columns: 1fr; }
+            .tab-btn { flex: 1 1 100%; }
+        }
+    </style>
+</head>
+<body>
+
+
+<style>
+    .navbar { background-color: #ffffff; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 65px; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 900; box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-container { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+    
+    .nav-left { display: flex; height: 100%; align-items: center; margin:0; padding:0; }
+    .nav-item { position: relative; display: inline-block; height: 100%; }
+    .nav-item > a { color: #334155; font-weight: 700; font-size: 15px; padding: 0 18px; display: flex; align-items: center; height: 65px; transition: color 0.2s; text-decoration: none; box-sizing: border-box;}
+    .nav-item:hover > a { color: #2563eb; }
+
+    .nav-dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 220px; box-shadow: 0px 10px 25px rgba(0,0,0,0.1); z-index: 1001; top: 100%; left: 0; border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; border-top: none; }
+    .nav-dropdown-content a { color: #475569; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; border-bottom: 1px solid #f1f5f9; transition: 0.2s; font-weight: 500; text-decoration: none; position: relative; }
+    .nav-dropdown-content a:hover { background-color: #f8fafc; color: #2563eb; }
+
+    .nav-sub-item { position: relative; width: 100%; }
+    .nav-sub-dropdown { display: none; position: absolute; left: 100%; top: 0; background-color: #ffffff; min-width: 210px; box-shadow: 5px 10px 25px rgba(0,0,0,0.1); z-index: 1002; border-radius: 0 8px 8px 8px; border: 1px solid #e2e8f0; }
+    .nav-sub-dropdown a { padding: 11px 16px; font-size: 13.5px; border-bottom: 1px solid #f1f5f9; }
+
+    .arrow-indicator { font-size: 11px; margin-left: 6px; transition: transform 0.2s ease; display: inline-block; }
+    .arrow-sub { font-size: 11px; margin-left: 6px; color: #94a3b8; transition: transform 0.2s ease; display: inline-block; }
+
+    @media (min-width: 851px) {
+        .nav-item:hover > .nav-dropdown-content { display: block; }
+        .nav-sub-item:hover > .nav-sub-dropdown { display: block; }
+        .mobile-only-link { display: none !important; }
+    }
+    
+    .nav-right { display: flex; gap: 12px; align-items: center; margin:0; padding:0; height: 100%; }
+    .visitor-counter { background: #f8fafc; border: 1px solid #e2e8f0; padding: 5px 10px; border-radius: 6px; font-size: 12px; color: #64748b; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+    .visitor-counter span { color: #0ea5e9; }
+    
+    .nav-group-btn { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #334155; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; cursor: pointer; transition: 0.2s; text-decoration: none; }
+    .nav-group-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+    .btn-sitemap { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 13.5px; font-weight: 800; padding: 7px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; text-decoration: none; }
+    .btn-sitemap:hover { background: #2563eb; color: #ffffff; border-color: #2563eb; }
+    
+    .nav-right-dropdown { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-right-content { display: none; position: absolute; right: 0; top: 100%; background: #fff; min-width: 215px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; overflow: hidden; z-index: 1000; }
+    @media (min-width: 851px) {
+        .nav-right-dropdown:hover .nav-right-content { display: block; }
+    }
+    .nav-right-content a { display: block; padding: 12px 16px; font-size: 13.5px; color: #475569; text-decoration: none; font-weight: 600; border-bottom: 1px solid #f1f5f9; transition: 0.2s; }
+    .nav-right-content a:hover { background: #f8fafc; color: #2563eb; }
+    .nav-right-content a.danger:hover { color: #ef4444; background: #fef2f2; }
+
+    .nav-mobile-toggle { display: none; font-size: 26px; cursor: pointer; color: #334155; }
+
+    .nav-modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15,23,42,0.6); backdrop-filter: blur(5px); }
+    .nav-modal-content { background-color: #ffffff; margin: 3vh auto; padding: 40px; border-radius: 24px; width: 95%; position: relative; max-height: 94vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.25); box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-close-btn { position: absolute; right: 25px; top: 20px; font-size: 32px; cursor: pointer; color: #94a3b8; transition: 0.2s; line-height: 1; z-index:10; }
+    .nav-close-btn:hover { color: #ef4444; }
+    
+    #navIframeModal .nav-modal-content { padding: 0; max-width: 1100px; height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+    #navIframeModal .nav-close-btn { right: 20px; top: 15px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    #navIframeModal iframe { width: 100%; height: 100%; border: none; border-radius: 24px; }
+
+    #navSitemapModal .nav-modal-content { max-width: 1150px; padding: 35px 30px; }
+    .sitemap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 15px; margin-bottom: 25px; }
+    .sitemap-header h2 { margin: 0; font-size: 22px; font-weight: 900; color: #0f172a; }
+    .sitemap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .sitemap-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .sitemap-p1-title { font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 12px; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
+    .sitemap-p1-title a { color: inherit; text-decoration: none; }
+    .sitemap-p1-title a:hover { color: #2563eb; }
+    .sitemap-p2-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .sitemap-p2-item { font-size: 13.5px; font-weight: 700; }
+    .sitemap-p2-item > a { color: #334155; text-decoration: none; display: block; padding: 3px 0; }
+    .sitemap-p2-item > a:hover { color: #2563eb; }
+    .sitemap-p3-list { list-style: none; padding-left: 14px; margin: 4px 0 0 0; display: flex; flex-direction: column; gap: 4px; border-left: 2px solid #cbd5e1; }
+    .sitemap-p3-item { font-size: 12.5px; font-weight: 600; }
+    .sitemap-p3-item a { color: #64748b; text-decoration: none; }
+    .sitemap-p3-item a:hover { color: #2563eb; }
+
+    @media (max-width: 850px) {
+        .navbar { flex-direction: column; align-items: flex-start; height: auto; padding: 15px 20px; }
+        .nav-mobile-toggle { display: block; position: absolute; right: 20px; top: 18px; }
+        .nav-logo-area { display: block; font-weight: 800; font-size: 20px; color: #0f172a; text-decoration: none; }
+        .nav-container { display: none; flex-direction: column; width: 100%; gap: 15px; margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+        .nav-container.active { display: flex; }
+        .nav-left { flex-direction: column; align-items: flex-start; width: 100%; }
+        .nav-right { flex-direction: column; align-items: stretch; width: 100%; gap: 10px; }
+        .nav-item, .nav-right-dropdown { width: 100%; height: auto; }
+        
+        .nav-item > a, .nav-group-btn { 
+            height: auto; 
+            padding: 13px 8px; 
+            border-bottom: 1px solid #f1f5f9; 
+            width: 100%; 
+            border-radius: 0; 
+            border: none; 
+            background: transparent; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .nav-dropdown-content { 
+            display: none; 
+            position: static; 
+            box-shadow: none; 
+            border: none; 
+            border-left: 3px solid #2563eb; 
+            border-radius: 0; 
+            background: #f8fafc; 
+            padding-left: 8px; 
+            margin: 4px 0 10px 0; 
+            width: 100%; 
+        }
+        .nav-dropdown-content.open { 
+            display: block !important; 
+        }
+
+        .nav-dropdown-content a {
+            padding: 11px 12px;
+            font-size: 13.5px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .nav-sub-dropdown { 
+            display: none; 
+            position: static; 
+            border: none; 
+            box-shadow: none; 
+            background: #ffffff; 
+            padding-left: 12px; 
+            border-left: 2px solid #94a3b8; 
+            margin: 4px 0 8px 0; 
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+        .nav-sub-dropdown.open { 
+            display: block !important; 
+        }
+
+        .nav-sub-dropdown a {
+            padding: 9px 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .nav-parent-link.active-toggle .arrow-indicator {
+            transform: rotate(180deg);
+            color: #2563eb;
+        }
+
+        .nav-sub-parent.active-toggle .arrow-sub {
+            transform: rotate(90deg);
+            color: #2563eb;
+        }
+
+        .visitor-counter { justify-content: center; padding: 10px 0; }
+        .btn-sitemap { justify-content: center; width: 100%; padding: 10px; }
+    }
+</style>
+<link href="../assets/2b9f3e10cb8b.css" rel="stylesheet">
+<script src="../assets/4395c6aa4084.js"></script>
+
+<div class="navbar no-print">
+    <a href="947659214c33.html" class="nav-logo-area" style="display:none;">GA매뉴얼</a>
+    <div class="nav-mobile-toggle" onclick="toggleMobileNav()">☰</div>
+
+    <div class="nav-container" id="navMobileContainer">
+        <div class="nav-left">
+                                            <div class="nav-item">
+                                            <a href="947659214c33.html" class="nav-parent-link" data-has-children="true" style="">
+                            <span>홈(메인)</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="947659214c33.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 홈(메인) 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="44e3452ef6c9.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>메인모듬링크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="44e3452ef6c9.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 메인모듬링크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="44e3452ef6c9.html">
+                                                    보험전산 링크                                                </a>
+                                                                                                                                            <a href="e6ed6a9f92e2.html">
+                                                    고객센터/팩스번호                                                </a>
+                                                                                                                                            <a href="3153c6257bf8.html">
+                                                    청구_이메일/URL링크                                                </a>
+                                                                                                                                            <a href="75533ed272f1.html">
+                                                    청구한도금액안내                                                </a>
+                                                                                                                                            <a href="3b392eb2b880.html">
+                                                    청구 우편주소                                                </a>
+                                                                                                                                            <a href="75ddd1a0ebd6.html">
+                                                    청구서_모아보기                                                </a>
+                                                                                                                                            <a href="21587080263e.html">
+                                                    보험사별 수납일                                                </a>
+                                                                                                                                            <a href="c49fc0e88d53.html">
+                                                    카드정보                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="f2ca5133a8c2.html" class="" data-has-sub="false">
+                                        <span>GA인트라넷링크</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                                            <div class="nav-item">
+                                            <a href="efd4d09ef92f.html" class="nav-parent-link" data-has-children="true" style="">
+                            <span>영업자료</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="efd4d09ef92f.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 영업자료 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="96dc9c2d9f73.html" class="" data-has-sub="false">
+                                        <span>매일영업이슈</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="efd4d09ef92f.html" class="" data-has-sub="false">
+                                        <span>월별소식지</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="835c17bc6127.html" class="" data-has-sub="false">
+                                        <span>영업전략자료</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="cb73c93e4162.html" class="" data-has-sub="false">
+                                        <span>상품정보</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="27b61ac494e2.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험니즈자료</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="27b61ac494e2.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험니즈자료 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="27b61ac494e2.html">
+                                                    질병니즈자료                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="bdc5fd445533.html" class="" data-has-sub="false">
+                                        <span>보험상품이자계산기</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="969023e484dc.html" class="" data-has-sub="false">
+                                        <span>질문과답변</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="b9442215d61e.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험북마크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="b9442215d61e.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험북마크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="b9442215d61e.html">
+                                                    유투브채널                                                </a>
+                                                                                                                                            <a href="665f386a4d32.html">
+                                                    Today_NEWS                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                    </div>
+        
+        <div class="nav-right">
+            <button type="button" class="btn-sitemap" onclick="openNavSitemapModal()" title="전체 사이트 메뉴 구조 한눈에 보기">
+                <span>🗺️</span>
+                <span>사이트맵</span>
+            </button>
+
+            <form action="/board/search.php" method="get" style="display:flex; align-items:center; background:#f8fafc; border:1px solid #cbd5e1; border-radius:20px; padding:3px 10px; margin:0;">
+                <input type="text" name="keyword" placeholder="사이트 전체 검색..." style="border:none; background:transparent; font-size:13px; font-weight:600; color:#1e293b; outline:none; width:130px; font-family:inherit;">
+                <button type="submit" style="background:none; border:none; cursor:pointer; font-size:14px; padding:0; display:flex; align-items:center;" title="검색">🔍</button>
+            </form>
+
+            <div class="visitor-counter" title="오늘 접속자 / 전체 누적 접속자">
+                📊 <span>3</span> / 793            </div>
+            
+                            <span style="color: #94a3b8; font-size: 13px; margin-right: 8px; font-weight:700; cursor:pointer; background:#f1f5f9; padding:6px 12px; border-radius:20px;" onclick="openNavDevNoteModal()">
+                    Ver 3.0.01 ⓘ
+                </span>
+                        
+                            <a href="82a0d3621888.html" class="nav-group-btn" style="background:#2563eb; color:#fff; border:none; justify-content:center;">🔒 로그인/회원가입</a>
+                    </div>
+    </div>
+</div>
+
+<!-- 사이트맵 모달 팝업 -->
+<div id="navSitemapModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavSitemapModal()">×</span>
+        <div class="sitemap-header">
+            <h2>🗺️ 전체 사이트맵</h2>
+        </div>
+        <div class="sitemap-grid">
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="947659214c33.html">📁 홈(메인)</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="44e3452ef6c9.html">└ 메인모듬링크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="44e3452ef6c9.html">• 보험전산 링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="e6ed6a9f92e2.html">• 고객센터/팩스번호</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3153c6257bf8.html">• 청구_이메일/URL링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75533ed272f1.html">• 청구한도금액안내</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3b392eb2b880.html">• 청구 우편주소</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75ddd1a0ebd6.html">• 청구서_모아보기</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="21587080263e.html">• 보험사별 수납일</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="c49fc0e88d53.html">• 카드정보</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="f2ca5133a8c2.html">└ GA인트라넷링크</a>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="efd4d09ef92f.html">📁 영업자료</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="96dc9c2d9f73.html">└ 매일영업이슈</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="efd4d09ef92f.html">└ 월별소식지</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="835c17bc6127.html">└ 영업전략자료</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="cb73c93e4162.html">└ 상품정보</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="27b61ac494e2.html">└ 보험니즈자료</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="27b61ac494e2.html">• 질병니즈자료</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="bdc5fd445533.html">└ 보험상품이자계산기</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="969023e484dc.html">└ 질문과답변</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="b9442215d61e.html">└ 보험북마크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="b9442215d61e.html">• 유투브채널</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="665f386a4d32.html">• Today_NEWS</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                    </div>
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center; color:#64748b;">
+            Designed &amp; Developed by <b>보험명장 김영환</b> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<div id="navIframeModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavIframeModal()">×</span>
+        <iframe id="navMyAccountIframe" src=""></iframe>
+    </div>
+</div>
+
+<div id="navDevNoteModal" class="nav-modal">
+    <div class="nav-modal-content" style="max-width:700px;">
+        <span class="nav-close-btn" onclick="closeNavDevNoteModal()">×</span>
+        <h2 style="margin-top:0; color:#0f172a; border-bottom:2px solid #f1f5f9; padding-bottom:15px;">🛠️ 시스템 업데이트 노트</h2>
+        
+                    <div class="ql-snow" style="margin-top:20px; max-height:500px; overflow-y:auto; padding-right:10px;">
+                <div class="ql-editor" style="padding:0; line-height:1.7; color:#334155; font-size:15px; font-family:inherit;">
+                    <div class="note-version-block">
+<h4 style="color:#2563eb; margin-bottom:10px; margin-top:0;">[Ver 3.0.01] 업데이트 내역</h4>
+<ul style="padding-left:20px; margin-bottom:0;">
+<li>1. 뉴스 및 북마크 게시판 생성 적용.</li>
+<li>2. 대부분의 게시물 카톡 공유 적용.(웹에서 바로 공유 가능)</li>
+<li>3. Today이슈 &amp; 뉴스 06시~21시까지 네이버, 네이트, 다음 뉴스 검색 보험/건강뉴스 갈무리 기능 제공. 약간의 문장만 적용 기사 내용 각 포털 사이트로 연결됨.</li>
+<li>4. 보험상품이자계산기 프로그램 제작/출력기능 결과값 카톡전송기능제공</li>
+</ul>
+<hr style="border:0; border-top:1px dashed #cbd5e1; margin:20px 0;">
+</div>
+<h4>[Ver 3.000] 업데이트 내역</h4><ul><li>팩스서버 구성 및 지점별 팩스 서버 관리 솔루션 구성완료</li></ul><h4>[Ver 3.000] 업데이트 내역</h4><ul><li>전체적으로 디자인을 카드형으로 변경</li><li>1. 회원가입 기능(최소한의 정보 데이터 암호화)</li><li>2. 기존 링크를 최신 버전으로 전부 수정함.</li><li>3. 청구서와 관련 자료 모두를 업데이트함.</li><li>4. 각 보험사의 전산 설치 및 전산 사용 매뉴얼 등록</li><li>5. 모바일청약 업데이트</li><li>6. 신용카드 결제 업데이트</li><li>7. 본부연락처 추가 기능</li><li>+ 본인 소속의 원수사 지점장/총무/설계매니저 등록가능(본부장, 지점장, 총무가 등록(유료기능))</li><li>+ 원수사 전산 본인 코드 및 비번 저장 기능</li></ul>                </div>
+            </div>
+                
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center;">
+            <strong>Designed &amp; Developed by</strong><br>
+            <span style="color:#002b5e; font-size:15px; font-weight:bold;">보험명장 김영환</span> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<script>
+    let visitorLogId = sessionStorage.getItem('visitor_log_id') ? sessionStorage.getItem('visitor_log_id') : 0;
+    
+    fetch('/api/track.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'action=enter&page_url=' + encodeURIComponent(window.location.href) 
+            + '&ref=' + encodeURIComponent(document.referrer) 
+            + '&log_id=' + visitorLogId
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.log_id) {
+            visitorLogId = data.log_id;
+            sessionStorage.setItem('visitor_log_id', visitorLogId);
+        }
+    }).catch(e => console.log('추적기 대기'));
+
+    setInterval(() => {
+        if (visitorLogId > 0) {
+            fetch('/api/track.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'action=ping&log_id=' + visitorLogId
+            }).catch(() => {});
+        }
+    }, 10000);
+
+    window.addEventListener('beforeunload', function() {
+        if (visitorLogId > 0) {
+            navigator.sendBeacon('/api/track.php', new URLSearchParams({
+                'action': 'exit',
+                'log_id': visitorLogId
+            }));
+        }
+    });
+
+    function toggleMobileNav() {
+        const container = document.getElementById('navMobileContainer');
+        container.classList.toggle('active');
+        const logo = document.querySelector('.nav-logo-area');
+        if (window.innerWidth <= 850) {
+            logo.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // [1차 메뉴 모바일 터치 이벤트 제어]
+        const parentLinks = document.querySelectorAll('.nav-parent-link');
+        parentLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 하위 메뉴가 있을 경우: 링크 이동 차단 및 아코디언 토글
+                if (window.innerWidth <= 850) {
+                    const hasChildren = this.getAttribute('data-has-children') === 'true';
+                    const dropdown = this.nextElementSibling;
+                    
+                    if (hasChildren && dropdown && dropdown.classList.contains('nav-dropdown-content')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isOpen = dropdown.classList.contains('open');
+
+                        // 다른 열린 1차 메뉴 닫기 및 화살표 초기화
+                        document.querySelectorAll('.nav-dropdown-content').forEach(d => d.classList.remove('open'));
+                        document.querySelectorAll('.nav-parent-link').forEach(p => p.classList.remove('active-toggle'));
+
+                        // 현재 클릭한 메뉴 토글
+                        if (!isOpen) {
+                            dropdown.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+
+        // [2차 메뉴 모바일 터치 이벤트 제어]
+        const subParents = document.querySelectorAll('.nav-sub-parent');
+        subParents.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 3차 하위 메뉴가 있을 경우: 링크 이동 차단 및 3차 드롭다운 토글
+                if (window.innerWidth <= 850) {
+                    const hasSub = this.getAttribute('data-has-sub') === 'true';
+                    const subDrop = this.nextElementSibling;
+
+                    if (hasSub && subDrop && subDrop.classList.contains('nav-sub-dropdown')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isSubOpen = subDrop.classList.contains('open');
+                        const parentContainer = this.closest('.nav-dropdown-content');
+
+                        // 같은 1차 메뉴 내부의 다른 열린 2차 메뉴 닫기
+                        if (parentContainer) {
+                            parentContainer.querySelectorAll('.nav-sub-dropdown').forEach(d => d.classList.remove('open'));
+                            parentContainer.querySelectorAll('.nav-sub-parent').forEach(p => p.classList.remove('active-toggle'));
+                        }
+
+                        // 현재 클릭한 2차 메뉴 토글
+                        if (!isSubOpen) {
+                            subDrop.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    function toggleRightDropdown(btn) {
+        if (window.innerWidth <= 850) {
+            const dropdown = btn.nextElementSibling;
+            if (dropdown && dropdown.classList.contains('nav-right-content')) {
+                dropdown.classList.toggle('open');
+            }
+        }
+    }
+
+    function openNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function openNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    function openNavAccountModal(e) {
+        if(e) e.preventDefault();
+        document.getElementById("navMyAccountIframe").src = "/member/my_accounts.php";
+        document.getElementById("navIframeModal").style.display = "block";
+        document.body.style.overflow = "hidden";
+    }
+    function closeNavIframeModal() {
+        document.getElementById("navIframeModal").style.display = "none";
+        document.getElementById("navMyAccountIframe").src = ""; 
+        document.body.style.overflow = "auto";
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target == document.getElementById('navSitemapModal')) closeNavSitemapModal();
+        if (event.target == document.getElementById('navDevNoteModal')) closeNavDevNoteModal();
+        if (event.target == document.getElementById('navIframeModal')) closeNavIframeModal();
+    });
+
+    let navQuillEditor = null;
+    if (document.getElementById('nav_quill_editor')) {
+        navQuillEditor = new Quill('#nav_quill_editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+        
+        const noteHistoryRaw = document.getElementById('nav_dev_note_history').value;
+        navQuillEditor.clipboard.dangerouslyPasteHTML(noteHistoryRaw);
+    }
+
+    function saveNavDevNote(e) {
+        e.preventDefault();
+        const ver = document.getElementById('nav_dev_app_ver').value;
+        const appDate = document.getElementById('nav_dev_app_date').value; 
+        const newUpdate = document.getElementById('nav_dev_new_update').value;
+        const historyNote = navQuillEditor ? navQuillEditor.root.innerHTML : document.getElementById('nav_dev_note_history').value;
+        const btn = document.getElementById('navDevSaveBtn');
+        
+        btn.innerText = "저장 중...";
+        
+        const formData = new FormData();
+        formData.append('ajax_action', 'save_dev_note');
+        formData.append('app_ver', ver);
+        formData.append('app_date', appDate); 
+        formData.append('new_update', newUpdate);
+        formData.append('dev_note', historyNote);
+        
+        fetch('/index.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 'success') {
+                alert('버전 및 개발자 노트가 성공적으로 저장되었습니다.');
+                location.reload();
+            } else {
+                alert(data.msg ? data.msg : '저장에 실패했습니다.');
+                btn.innerText = "💾 변경사항 전체 저장하기";
+            }
+        });
+    }
+
+    function navRequireAuth(isNeedLogin) {
+        if (isNeedLogin) {
+            alert('로그인 후 이용 가능한 메뉴입니다.\n로그인 페이지로 이동합니다.');
+            location.href = '/member/login.php';
+        } else {
+            alert('해당 메뉴를 이용할 수 있는 권한이 아닙니다.\n관리자에게 문의해 주세요.');
+        }
+    }
+</script>
+<!-- 1. 화면 전용 뷰 -->
+<div class="wrapper">
+    <div class="header-box">
+        <div>
+            <h1>📮 보험사별 보험금 청구 우편주소 퀵뷰</h1>
+            <p>원본 서류(진단서, 영수증 등)를 등기우편으로 발송할 때 필요한 보험사별 공식 우편 접수 주소록입니다.</p>
+        </div>
+        <div>
+            <button type="button" class="btn-print-main" onclick="window.print()">
+                🖨️ A4 한 장 전체 인쇄하기
+            </button>
+        </div>
+    </div>
+
+    <!-- 탭 네비게이션: 손해보험 / 생명보험 / 공제조합 -->
+    <div class="tab-wrap">
+        <a href="06ce974c0410.html" class="tab-btn active">🛡 손해보험사 (17)</a>
+        <a href="355147f6e6db.html" class="tab-btn ">🌿 생명보험사 (22)</a>
+        <a href="47a40e2a0fbe.html" class="tab-btn ">🏛 공제조합 (5)</a>
+    </div>
+
+    <!-- =========================================================================
+         💻 [PC 전용 뷰] 테이블 뷰 (851px 이상에서만 출력)
+         ========================================================================= -->
+    <div class="pc-table-card">
+        <table class="post-table">
+            <colgroup>
+                <col style="width: 22%;"> <!-- 보험회사 로고/명 -->
+                <col style="width: 78%;"> <!-- 등기우편 접수처 상세주소 -->
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>보험회사</th>
+                    <th>📮 등기우편 접수처 주소록 (우편번호 포함)</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/052892652fcf.jpg" alt="메리츠화재" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(14623)</span>
+                                                                                        <span class="addr-text" id="addr_1_0">공통 :  경기도 부천시 원미구 송내대로 80 메리츠화재빌딩 6층 사고접수파트</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_1_0', '(14623) 공통 :  경기도 부천시 원미구 송내대로 80 메리츠화재빌딩 6층 사고접수파트')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(14623)</span>
+                                                                                        <span class="addr-text" id="addr_1_1">단체보험 :  경기도 부천시 원미구 송내대로 80 메리츠화재빌딩 8층 단체사고접수파트</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_1_1', '(14623) 단체보험 :  경기도 부천시 원미구 송내대로 80 메리츠화재빌딩 8층 단체사고접수파트')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/ab83035efe78.png" alt="삼성화재" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(07275)</span>
+                                                                                        <span class="addr-text" id="addr_2_0">인보험 :   서울 영등포구 영등포로5길 19, 동아프라임밸리 504호, 삼성화재 장기보험접수팀</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_2_0', '(07275) 인보험 :   서울 영등포구 영등포로5길 19, 동아프라임밸리 504호, 삼성화재 장기보험접수팀')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(07995)</span>
+                                                                                        <span class="addr-text" id="addr_2_1">재물(펫)보험 :  서울 양천구 목동동로 233-3, 14층 물보험 접수팀</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_2_1', '(07995) 재물(펫)보험 :  서울 양천구 목동동로 233-3, 14층 물보험 접수팀')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/f339168f46ec.png" alt="KB손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(04027)</span>
+                                                                                        <span class="addr-text" id="addr_3_0">인보험 :  서울시 마포구 양화로 19 (합정동) KB손해보험 합정빌딩 19층 인보험사고접수센터</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_3_0', '(04027) 인보험 :  서울시 마포구 양화로 19 (합정동) KB손해보험 합정빌딩 19층 인보험사고접수센터')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(04027)</span>
+                                                                                        <span class="addr-text" id="addr_3_1">재물배상 :  서울시 마포구 양화로 19 (합정동) KB손해보험 합정빌딩 19층 화재특종보상부</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_3_1', '(04027) 재물배상 :  서울시 마포구 양화로 19 (합정동) KB손해보험 합정빌딩 19층 화재특종보상부')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/ef4b6ee616ca.png" alt="현대해상" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(07298)</span>
+                                                                                        <span class="addr-text" id="addr_4_0">장기보험 :  서울특별시 영등포구 문래로 28길 25 세미콜론문래 S타워 8층, 현대해상 장기보험 사고접수 담당</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_4_0', '(07298) 장기보험 :  서울특별시 영등포구 문래로 28길 25 세미콜론문래 S타워 8층, 현대해상 장기보험 사고접수 담당')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(04214)</span>
+                                                                                        <span class="addr-text" id="addr_4_1">단체보험 : 서울 마포구 만리재로 15 제일빌딩 1112호 현대해상 단체보험 접수팀</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_4_1', '(04214) 단체보험 : 서울 마포구 만리재로 15 제일빌딩 1112호 현대해상 단체보험 접수팀')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/8c54df88098c.png" alt="DB손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(54966)</span>
+                                                                                        <span class="addr-text" id="addr_5_0">통합 : 전북 전주시 완산구 서원로 99 전주우체국 사서함 15호 DB손해보험 사고접수팀</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_5_0', '(54966) 통합 : 전북 전주시 완산구 서원로 99 전주우체국 사서함 15호 DB손해보험 사고접수팀')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/4a09475c3cac.jpg" alt="한화손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(07299)</span>
+                                                                                        <span class="addr-text" id="addr_6_0">서울시 영등포구 경인로 775 에이스하이테크시티 1동 610호, 한화손보 우편 접수 센터</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_6_0', '(07299) 서울시 영등포구 경인로 775 에이스하이테크시티 1동 610호, 한화손보 우편 접수 센터')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/7b3f3edacaef.png" alt="NH농협손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(03736)</span>
+                                                                                        <span class="addr-text" id="addr_7_0">서울특별시 서대문구 경기대로58 경기빌딩 503호 농협손해보험 사고접수팀</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_7_0', '(03736) 서울특별시 서대문구 경기대로58 경기빌딩 503호 농협손해보험 사고접수팀')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                        <span class="addr-text" id="addr_7_1">농협은행 창구 청구가능</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_7_1', '농협은행 창구 청구가능')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/6e773f0771f3.png" alt="흥국화재" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(07254)</span>
+                                                                                        <span class="addr-text" id="addr_8_0">서울특별시 영등포구 버드나루로2길 7, (영등포동2가) 흥국생명빌딩 9층 접수담당자</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_8_0', '(07254) 서울특별시 영등포구 버드나루로2길 7, (영등포동2가) 흥국생명빌딩 9층 접수담당자')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/28fa4eff0184.png" alt="하나손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(03137)</span>
+                                                                                        <span class="addr-text" id="addr_9_0">서울 종로구 창경궁로 117(하나손해보험빌딩, 인의동) 6층 장기일반 보상접수센터</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_9_0', '(03137) 서울 종로구 창경궁로 117(하나손해보험빌딩, 인의동) 6층 장기일반 보상접수센터')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/922cc89745bb.png" alt="롯데손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(04315)</span>
+                                                                                        <span class="addr-text" id="addr_10_0">서울시 용산구 원효로90길 11 용산더프라임빌딩 업무동 20층 롯데손해보험 장기사고접수파트</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_10_0', '(04315) 서울시 용산구 원효로90길 11 용산더프라임빌딩 업무동 20층 롯데손해보험 장기사고접수파트')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/94b2918c4fba.jpg" alt="AIG손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(07326)</span>
+                                                                                        <span class="addr-text" id="addr_11_0">서울시 영등포구 국제금융로 10 국제금융센터 Two IFC 26층, 보상본부</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_11_0', '(07326) 서울시 영등포구 국제금융로 10 국제금융센터 Two IFC 26층, 보상본부')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/229008f01383.png" alt="라이나손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(03187)</span>
+                                                                                        <span class="addr-text" id="addr_12_0">서울시 종로구 종로 6 광화문우체국 사서함 386 (서린동)</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_12_0', '(03187) 서울시 종로구 종로 6 광화문우체국 사서함 386 (서린동)')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/b1bb54b31d27.jpg" alt="신한EZ손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(04522)</span>
+                                                                                        <span class="addr-text" id="addr_13_0">서울시 중구 남대문로 113 DB다동빌딩 4층 신한EZ손해보험 손해사정</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_13_0', '(04522) 서울시 중구 남대문로 113 DB다동빌딩 4층 신한EZ손해보험 손해사정')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                        <span class="addr-text" id="addr_13_1">카카오톡 청구 : “신한이지손해보험” 검색 &gt; 채널추가&gt;보험금 접수(웹접수) (개인보험에 한정)</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_13_1', '카카오톡 청구 : “신한이지손해보험” 검색 &gt; 채널추가&gt;보험금 접수(웹접수) (개인보험에 한정)')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/70377bbe0867.jpg" alt="YBI예별손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(07294)</span>
+                                                                                        <span class="addr-text" id="addr_14_0">서울시 영등포구 문래북로 56, 하스오토메이션코리아빌딩 6층 예별손해보험㈜ 장기보험금접수센터</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_14_0', '(07294) 서울시 영등포구 문래북로 56, 하스오토메이션코리아빌딩 6층 예별손해보험㈜ 장기보험금접수센터')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/f9147a47578f.png" alt="카카오페이손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                        <span class="addr-text" id="addr_15_0">카카오톡 친구찾기에서 카카오페이손해보험을 추가하시면 보험금 청구가 가능</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_15_0', '카카오톡 친구찾기에서 카카오페이손해보험을 추가하시면 보험금 청구가 가능')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/718366e00fa4.png" alt="AXA손해보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                            <span class="zip-badge">(41914)</span>
+                                                                                        <span class="addr-text" id="addr_16_0">대구 중구 국채보상로 645(동인동2가, 드림상호저축은행) 5층 AXA손해보험(주) A&amp;H사고접수실</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_16_0', '(41914) 대구 중구 국채보상로 645(동인동2가, 드림상호저축은행) 5층 AXA손해보험(주) A&amp;H사고접수실')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/8929a2b7b79b.jpg" alt="마이브라운" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 다중 주소 줄구분 표시 -->
+                    <td>
+                                                    <div class="addr-group-wrap">
+                                                                    <div class="addr-single-row">
+                                        <div class="addr-info-left">
+                                                                                        <span class="addr-text" id="addr_17_0">모바일 앱으로만 청구가능/ 별도 청구서 작성 없음.</span>
+                                        </div>
+                                        <button type="button" class="btn-copy" onclick="copyAddressText('addr_17_0', '모바일 앱으로만 청구가능/ 별도 청구서 작성 없음.')">
+                                            📋 복사
+                                        </button>
+                                    </div>
+                                                            </div>
+                                            </td>
+                </tr>
+                
+                            </tbody>
+        </table>
+    </div>
+
+    <!-- =========================================================================
+         📱 [모바일 전용 뷰] 초슬림 2단(2열) 컴팩트 다단 카드 뷰 (850px 이하)
+         ========================================================================= -->
+    <div class="mobile-card-wrap">
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/052892652fcf.jpg" alt="메리츠화재" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(14623)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_1_0', '(14623) 공통 :  경기도 부천시 원미구 송내대로 80 메리츠화재빌딩 6층 사고접수파트')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_1_0">
+                            공통 :  경기도 부천시 원미구 송내대로 80 메리츠화재빌딩 6층 사고접수파트                        </div>
+                    </div>
+                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(14623)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_1_1', '(14623) 단체보험 :  경기도 부천시 원미구 송내대로 80 메리츠화재빌딩 8층 단체사고접수파트')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_1_1">
+                            단체보험 :  경기도 부천시 원미구 송내대로 80 메리츠화재빌딩 8층 단체사고접수파트                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/ab83035efe78.png" alt="삼성화재" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(07275)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_2_0', '(07275) 인보험 :   서울 영등포구 영등포로5길 19, 동아프라임밸리 504호, 삼성화재 장기보험접수팀')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_2_0">
+                            인보험 :   서울 영등포구 영등포로5길 19, 동아프라임밸리 504호, 삼성화재 장기보험접수팀                        </div>
+                    </div>
+                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(07995)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_2_1', '(07995) 재물(펫)보험 :  서울 양천구 목동동로 233-3, 14층 물보험 접수팀')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_2_1">
+                            재물(펫)보험 :  서울 양천구 목동동로 233-3, 14층 물보험 접수팀                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/f339168f46ec.png" alt="KB손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(04027)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_3_0', '(04027) 인보험 :  서울시 마포구 양화로 19 (합정동) KB손해보험 합정빌딩 19층 인보험사고접수센터')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_3_0">
+                            인보험 :  서울시 마포구 양화로 19 (합정동) KB손해보험 합정빌딩 19층 인보험사고접수센터                        </div>
+                    </div>
+                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(04027)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_3_1', '(04027) 재물배상 :  서울시 마포구 양화로 19 (합정동) KB손해보험 합정빌딩 19층 화재특종보상부')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_3_1">
+                            재물배상 :  서울시 마포구 양화로 19 (합정동) KB손해보험 합정빌딩 19층 화재특종보상부                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/ef4b6ee616ca.png" alt="현대해상" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(07298)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_4_0', '(07298) 장기보험 :  서울특별시 영등포구 문래로 28길 25 세미콜론문래 S타워 8층, 현대해상 장기보험 사고접수 담당')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_4_0">
+                            장기보험 :  서울특별시 영등포구 문래로 28길 25 세미콜론문래 S타워 8층, 현대해상 장기보험 사고접수 담당                        </div>
+                    </div>
+                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(04214)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_4_1', '(04214) 단체보험 : 서울 마포구 만리재로 15 제일빌딩 1112호 현대해상 단체보험 접수팀')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_4_1">
+                            단체보험 : 서울 마포구 만리재로 15 제일빌딩 1112호 현대해상 단체보험 접수팀                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/8c54df88098c.png" alt="DB손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(54966)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_5_0', '(54966) 통합 : 전북 전주시 완산구 서원로 99 전주우체국 사서함 15호 DB손해보험 사고접수팀')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_5_0">
+                            통합 : 전북 전주시 완산구 서원로 99 전주우체국 사서함 15호 DB손해보험 사고접수팀                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/4a09475c3cac.jpg" alt="한화손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(07299)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_6_0', '(07299) 서울시 영등포구 경인로 775 에이스하이테크시티 1동 610호, 한화손보 우편 접수 센터')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_6_0">
+                            서울시 영등포구 경인로 775 에이스하이테크시티 1동 610호, 한화손보 우편 접수 센터                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/7b3f3edacaef.png" alt="NH농협손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(03736)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_7_0', '(03736) 서울특별시 서대문구 경기대로58 경기빌딩 503호 농협손해보험 사고접수팀')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_7_0">
+                            서울특별시 서대문구 경기대로58 경기빌딩 503호 농협손해보험 사고접수팀                        </div>
+                    </div>
+                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span></span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_7_1', '농협은행 창구 청구가능')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_7_1">
+                            농협은행 창구 청구가능                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/6e773f0771f3.png" alt="흥국화재" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(07254)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_8_0', '(07254) 서울특별시 영등포구 버드나루로2길 7, (영등포동2가) 흥국생명빌딩 9층 접수담당자')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_8_0">
+                            서울특별시 영등포구 버드나루로2길 7, (영등포동2가) 흥국생명빌딩 9층 접수담당자                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/28fa4eff0184.png" alt="하나손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(03137)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_9_0', '(03137) 서울 종로구 창경궁로 117(하나손해보험빌딩, 인의동) 6층 장기일반 보상접수센터')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_9_0">
+                            서울 종로구 창경궁로 117(하나손해보험빌딩, 인의동) 6층 장기일반 보상접수센터                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/922cc89745bb.png" alt="롯데손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(04315)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_10_0', '(04315) 서울시 용산구 원효로90길 11 용산더프라임빌딩 업무동 20층 롯데손해보험 장기사고접수파트')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_10_0">
+                            서울시 용산구 원효로90길 11 용산더프라임빌딩 업무동 20층 롯데손해보험 장기사고접수파트                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/94b2918c4fba.jpg" alt="AIG손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(07326)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_11_0', '(07326) 서울시 영등포구 국제금융로 10 국제금융센터 Two IFC 26층, 보상본부')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_11_0">
+                            서울시 영등포구 국제금융로 10 국제금융센터 Two IFC 26층, 보상본부                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/229008f01383.png" alt="라이나손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(03187)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_12_0', '(03187) 서울시 종로구 종로 6 광화문우체국 사서함 386 (서린동)')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_12_0">
+                            서울시 종로구 종로 6 광화문우체국 사서함 386 (서린동)                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/b1bb54b31d27.jpg" alt="신한EZ손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(04522)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_13_0', '(04522) 서울시 중구 남대문로 113 DB다동빌딩 4층 신한EZ손해보험 손해사정')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_13_0">
+                            서울시 중구 남대문로 113 DB다동빌딩 4층 신한EZ손해보험 손해사정                        </div>
+                    </div>
+                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span></span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_13_1', '카카오톡 청구 : “신한이지손해보험” 검색 &gt; 채널추가&gt;보험금 접수(웹접수) (개인보험에 한정)')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_13_1">
+                            카카오톡 청구 : “신한이지손해보험” 검색 &gt; 채널추가&gt;보험금 접수(웹접수) (개인보험에 한정)                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/70377bbe0867.jpg" alt="YBI예별손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(07294)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_14_0', '(07294) 서울시 영등포구 문래북로 56, 하스오토메이션코리아빌딩 6층 예별손해보험㈜ 장기보험금접수센터')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_14_0">
+                            서울시 영등포구 문래북로 56, 하스오토메이션코리아빌딩 6층 예별손해보험㈜ 장기보험금접수센터                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/f9147a47578f.png" alt="카카오페이손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span></span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_15_0', '카카오톡 친구찾기에서 카카오페이손해보험을 추가하시면 보험금 청구가 가능')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_15_0">
+                            카카오톡 친구찾기에서 카카오페이손해보험을 추가하시면 보험금 청구가 가능                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/718366e00fa4.png" alt="AXA손해보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span class="m-zip-badge">(41914)</span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_16_0', '(41914) 대구 중구 국채보상로 645(동인동2가, 드림상호저축은행) 5층 AXA손해보험(주) A&amp;H사고접수실')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_16_0">
+                            대구 중구 국채보상로 645(동인동2가, 드림상호저축은행) 5층 AXA손해보험(주) A&amp;H사고접수실                        </div>
+                    </div>
+                                                </div>
+        </div>
+                <div class="m-post-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/8929a2b7b79b.jpg" alt="마이브라운" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 등기우편 주소 및 복사 버튼 -->
+            <div class="m-addr-list">
+                                                        <div class="m-addr-unit">
+                        <div class="m-addr-top">
+                                                            <span></span>
+                                                        <button type="button" class="m-btn-copy" onclick="copyAddressText('m_addr_17_0', '모바일 앱으로만 청구가능/ 별도 청구서 작성 없음.')">
+                                📋 복사
+                            </button>
+                        </div>
+                        <div class="m-addr-txt" id="m_addr_17_0">
+                            모바일 앱으로만 청구가능/ 별도 청구서 작성 없음.                        </div>
+                    </div>
+                                                </div>
+        </div>
+        
+            </div>
+
+    <!-- 푸터 -->
+    <div class="by-me-footer">
+        Designed &amp; Developed by <b>보험명장 김영환</b> (010-5532-6259)<br>
+        <span style="font-size:12px; color:#94a3b8;">GA매뉴얼 · 보험사별 사고보험금 등기우편 접수 주소록 서비스</span>
+    </div>
+</div>
+
+<!-- 2. 🚨 [A4 1장 전용 인쇄 서식] (상단: 손보/생보 좌우 2열, 하단: 공제조합 양쪽 분할) -->
+<div id="print-section">
+    <div class="print-header">
+        <div>
+            <h1 class="print-title">📮 전 보험사 사고보험금 청구 등기우편 접수 주소록</h1>
+        </div>
+        <div class="print-sub">
+            기준일자: 2026년 10월 17일 | 등기우편 접수 필수 권장
+        </div>
+    </div>
+
+    <!-- [섹션 1] 상단: 손해보험사 (좌측) / 생명보험사 (우측) -->
+    <div class="print-grid">
+        <!-- 좌측 열: 손해보험사 -->
+        <div class="print-col">
+            <div class="print-sec-title">
+                <span>🛡️ 손해보험사 (17개사)</span>
+                <span style="font-size:6.2pt; font-weight:normal;">원본서류 제출처</span>
+            </div>
+            <table class="print-table">
+                <colgroup>
+                    <col style="width: 27%;">
+                    <col style="width: 73%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>보험사</th>
+                        <th>등기우편 접수 주소</th>
+                    </tr>
+                </thead>
+                <tbody>
+                                        <tr>
+                        <td class="print-comp">메리츠화재</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(14623)</span>                                        공통 :  경기도 부천시 원미구 송내대로 80 메리츠화재빌딩 6층 사고접수파트                                    </div>
+                                                                    <div class="print-addr-block">
+                                        <span class="print-zip">(14623)</span>                                        단체보험 :  경기도 부천시 원미구 송내대로 80 메리츠화재빌딩 8층 단체사고접수파트                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">삼성화재</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07275)</span>                                        인보험 :   서울 영등포구 영등포로5길 19, 동아프라임밸리 504호, 삼성화재 장기보험접수팀                                    </div>
+                                                                    <div class="print-addr-block">
+                                        <span class="print-zip">(07995)</span>                                        재물(펫)보험 :  서울 양천구 목동동로 233-3, 14층 물보험 접수팀                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">KB손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04027)</span>                                        인보험 :  서울시 마포구 양화로 19 (합정동) KB손해보험 합정빌딩 19층 인보험사고접수센터                                    </div>
+                                                                    <div class="print-addr-block">
+                                        <span class="print-zip">(04027)</span>                                        재물배상 :  서울시 마포구 양화로 19 (합정동) KB손해보험 합정빌딩 19층 화재특종보상부                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">현대해상</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07298)</span>                                        장기보험 :  서울특별시 영등포구 문래로 28길 25 세미콜론문래 S타워 8층, 현대해상 장기보험 사고접수 담당                                    </div>
+                                                                    <div class="print-addr-block">
+                                        <span class="print-zip">(04214)</span>                                        단체보험 : 서울 마포구 만리재로 15 제일빌딩 1112호 현대해상 단체보험 접수팀                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">DB손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(54966)</span>                                        통합 : 전북 전주시 완산구 서원로 99 전주우체국 사서함 15호 DB손해보험 사고접수팀                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">한화손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07299)</span>                                        서울시 영등포구 경인로 775 에이스하이테크시티 1동 610호, 한화손보 우편 접수 센터                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">NH농협손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(03736)</span>                                        서울특별시 서대문구 경기대로58 경기빌딩 503호 농협손해보험 사고접수팀                                    </div>
+                                                                    <div class="print-addr-block">
+                                                                                농협은행 창구 청구가능                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">흥국화재</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07254)</span>                                        서울특별시 영등포구 버드나루로2길 7, (영등포동2가) 흥국생명빌딩 9층 접수담당자                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">하나손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(03137)</span>                                        서울 종로구 창경궁로 117(하나손해보험빌딩, 인의동) 6층 장기일반 보상접수센터                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">롯데손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04315)</span>                                        서울시 용산구 원효로90길 11 용산더프라임빌딩 업무동 20층 롯데손해보험 장기사고접수파트                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">AIG손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07326)</span>                                        서울시 영등포구 국제금융로 10 국제금융센터 Two IFC 26층, 보상본부                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">라이나손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(03187)</span>                                        서울시 종로구 종로 6 광화문우체국 사서함 386 (서린동)                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">신한EZ손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04522)</span>                                        서울시 중구 남대문로 113 DB다동빌딩 4층 신한EZ손해보험 손해사정                                    </div>
+                                                                    <div class="print-addr-block">
+                                                                                카카오톡 청구 : “신한이지손해보험” 검색 &gt; 채널추가&gt;보험금 접수(웹접수) (개인보험에 한정)                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">YBI예별손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07294)</span>                                        서울시 영등포구 문래북로 56, 하스오토메이션코리아빌딩 6층 예별손해보험㈜ 장기보험금접수센터                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">카카오페이손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                                                                카카오톡 친구찾기에서 카카오페이손해보험을 추가하시면 보험금 청구가 가능                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">AXA손해보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(41914)</span>                                        대구 중구 국채보상로 645(동인동2가, 드림상호저축은행) 5층 AXA손해보험(주) A&amp;H사고접수실                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">마이브라운</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                                                                모바일 앱으로만 청구가능/ 별도 청구서 작성 없음.                                    </div>
+                                                                                    </td>
+                    </tr>
+                                    </tbody>
+            </table>
+        </div>
+
+        <!-- 우측 열: 생명보험사 -->
+        <div class="print-col">
+            <div class="print-sec-title">
+                <span>🌿 생명보험사 (22개사)</span>
+                <span style="font-size:6.2pt; font-weight:normal;">원본서류 제출처</span>
+            </div>
+            <table class="print-table">
+                <colgroup>
+                    <col style="width: 27%;">
+                    <col style="width: 73%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>보험사</th>
+                        <th>등기우편 접수 주소</th>
+                    </tr>
+                </thead>
+                <tbody>
+                                        <tr>
+                        <td class="print-comp">삼성생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(48931)</span>                                        부산광역시 중구 부산우체국 사서함 189호 삼성생명 사고 보험금 접수 담당                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">동양생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(28510)</span>                                        충청북도 청주시 상당구 상당로 126 수협은행 덕일빌딩 2층 동양생명 접수처                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">한화생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04513)</span>                                        서울시 중구 세종대로 39, 서울상공회의소 6층 한화생명 사고보험금 우편청구 심사담당자(앞)                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">DB생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04799)</span>                                        서울시 성동구 아차산로 17길 48 SK V1 401호, DB생명 보험금 접수 담당자                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">흥국생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                                                                서울 영등포구 버드나루로2길 7(영등포동2가) 2층, 흥국생명 사고접수센터                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">NH농협생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04156)</span>                                        서울특별시 마포구 마포대로 89 서울마포우체국 사서함 13호 NH농협생명 지급심사 정보입력팀(미래)                                    </div>
+                                                                    <div class="print-addr-block">
+                                                                                우편접수 문의 : 1833-4100                                    </div>
+                                                                    <div class="print-addr-block">
+                                                                                농축협은행 내방접수 가능 :                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">KB라이프생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04535)</span>                                        서울시 중구 소공로 70 포스트타워 2층 KB라이프생명 보험금접수 담당자 앞                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">하나생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07261)</span>                                        서울시 영등포구 양산로 91  리드원센터 201호, 하나생명 보험금 접수 담당                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">라이나생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(03156)</span>                                        서울특별시 종로구 삼봉로 48 (청진동 188) 라이나타워 보험금심사팀                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">미래에셋생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07207)</span>                                        서울시 영등포구 양평동5가 39 우림라이온스밸리 A동 1107호 프라임손해사정 미래에셋생명팀                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">처브라이프생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(06162)</span>                                        서울특별시 강남구 테헤란로 401, 11층 (삼성동, 남경센타) 처브라이프생명보험주식회사 보험금 담당자 앞                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">메트라이프생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(03164)</span>                                        서울시 종로구 종로11길 18, G1 Seoul A동 12층 클레임서비스                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">신한라이프생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                                                                서울특별시 중구 소공로 70 서울중앙우체국 사서함 160호 신한라이프 보험금접수 담당자 앞 (택배발송 불가)                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">ABL생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(03116)</span>                                        서울 종로구 종로400,8층(숭인동,ABL생명빌딩) 사고보험금 담당자                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">교보생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07291)</span>                                        서울시 영등포구 영등포로 96 교보생명빌딩, 6층 교보생명 사고보험금 우편청구 담당자 앞                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">iM라이프생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07261)</span>                                        서울특별시 영등포구 양산로 91 리드원지식산업센터 3층 310호 iM라이프 보험금 접수센터                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">푸본현대생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07327)</span>                                        서울시 영등포구 여의나루로57 푸본현대생명 보험금팀                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">KDB생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(07261)</span>                                        서울특별시 영등포구 양산로 91, 리드원지식산업센터 210호 파란손해사정 KDB생명 콜센터 우편청구 담당자                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">BNP파리바카디프생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04637)</span>                                        서울특별시 영등포구 국회대로 612 7층, 11층 BNP파리바 카디프생명 보험금 담당자 앞                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">IBK연금보험</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04511)</span>                                        서울시 중구 칠패로 37, HSBC빌딩 19층, IBK연금보험 고객서비스팀 지급담당자                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">AIA생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04511)</span>                                        서울시 중구 통일로2길 16(순화동 216) AIA타워 25층 AIA생명 보험금팀                                    </div>
+                                                                                    </td>
+                    </tr>
+                                        <tr>
+                        <td class="print-comp">교보라이프플래닛생명</td>
+                        <td>
+                                                                                                <div class="print-addr-block">
+                                        <span class="print-zip">(04379)</span>                                        서울특별시 용산구 한강대로 35, 5층 교보라이프플래닛생명보험(주) 사고보험금 담당자 앞                                    </div>
+                                                                                    </td>
+                    </tr>
+                                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- [섹션 2] 하단: 공제조합을 양쪽(좌/우 2열)으로 균등 분할하여 배치 -->
+    <div class="deduct-container">
+        <div class="print-sec-title theme-deduct">
+            <span>🏛️ 공제조합 (총 5개 기관)</span>
+            <span style="font-size:6.2pt; font-weight:normal;">공제금 청구 전용 접수처</span>
+        </div>
+        <div class="print-grid">
+            <!-- 공제조합 좌측 그룹 -->
+            <div class="print-col">
+                <table class="print-table">
+                    <colgroup>
+                        <col style="width: 27%;">
+                        <col style="width: 73%;">
+                    </colgroup>
+                    <tbody>
+                                                <tr>
+                            <td class="print-comp">우체국공제보험</td>
+                            <td>
+                                                                                                            <div class="print-addr-block">
+                                                                                        전남 : 광주광역시 동구 제봉로 211 (광주우체국)                                        </div>
+                                                                            <div class="print-addr-block">
+                                                                                        부산 : 부산광역시 동구 수정로 9 (부산수정동우체국)                                        </div>
+                                                                            <div class="print-addr-block">
+                                                                                        경북 : 대구광역시 동구 동촌로 1 (동대구우체국)                                        </div>
+                                                                            <div class="print-addr-block">
+                                                                                        우체국금융개발원 제1지급센터 : 서울특별시 영등포구 선유동2로6, 5층 청구심사1팀                                        </div>
+                                                                            <div class="print-addr-block">
+                                                                                        우체국금융개발원 제2지급센터 : 광주광역시 서구 상무중앙로110, 4층 청구심사2팀                                        </div>
+                                                                            <div class="print-addr-block">
+                                                                                        제주 : 우체국 직접 접수                                        </div>
+                                                                                                </td>
+                        </tr>
+                                                <tr>
+                            <td class="print-comp">SH수협공제보험</td>
+                            <td>
+                                                                                                            <div class="print-addr-block">
+                                                                                        수협지점 내방으로 청구 가능/우편 접수 홈페이지 공지 없음                                        </div>
+                                                                                                </td>
+                        </tr>
+                                                <tr>
+                            <td class="print-comp">신협공제보험</td>
+                            <td>
+                                                                                                            <div class="print-addr-block">
+                                            <span class="print-zip">(35209)</span>                                            대전광역시 서구 한밭대로 745 신협중앙회 17층 고객지원센터 보상지원 담당자                                        </div>
+                                                                                                </td>
+                        </tr>
+                                            </tbody>
+                </table>
+            </div>
+
+            <!-- 공제조합 우측 그룹 -->
+            <div class="print-col">
+                <table class="print-table">
+                    <colgroup>
+                        <col style="width: 27%;">
+                        <col style="width: 73%;">
+                    </colgroup>
+                    <tbody>
+                                                <tr>
+                            <td class="print-comp">MG새마을금고공제보험</td>
+                            <td>
+                                                                                                            <div class="print-addr-block">
+                                                                                        가까운 MG새마을금고 창구 청구 가능                                        </div>
+                                                                                                </td>
+                        </tr>
+                                                <tr>
+                            <td class="print-comp">한국교직원공제회</td>
+                            <td>
+                                                                                                            <div class="print-addr-block">
+                                            <span class="print-zip">(07328)</span>                                            서울 영등포구 여의나루로 50 The-K한국교직원공제회 보험사업부 심사지원팀                                        </div>
+                                                                                                </td>
+                        </tr>
+                                            </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="print-footer">
+        <span>* 일반우편은 분실 우려가 있으므로 반드시 <b>등기우편</b>으로 발송하시기 바랍니다.</span>
+        <span>Designed by 보험명장 김영환 (010-5532-6259) · <b>GA매뉴얼</b></span>
+    </div>
+</div>
+
+<div id="toast">📋 주소가 클립보드에 복사되었습니다!</div>
+
+<script>
+    function copyAddressText(elementId, fullText) {
+        const textToCopy = fullText ? fullText.trim() : document.getElementById(elementId).innerText.trim();
+        
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast('📋 주소가 복사되었습니다: ' + textToCopy);
+            }).catch(err => {
+                fallbackCopy(textToCopy);
+            });
+        } else {
+            fallbackCopy(textToCopy);
+        }
+    }
+
+    function fallbackCopy(text) {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        showToast('📋 주소가 복사되었습니다: ' + text);
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.innerText = msg;
+        toast.className = "show";
+        setTimeout(() => { 
+            toast.className = toast.className.replace("show", ""); 
+        }, 2500);
+    }
+</script>
+
+
+</body></html>

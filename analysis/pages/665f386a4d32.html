@@ -1,0 +1,1757 @@
+<!DOCTYPE html><html lang="ko"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today이슈&amp;뉴스 - 실시간 보험·건강 뉴스</title>
+    
+    <script src="../assets/61ec38d3371a.js"></script>
+    <script src="../assets/a3133eb07bfa.js"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body { font-family: 'Pretendard', sans-serif; background-color: #ffffff; margin: 0; padding: 0; color: #1e293b; }
+        a { text-decoration: none; color: inherit; }
+        * { box-sizing: border-box; }
+
+        .container { max-width: 980px; margin: 30px auto 60px auto; padding: 0 15px; }
+
+        .title-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid #000000; padding-bottom: 12px; flex-wrap: wrap; gap: 12px; }
+        .title-left-group { display: flex; align-items: center; gap: 14px; }
+        
+        .title-thumb-wrap { position: relative; width: 48px; height: 48px; border-radius: 10px; overflow: hidden; border: 1px solid #cbd5e1; background: #f8fafc; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+        .title-thumb-wrap:hover { border-color: #2563eb; box-shadow: 0 2px 8px rgba(37,99,235,0.15); }
+        .title-thumb-img { width: 100%; height: 100%; object-fit: cover; }
+        .title-thumb-empty { font-size: 24px; color: #64748b; line-height: 1; }
+        .title-thumb-edit-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.65); color: #ffffff; font-size: 10px; font-weight: 800; align-items: center; justify-content: center; text-align: center; }
+        .title-thumb-wrap:hover .title-thumb-edit-overlay { display: flex; }
+
+        .page-title { font-size: 26px; font-weight: 800; color: #000000; margin: 0; letter-spacing: -0.5px; }
+        
+        .header-btn-row { display: flex; gap: 8px; align-items: center; }
+        .btn-kakao-date-briefing { background: #fee500; color: #191919; border: 1px solid #fada0a; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 800; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-kakao-date-briefing:hover { background: #fada0a; transform: translateY(-1px); }
+
+        /* 🚨 카테고리 탭 (보험 vs 건강 분리 뷰) */
+        .category-tab-bar { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; }
+        .cat-tab-btn { padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: 800; border: 1px solid #e2e8f0; background: #f8fafc; color: #64748b; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .cat-tab-btn:hover { background: #f1f5f9; color: #0f172a; }
+        .cat-tab-btn.active { background: #2563eb; color: #ffffff; border-color: #2563eb; box-shadow: 0 2px 6px rgba(37,99,235,0.25); }
+
+        .press-grid-wrap { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 6px; margin-bottom: 20px; }
+        .press-chip-btn { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 8px; text-align: center; font-size: 13px; font-weight: 800; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 4px; }
+        .press-chip-btn:hover { background: #f8fafc; border-color: #cbd5e1; transform: translateY(-1px); }
+        .press-chip-btn.active { background: #0f172a !important; color: #ffffff !important; border-color: #0f172a !important; }
+        .press-chip-btn.external-link { background: #fafafa; border-style: dashed; }
+        .press-chip-btn.external-link:hover { background: #f1f5f9; border-style: solid; }
+        .ext-icon { font-size: 11px; opacity: 0.7; }
+
+        .filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 10px; background: #f8fafc; padding: 12px 16px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .date-picker-wrap { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: #334155; }
+        .date-input { padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; font-family: inherit; font-weight: 700; color: #0f172a; outline: none; background: #ffffff; cursor: pointer; }
+        .date-input:focus { border-color: #2563eb; }
+        .btn-date-all { background: #ffffff; border: 1px solid #cbd5e1; color: #475569; padding: 6px 10px; font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; text-decoration: none; }
+        .btn-date-all.active { background: #0f172a; color: #ffffff; border-color: #0f172a; }
+
+        .search-group { display: flex; align-items: center; gap: 6px; }
+        .search-input { padding: 7px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; width: 190px; }
+        .search-input:focus { border-color: #2563eb; }
+        .btn-go { background: #0f172a; color: #fff; border: 1px solid #0f172a; padding: 7px 16px; font-size: 13px; font-weight: 700; border-radius: 6px; cursor: pointer; }
+
+        .news-list { display: flex; flex-direction: column; }
+        .news-item { display: flex; gap: 20px; padding: 25px 0; border-bottom: 1px solid #f1f5f9; align-items: flex-start; }
+        .news-thumb-box { flex: 0 0 160px; width: 160px; height: 110px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; background: #f1f5f9; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .news-thumb-img { width: 100%; height: 100%; object-fit: cover; }
+        .no-thumb-box { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e293b, #0f172a); color: #94a3b8; font-size: 11px; font-weight: 700; gap: 4px; }
+        .no-thumb-icon { font-size: 24px; color: #38bdf8; }
+        .news-content { flex: 1; min-width: 0; }
+        .news-header-line { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+        .news-title { font-size: 18px; font-weight: 800; color: #0f172a; line-height: 1.4; margin: 0; }
+        .news-press { color: #2563eb; font-weight: 800; margin-right: 4px; }
+        
+        .cat-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 800; margin-right: 4px; vertical-align: middle; }
+        .cat-badge.insurance { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .cat-badge.health { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+
+        .news-link-bar { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+        .news-link-btn { display: inline-flex; align-items: center; gap: 2px; background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 800; text-decoration: none; }
+        .news-link-text { color: #2563eb; font-weight: 600; text-decoration: underline; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 500px; font-size: 13px; }
+
+        .news-desc-box { position: relative; margin-bottom: 12px; }
+        .news-input-badge { display: inline-block; background: #f8fafc; color: #0284c7; font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: 4px; border: 1px solid #e0f2fe; margin-bottom: 6px; }
+        .news-desc { font-size: 14px; color: #475569; line-height: 1.7; margin: 0; word-break: break-word; white-space: pre-line; }
+        .news-desc.collapsed { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+        .btn-toggle-desc { background: none; border: none; color: #2563eb; font-size: 12px; font-weight: 800; cursor: pointer; padding: 4px 0; margin-top: 4px; }
+        
+        .news-footer-line { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #f1f5f9; padding-top: 8px; }
+        .news-date { font-size: 12px; color: #94a3b8; font-weight: 600; }
+        .btn-kakao-news { background: #fee500; color: #191919; border: 1px solid #fada0a; border-radius: 4px; font-size: 11px; font-weight: 800; padding: 4px 9px; cursor: pointer; }
+
+        .pagination { display: flex; justify-content: center; gap: 4px; margin-top: 35px; }
+        .page-link { padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; font-weight: 700; color: #334155; }
+        .page-link.active { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
+
+        @media (max-width: 650px) {
+            .title-bar { flex-direction: column; align-items: flex-start; }
+            .header-btn-row { width: 100%; justify-content: flex-start; }
+            .category-tab-bar { overflow-x: auto; width: 100%; }
+            .press-grid-wrap { grid-template-columns: repeat(3, 1fr); }
+            .filter-bar { flex-direction: column; align-items: stretch; }
+            .date-picker-wrap { justify-content: space-between; }
+            .search-group { width: 100%; }
+            .search-input { flex: 1; }
+            .news-thumb-box { width: 110px; height: 80px; flex: 0 0 110px; }
+            .news-title { font-size: 15px; }
+            .news-link-text { max-width: 180px; }
+        }
+    </style>
+</head>
+<body>
+
+    <input type="file" id="title-thumb-input" accept="image/*" style="display: none;">
+
+    
+<style>
+    .navbar { background-color: #ffffff; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 65px; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 900; box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-container { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+    
+    .nav-left { display: flex; height: 100%; align-items: center; margin:0; padding:0; }
+    .nav-item { position: relative; display: inline-block; height: 100%; }
+    .nav-item > a { color: #334155; font-weight: 700; font-size: 15px; padding: 0 18px; display: flex; align-items: center; height: 65px; transition: color 0.2s; text-decoration: none; box-sizing: border-box;}
+    .nav-item:hover > a { color: #2563eb; }
+
+    .nav-dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 220px; box-shadow: 0px 10px 25px rgba(0,0,0,0.1); z-index: 1001; top: 100%; left: 0; border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; border-top: none; }
+    .nav-dropdown-content a { color: #475569; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; border-bottom: 1px solid #f1f5f9; transition: 0.2s; font-weight: 500; text-decoration: none; position: relative; }
+    .nav-dropdown-content a:hover { background-color: #f8fafc; color: #2563eb; }
+
+    .nav-sub-item { position: relative; width: 100%; }
+    .nav-sub-dropdown { display: none; position: absolute; left: 100%; top: 0; background-color: #ffffff; min-width: 210px; box-shadow: 5px 10px 25px rgba(0,0,0,0.1); z-index: 1002; border-radius: 0 8px 8px 8px; border: 1px solid #e2e8f0; }
+    .nav-sub-dropdown a { padding: 11px 16px; font-size: 13.5px; border-bottom: 1px solid #f1f5f9; }
+
+    .arrow-indicator { font-size: 11px; margin-left: 6px; transition: transform 0.2s ease; display: inline-block; }
+    .arrow-sub { font-size: 11px; margin-left: 6px; color: #94a3b8; transition: transform 0.2s ease; display: inline-block; }
+
+    @media (min-width: 851px) {
+        .nav-item:hover > .nav-dropdown-content { display: block; }
+        .nav-sub-item:hover > .nav-sub-dropdown { display: block; }
+        .mobile-only-link { display: none !important; }
+    }
+    
+    .nav-right { display: flex; gap: 12px; align-items: center; margin:0; padding:0; height: 100%; }
+    .visitor-counter { background: #f8fafc; border: 1px solid #e2e8f0; padding: 5px 10px; border-radius: 6px; font-size: 12px; color: #64748b; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+    .visitor-counter span { color: #0ea5e9; }
+    
+    .nav-group-btn { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #334155; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; cursor: pointer; transition: 0.2s; text-decoration: none; }
+    .nav-group-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+    .btn-sitemap { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 13.5px; font-weight: 800; padding: 7px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; text-decoration: none; }
+    .btn-sitemap:hover { background: #2563eb; color: #ffffff; border-color: #2563eb; }
+    
+    .nav-right-dropdown { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-right-content { display: none; position: absolute; right: 0; top: 100%; background: #fff; min-width: 215px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; overflow: hidden; z-index: 1000; }
+    @media (min-width: 851px) {
+        .nav-right-dropdown:hover .nav-right-content { display: block; }
+    }
+    .nav-right-content a { display: block; padding: 12px 16px; font-size: 13.5px; color: #475569; text-decoration: none; font-weight: 600; border-bottom: 1px solid #f1f5f9; transition: 0.2s; }
+    .nav-right-content a:hover { background: #f8fafc; color: #2563eb; }
+    .nav-right-content a.danger:hover { color: #ef4444; background: #fef2f2; }
+
+    .nav-mobile-toggle { display: none; font-size: 26px; cursor: pointer; color: #334155; }
+
+    .nav-modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15,23,42,0.6); backdrop-filter: blur(5px); }
+    .nav-modal-content { background-color: #ffffff; margin: 3vh auto; padding: 40px; border-radius: 24px; width: 95%; position: relative; max-height: 94vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.25); box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-close-btn { position: absolute; right: 25px; top: 20px; font-size: 32px; cursor: pointer; color: #94a3b8; transition: 0.2s; line-height: 1; z-index:10; }
+    .nav-close-btn:hover { color: #ef4444; }
+    
+    #navIframeModal .nav-modal-content { padding: 0; max-width: 1100px; height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+    #navIframeModal .nav-close-btn { right: 20px; top: 15px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    #navIframeModal iframe { width: 100%; height: 100%; border: none; border-radius: 24px; }
+
+    #navSitemapModal .nav-modal-content { max-width: 1150px; padding: 35px 30px; }
+    .sitemap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 15px; margin-bottom: 25px; }
+    .sitemap-header h2 { margin: 0; font-size: 22px; font-weight: 900; color: #0f172a; }
+    .sitemap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .sitemap-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .sitemap-p1-title { font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 12px; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
+    .sitemap-p1-title a { color: inherit; text-decoration: none; }
+    .sitemap-p1-title a:hover { color: #2563eb; }
+    .sitemap-p2-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .sitemap-p2-item { font-size: 13.5px; font-weight: 700; }
+    .sitemap-p2-item > a { color: #334155; text-decoration: none; display: block; padding: 3px 0; }
+    .sitemap-p2-item > a:hover { color: #2563eb; }
+    .sitemap-p3-list { list-style: none; padding-left: 14px; margin: 4px 0 0 0; display: flex; flex-direction: column; gap: 4px; border-left: 2px solid #cbd5e1; }
+    .sitemap-p3-item { font-size: 12.5px; font-weight: 600; }
+    .sitemap-p3-item a { color: #64748b; text-decoration: none; }
+    .sitemap-p3-item a:hover { color: #2563eb; }
+
+    @media (max-width: 850px) {
+        .navbar { flex-direction: column; align-items: flex-start; height: auto; padding: 15px 20px; }
+        .nav-mobile-toggle { display: block; position: absolute; right: 20px; top: 18px; }
+        .nav-logo-area { display: block; font-weight: 800; font-size: 20px; color: #0f172a; text-decoration: none; }
+        .nav-container { display: none; flex-direction: column; width: 100%; gap: 15px; margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+        .nav-container.active { display: flex; }
+        .nav-left { flex-direction: column; align-items: flex-start; width: 100%; }
+        .nav-right { flex-direction: column; align-items: stretch; width: 100%; gap: 10px; }
+        .nav-item, .nav-right-dropdown { width: 100%; height: auto; }
+        
+        .nav-item > a, .nav-group-btn { 
+            height: auto; 
+            padding: 13px 8px; 
+            border-bottom: 1px solid #f1f5f9; 
+            width: 100%; 
+            border-radius: 0; 
+            border: none; 
+            background: transparent; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .nav-dropdown-content { 
+            display: none; 
+            position: static; 
+            box-shadow: none; 
+            border: none; 
+            border-left: 3px solid #2563eb; 
+            border-radius: 0; 
+            background: #f8fafc; 
+            padding-left: 8px; 
+            margin: 4px 0 10px 0; 
+            width: 100%; 
+        }
+        .nav-dropdown-content.open { 
+            display: block !important; 
+        }
+
+        .nav-dropdown-content a {
+            padding: 11px 12px;
+            font-size: 13.5px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .nav-sub-dropdown { 
+            display: none; 
+            position: static; 
+            border: none; 
+            box-shadow: none; 
+            background: #ffffff; 
+            padding-left: 12px; 
+            border-left: 2px solid #94a3b8; 
+            margin: 4px 0 8px 0; 
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+        .nav-sub-dropdown.open { 
+            display: block !important; 
+        }
+
+        .nav-sub-dropdown a {
+            padding: 9px 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .nav-parent-link.active-toggle .arrow-indicator {
+            transform: rotate(180deg);
+            color: #2563eb;
+        }
+
+        .nav-sub-parent.active-toggle .arrow-sub {
+            transform: rotate(90deg);
+            color: #2563eb;
+        }
+
+        .visitor-counter { justify-content: center; padding: 10px 0; }
+        .btn-sitemap { justify-content: center; width: 100%; padding: 10px; }
+    }
+</style>
+<link href="../assets/2b9f3e10cb8b.css" rel="stylesheet">
+<script src="../assets/4395c6aa4084.js"></script>
+
+<div class="navbar no-print">
+    <a href="947659214c33.html" class="nav-logo-area" style="display:none;">GA매뉴얼</a>
+    <div class="nav-mobile-toggle" onclick="toggleMobileNav()">☰</div>
+
+    <div class="nav-container" id="navMobileContainer">
+        <div class="nav-left">
+                                            <div class="nav-item">
+                                            <a href="947659214c33.html" class="nav-parent-link" data-has-children="true" style="color: #2563eb;">
+                            <span>홈(메인)</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="947659214c33.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 홈(메인) 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="44e3452ef6c9.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>메인모듬링크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="44e3452ef6c9.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 메인모듬링크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="44e3452ef6c9.html">
+                                                    보험전산 링크                                                </a>
+                                                                                                                                            <a href="e6ed6a9f92e2.html">
+                                                    고객센터/팩스번호                                                </a>
+                                                                                                                                            <a href="3153c6257bf8.html">
+                                                    청구_이메일/URL링크                                                </a>
+                                                                                                                                            <a href="75533ed272f1.html">
+                                                    청구한도금액안내                                                </a>
+                                                                                                                                            <a href="3b392eb2b880.html">
+                                                    청구 우편주소                                                </a>
+                                                                                                                                            <a href="75ddd1a0ebd6.html">
+                                                    청구서_모아보기                                                </a>
+                                                                                                                                            <a href="21587080263e.html">
+                                                    보험사별 수납일                                                </a>
+                                                                                                                                            <a href="c49fc0e88d53.html">
+                                                    카드정보                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="f2ca5133a8c2.html" class="" data-has-sub="false">
+                                        <span>GA인트라넷링크</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                                            <div class="nav-item">
+                                            <a href="efd4d09ef92f.html" class="nav-parent-link" data-has-children="true" style="">
+                            <span>영업자료</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="efd4d09ef92f.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 영업자료 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="96dc9c2d9f73.html" class="" data-has-sub="false">
+                                        <span>매일영업이슈</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="efd4d09ef92f.html" class="" data-has-sub="false">
+                                        <span>월별소식지</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="835c17bc6127.html" class="" data-has-sub="false">
+                                        <span>영업전략자료</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="cb73c93e4162.html" class="" data-has-sub="false">
+                                        <span>상품정보</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="27b61ac494e2.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험니즈자료</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="27b61ac494e2.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험니즈자료 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="27b61ac494e2.html">
+                                                    질병니즈자료                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="bdc5fd445533.html" class="" data-has-sub="false">
+                                        <span>보험상품이자계산기</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="969023e484dc.html" class="" data-has-sub="false">
+                                        <span>질문과답변</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="b9442215d61e.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험북마크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="b9442215d61e.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험북마크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="b9442215d61e.html">
+                                                    유투브채널                                                </a>
+                                                                                                                                            <a href="665f386a4d32.html">
+                                                    Today_NEWS                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                    </div>
+        
+        <div class="nav-right">
+            <button type="button" class="btn-sitemap" onclick="openNavSitemapModal()" title="전체 사이트 메뉴 구조 한눈에 보기">
+                <span>🗺️</span>
+                <span>사이트맵</span>
+            </button>
+
+            <form action="/board/search.php" method="get" style="display:flex; align-items:center; background:#f8fafc; border:1px solid #cbd5e1; border-radius:20px; padding:3px 10px; margin:0;">
+                <input type="text" name="keyword" placeholder="사이트 전체 검색..." style="border:none; background:transparent; font-size:13px; font-weight:600; color:#1e293b; outline:none; width:130px; font-family:inherit;">
+                <button type="submit" style="background:none; border:none; cursor:pointer; font-size:14px; padding:0; display:flex; align-items:center;" title="검색">🔍</button>
+            </form>
+
+            <div class="visitor-counter" title="오늘 접속자 / 전체 누적 접속자">
+                📊 <span>3</span> / 793            </div>
+            
+                            <span style="color: #94a3b8; font-size: 13px; margin-right: 8px; font-weight:700; cursor:pointer; background:#f1f5f9; padding:6px 12px; border-radius:20px;" onclick="openNavDevNoteModal()">
+                    Ver 3.0.01 ⓘ
+                </span>
+                        
+                            <a href="82a0d3621888.html" class="nav-group-btn" style="background:#2563eb; color:#fff; border:none; justify-content:center;">🔒 로그인/회원가입</a>
+                    </div>
+    </div>
+</div>
+
+<!-- 사이트맵 모달 팝업 -->
+<div id="navSitemapModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavSitemapModal()">×</span>
+        <div class="sitemap-header">
+            <h2>🗺️ 전체 사이트맵</h2>
+        </div>
+        <div class="sitemap-grid">
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="947659214c33.html">📁 홈(메인)</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="44e3452ef6c9.html">└ 메인모듬링크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="44e3452ef6c9.html">• 보험전산 링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="e6ed6a9f92e2.html">• 고객센터/팩스번호</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3153c6257bf8.html">• 청구_이메일/URL링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75533ed272f1.html">• 청구한도금액안내</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3b392eb2b880.html">• 청구 우편주소</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75ddd1a0ebd6.html">• 청구서_모아보기</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="21587080263e.html">• 보험사별 수납일</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="c49fc0e88d53.html">• 카드정보</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="f2ca5133a8c2.html">└ GA인트라넷링크</a>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="efd4d09ef92f.html">📁 영업자료</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="96dc9c2d9f73.html">└ 매일영업이슈</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="efd4d09ef92f.html">└ 월별소식지</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="835c17bc6127.html">└ 영업전략자료</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="cb73c93e4162.html">└ 상품정보</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="27b61ac494e2.html">└ 보험니즈자료</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="27b61ac494e2.html">• 질병니즈자료</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="bdc5fd445533.html">└ 보험상품이자계산기</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="969023e484dc.html">└ 질문과답변</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="b9442215d61e.html">└ 보험북마크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="b9442215d61e.html">• 유투브채널</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="665f386a4d32.html">• Today_NEWS</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                    </div>
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center; color:#64748b;">
+            Designed &amp; Developed by <b>보험명장 김영환</b> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<div id="navIframeModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavIframeModal()">×</span>
+        <iframe id="navMyAccountIframe" src=""></iframe>
+    </div>
+</div>
+
+<div id="navDevNoteModal" class="nav-modal">
+    <div class="nav-modal-content" style="max-width:700px;">
+        <span class="nav-close-btn" onclick="closeNavDevNoteModal()">×</span>
+        <h2 style="margin-top:0; color:#0f172a; border-bottom:2px solid #f1f5f9; padding-bottom:15px;">🛠️ 시스템 업데이트 노트</h2>
+        
+                    <div class="ql-snow" style="margin-top:20px; max-height:500px; overflow-y:auto; padding-right:10px;">
+                <div class="ql-editor" style="padding:0; line-height:1.7; color:#334155; font-size:15px; font-family:inherit;">
+                    <div class="note-version-block">
+<h4 style="color:#2563eb; margin-bottom:10px; margin-top:0;">[Ver 3.0.01] 업데이트 내역</h4>
+<ul style="padding-left:20px; margin-bottom:0;">
+<li>1. 뉴스 및 북마크 게시판 생성 적용.</li>
+<li>2. 대부분의 게시물 카톡 공유 적용.(웹에서 바로 공유 가능)</li>
+<li>3. Today이슈 &amp; 뉴스 06시~21시까지 네이버, 네이트, 다음 뉴스 검색 보험/건강뉴스 갈무리 기능 제공. 약간의 문장만 적용 기사 내용 각 포털 사이트로 연결됨.</li>
+<li>4. 보험상품이자계산기 프로그램 제작/출력기능 결과값 카톡전송기능제공</li>
+</ul>
+<hr style="border:0; border-top:1px dashed #cbd5e1; margin:20px 0;">
+</div>
+<h4>[Ver 3.000] 업데이트 내역</h4><ul><li>팩스서버 구성 및 지점별 팩스 서버 관리 솔루션 구성완료</li></ul><h4>[Ver 3.000] 업데이트 내역</h4><ul><li>전체적으로 디자인을 카드형으로 변경</li><li>1. 회원가입 기능(최소한의 정보 데이터 암호화)</li><li>2. 기존 링크를 최신 버전으로 전부 수정함.</li><li>3. 청구서와 관련 자료 모두를 업데이트함.</li><li>4. 각 보험사의 전산 설치 및 전산 사용 매뉴얼 등록</li><li>5. 모바일청약 업데이트</li><li>6. 신용카드 결제 업데이트</li><li>7. 본부연락처 추가 기능</li><li>+ 본인 소속의 원수사 지점장/총무/설계매니저 등록가능(본부장, 지점장, 총무가 등록(유료기능))</li><li>+ 원수사 전산 본인 코드 및 비번 저장 기능</li></ul>                </div>
+            </div>
+                
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center;">
+            <strong>Designed &amp; Developed by</strong><br>
+            <span style="color:#002b5e; font-size:15px; font-weight:bold;">보험명장 김영환</span> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<script>
+    let visitorLogId = sessionStorage.getItem('visitor_log_id') ? sessionStorage.getItem('visitor_log_id') : 0;
+    
+    fetch('/api/track.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'action=enter&page_url=' + encodeURIComponent(window.location.href) 
+            + '&ref=' + encodeURIComponent(document.referrer) 
+            + '&log_id=' + visitorLogId
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.log_id) {
+            visitorLogId = data.log_id;
+            sessionStorage.setItem('visitor_log_id', visitorLogId);
+        }
+    }).catch(e => console.log('추적기 대기'));
+
+    setInterval(() => {
+        if (visitorLogId > 0) {
+            fetch('/api/track.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'action=ping&log_id=' + visitorLogId
+            }).catch(() => {});
+        }
+    }, 10000);
+
+    window.addEventListener('beforeunload', function() {
+        if (visitorLogId > 0) {
+            navigator.sendBeacon('/api/track.php', new URLSearchParams({
+                'action': 'exit',
+                'log_id': visitorLogId
+            }));
+        }
+    });
+
+    function toggleMobileNav() {
+        const container = document.getElementById('navMobileContainer');
+        container.classList.toggle('active');
+        const logo = document.querySelector('.nav-logo-area');
+        if (window.innerWidth <= 850) {
+            logo.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // [1차 메뉴 모바일 터치 이벤트 제어]
+        const parentLinks = document.querySelectorAll('.nav-parent-link');
+        parentLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 하위 메뉴가 있을 경우: 링크 이동 차단 및 아코디언 토글
+                if (window.innerWidth <= 850) {
+                    const hasChildren = this.getAttribute('data-has-children') === 'true';
+                    const dropdown = this.nextElementSibling;
+                    
+                    if (hasChildren && dropdown && dropdown.classList.contains('nav-dropdown-content')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isOpen = dropdown.classList.contains('open');
+
+                        // 다른 열린 1차 메뉴 닫기 및 화살표 초기화
+                        document.querySelectorAll('.nav-dropdown-content').forEach(d => d.classList.remove('open'));
+                        document.querySelectorAll('.nav-parent-link').forEach(p => p.classList.remove('active-toggle'));
+
+                        // 현재 클릭한 메뉴 토글
+                        if (!isOpen) {
+                            dropdown.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+
+        // [2차 메뉴 모바일 터치 이벤트 제어]
+        const subParents = document.querySelectorAll('.nav-sub-parent');
+        subParents.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 3차 하위 메뉴가 있을 경우: 링크 이동 차단 및 3차 드롭다운 토글
+                if (window.innerWidth <= 850) {
+                    const hasSub = this.getAttribute('data-has-sub') === 'true';
+                    const subDrop = this.nextElementSibling;
+
+                    if (hasSub && subDrop && subDrop.classList.contains('nav-sub-dropdown')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isSubOpen = subDrop.classList.contains('open');
+                        const parentContainer = this.closest('.nav-dropdown-content');
+
+                        // 같은 1차 메뉴 내부의 다른 열린 2차 메뉴 닫기
+                        if (parentContainer) {
+                            parentContainer.querySelectorAll('.nav-sub-dropdown').forEach(d => d.classList.remove('open'));
+                            parentContainer.querySelectorAll('.nav-sub-parent').forEach(p => p.classList.remove('active-toggle'));
+                        }
+
+                        // 현재 클릭한 2차 메뉴 토글
+                        if (!isSubOpen) {
+                            subDrop.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    function toggleRightDropdown(btn) {
+        if (window.innerWidth <= 850) {
+            const dropdown = btn.nextElementSibling;
+            if (dropdown && dropdown.classList.contains('nav-right-content')) {
+                dropdown.classList.toggle('open');
+            }
+        }
+    }
+
+    function openNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function openNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    function openNavAccountModal(e) {
+        if(e) e.preventDefault();
+        document.getElementById("navMyAccountIframe").src = "/member/my_accounts.php";
+        document.getElementById("navIframeModal").style.display = "block";
+        document.body.style.overflow = "hidden";
+    }
+    function closeNavIframeModal() {
+        document.getElementById("navIframeModal").style.display = "none";
+        document.getElementById("navMyAccountIframe").src = ""; 
+        document.body.style.overflow = "auto";
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target == document.getElementById('navSitemapModal')) closeNavSitemapModal();
+        if (event.target == document.getElementById('navDevNoteModal')) closeNavDevNoteModal();
+        if (event.target == document.getElementById('navIframeModal')) closeNavIframeModal();
+    });
+
+    let navQuillEditor = null;
+    if (document.getElementById('nav_quill_editor')) {
+        navQuillEditor = new Quill('#nav_quill_editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+        
+        const noteHistoryRaw = document.getElementById('nav_dev_note_history').value;
+        navQuillEditor.clipboard.dangerouslyPasteHTML(noteHistoryRaw);
+    }
+
+    function saveNavDevNote(e) {
+        e.preventDefault();
+        const ver = document.getElementById('nav_dev_app_ver').value;
+        const appDate = document.getElementById('nav_dev_app_date').value; 
+        const newUpdate = document.getElementById('nav_dev_new_update').value;
+        const historyNote = navQuillEditor ? navQuillEditor.root.innerHTML : document.getElementById('nav_dev_note_history').value;
+        const btn = document.getElementById('navDevSaveBtn');
+        
+        btn.innerText = "저장 중...";
+        
+        const formData = new FormData();
+        formData.append('ajax_action', 'save_dev_note');
+        formData.append('app_ver', ver);
+        formData.append('app_date', appDate); 
+        formData.append('new_update', newUpdate);
+        formData.append('dev_note', historyNote);
+        
+        fetch('/index.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 'success') {
+                alert('버전 및 개발자 노트가 성공적으로 저장되었습니다.');
+                location.reload();
+            } else {
+                alert(data.msg ? data.msg : '저장에 실패했습니다.');
+                btn.innerText = "💾 변경사항 전체 저장하기";
+            }
+        });
+    }
+
+    function navRequireAuth(isNeedLogin) {
+        if (isNeedLogin) {
+            alert('로그인 후 이용 가능한 메뉴입니다.\n로그인 페이지로 이동합니다.');
+            location.href = '/member/login.php';
+        } else {
+            alert('해당 메뉴를 이용할 수 있는 권한이 아닙니다.\n관리자에게 문의해 주세요.');
+        }
+    }
+</script>
+    <div class="container">
+        <div class="title-bar">
+            <div class="title-left-group">
+                <div class="title-thumb-wrap" id="btn-upload-title-thumb" title="클릭하여 제목바 썸네일 등록/변경">
+                                            <img src="../assets/f252ebb98200.png" class="title-thumb-img" id="img-title-thumb" alt="제목바 썸네일">
+                                        <div class="title-thumb-edit-overlay">변경</div>
+                </div>
+                <h1 class="page-title">Today이슈&amp;뉴스</h1>
+            </div>
+            
+            <div class="header-btn-row">
+                <button type="button" class="btn-kakao-date-briefing" id="btn-share-date-briefing" data-date="2026-10-17" data-count="42" data-desc="1. [건강] [다음뉴스] 폐경 이후 살 많이 쪘다면, 유방암 위험 신호일 수도
+2. [건강] [다음뉴스] &quot;지난 7일 위고비 급여 신청&quot;…비만약 가격 경쟁 격화
+3. [건강] [다음뉴스] 이번엔 ‘위고비’가 건보 도전…비만약 값 내려가나
+4. [보험] [다음뉴스] 취업자 늘었지만 청년은 47개월째 뒷걸음
+5. [보험] [다음뉴스] [더사주 오늘의 띠별 운세] &lt;10월 17일 토요일(음" data-link="https://iga.pe.kr/board/news/index.php?date=2026-10-17&amp;cat=all">
+                    💬 <span>2026-10-17 카톡 브리핑 전송</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 🚨 카테고리 분리 탭 (전체보기 / 보험뉴스 / 건강뉴스) -->
+        <div class="category-tab-bar">
+            <a href="22c34ce1fc62.html" class="cat-tab-btn active">
+                <span>📑</span> <span>전체 모아보기</span>
+            </a>
+            <a href="990d0740874b.html" class="cat-tab-btn ">
+                <span>🛡️</span> <span>보험 전문뉴스</span>
+            </a>
+            <a href="40e9ef86e1fd.html" class="cat-tab-btn ">
+                <span>🩺</span> <span>건강·의료·질환</span>
+            </a>
+        </div>
+
+        <!-- 언론사 칩 버튼 -->
+        <div class="press-grid-wrap">
+            <a href="22c34ce1fc62.html" class="press-chip-btn active">전체 언론사</a>
+                                                                    <a href="4bccd26c5a41.html" class="press-chip-btn " style="color: #03c75a;">
+                        네이버뉴스                    </a>
+                                                                                    <a href="37fefb6757ca.html" class="press-chip-btn " style="color: #1d4ed8;">
+                        다음뉴스                    </a>
+                                                                                    <a href="925808646875.html" class="press-chip-btn " style="color: #ff3c00;">
+                        네이트뉴스                    </a>
+                                                                <a href="https://www.fins.co.kr/" target="_blank" rel="noopener noreferrer" class="press-chip-btn external-link" style="color: #0072c6;" title="보험매일 공식 홈페이지로 이동">
+                        <span>보험매일</span>
+                        <span class="ext-icon">↗</span>
+                    </a>
+                                                                <a href="https://www.fntimes.com/" target="_blank" rel="noopener noreferrer" class="press-chip-btn external-link" style="color: #1d3557;" title="한국금융 공식 홈페이지로 이동">
+                        <span>한국금융</span>
+                        <span class="ext-icon">↗</span>
+                    </a>
+                                                                <a href="https://www.insweek.co.kr/" target="_blank" rel="noopener noreferrer" class="press-chip-btn external-link" style="color: #2a6f97;" title="보험신보 공식 홈페이지로 이동">
+                        <span>보험신보</span>
+                        <span class="ext-icon">↗</span>
+                    </a>
+                                                                <a href="https://www.insnews.co.kr/" target="_blank" rel="noopener noreferrer" class="press-chip-btn external-link" style="color: #111111;" title="한국보험신문 공식 홈페이지로 이동">
+                        <span>한국보험신문</span>
+                        <span class="ext-icon">↗</span>
+                    </a>
+                                                                <a href="https://www.kbanker.co.kr/" target="_blank" rel="noopener noreferrer" class="press-chip-btn external-link" style="color: #264653;" title="대한금융신문 공식 홈페이지로 이동">
+                        <span>대한금융신문</span>
+                        <span class="ext-icon">↗</span>
+                    </a>
+                                                                <a href="https://www.newsport.co.kr/" target="_blank" rel="noopener noreferrer" class="press-chip-btn external-link" style="color: #047857;" title="뉴스포트 공식 홈페이지로 이동">
+                        <span>뉴스포트</span>
+                        <span class="ext-icon">↗</span>
+                    </a>
+                                                                <a href="https://www.shinailbo.co.kr/" target="_blank" rel="noopener noreferrer" class="press-chip-btn external-link" style="color: #1e3a8a;" title="신아일보 공식 홈페이지로 이동">
+                        <span>신아일보</span>
+                        <span class="ext-icon">↗</span>
+                    </a>
+                                                                <a href="https://www.sedaily.com/News/G0102" target="_blank" rel="noopener noreferrer" class="press-chip-btn external-link" style="color: #b71c1c;" title="서울경제 공식 홈페이지로 이동">
+                        <span>서울경제</span>
+                        <span class="ext-icon">↗</span>
+                    </a>
+                                                                <a href="https://news.mt.co.kr/news_list.html?sec=finance" target="_blank" rel="noopener noreferrer" class="press-chip-btn external-link" style="color: #333333;" title="머니투데이 공식 홈페이지로 이동">
+                        <span>머니투데이</span>
+                        <span class="ext-icon">↗</span>
+                    </a>
+                                                                <a href="https://www.mk.co.kr/news/economy/" target="_blank" rel="noopener noreferrer" class="press-chip-btn external-link" style="color: #d62828;" title="매일경제 공식 홈페이지로 이동">
+                        <span>매일경제</span>
+                        <span class="ext-icon">↗</span>
+                    </a>
+                                    </div>
+
+        <form action="" method="get" class="filter-bar">
+            <input type="hidden" name="cat" value="all">
+            
+            <div class="date-picker-wrap">
+                <span>📅 발행일자:</span>
+                <input type="date" name="date" class="date-input" value="2026-10-17" onchange="this.form.submit()">
+                <a href="753fcd771607.html" class="btn-date-all ">전체보기</a>
+            </div>
+
+            <div class="search-group">
+                <input type="text" name="search" value="" placeholder="기사 검색어 입력" class="search-input">
+                <button type="submit" class="btn-go">검색</button>
+            </div>
+        </form>
+
+        <div class="news-list">
+                                                                    <div class="news-item">
+                        <div class="news-thumb-box"><div class="no-thumb-box"><span class="no-thumb-icon">📰</span><span>건강의료</span></div></div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge health">🩺 건강</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="af1f8439a391.html" target="_blank">폐경 이후 살 많이 쪘다면, 유방암 위험 신호일 수도</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="폐경 이후 살 많이 쪘다면, 유방암 위험 신호일 수도" data-press="다음뉴스" data-desc="━ 정소연의 즐거운 건강 매년 10월은 유방암 인식향상의 달이다. 유방암에 대한 사회적 관심을 높이고, 예방과 조기 발견의 중요성을 알리기 위해" data-link="https://iga.pe.kr/board/news/view.php?id=335" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/17/joongangsunday/20261017001919444aygl.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261017001918829" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261017001918829" target="_blank" class="news-link-text">http://v.daum.net/v/20261017001918829</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.17 06:00</div>
+                                <p class="news-desc collapsed" id="desc_0">━
+ 정소연의 즐거운 건강 
+ 매년 10월은 유방암 인식향상의 달이다. 유방암에 대한 사회적 관심을 높이고, 예방과 조기 발견의 중요성을 알리기 위해 마련된 시간이다. 유방암은 우리나라 여성의 호발(好發)암으로 집계되고 있다. 다행스럽게 조기 진단과 함께 암환자 누구라도 적정표준치료를 받을 수 있는 의료 환경으로 생존율이 크게 향상되었다. 2025년 중앙암등록사업 발표에 따르면 우리나라 유방암의 발생대비 사망(M/I ratio)은 0.08로 다른 여느 나라와 비교해도 가장 낫다. 하지만 여전히 많은 여성이 유방암을 자신과는 무관한 질병으로 여기거나, 막연한 두려움 때문에 검진을 미루기도 한다. 
+
+ 유방암은 유방을 구성하는 유엽과 유관의 세포들에서 유전자 변화가 발생하고, 비정상적인 세포가 통제되지 않고 증식하면서 생긴다. 가장 중요한 위험요인들로는 당연한 듯 여겨지겠지만 여성이라는 점, 고령·비만인 사람에서 발생이 증가한다는 점이다. 우리나라의 경우 40대 후반에서 50대 초반이 가장 호발 연령인 게 특이점이다. 가족력과 유전적 요인, 여성호르몬에 노출되는 기간, 출산 관련 요인, 유방의 치밀도 등도 영향을 미치는 것으로 알려져 있다. 
+
+ 국내 유방암 발생대비 사망 0.08로 낮아</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(0, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.17 06:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/b1bb06d6237f.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;건강의료&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge health">🩺 건강</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="496c5fea294d.html" target="_blank">"지난 7일 위고비 급여 신청"…비만약 가격 경쟁 격화</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="&quot;지난 7일 위고비 급여 신청&quot;…비만약 가격 경쟁 격화" data-press="다음뉴스" data-desc="&quot;지난 7일 위고비 급여 신청&quot;…비만약 가격 경쟁 격화 다음뉴스 보도 내용입니다." data-link="https://iga.pe.kr/board/news/view.php?id=334" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/16/newsy/20261016211314469xipy.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261016211314423" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261016211314423" target="_blank" class="news-link-text">http://v.daum.net/v/20261016211314423</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.17 06:00</div>
+                                <p class="news-desc " id="desc_1">"지난 7일 위고비 급여 신청"…비만약 가격 경쟁 격화
+
+다음뉴스 보도 내용입니다.</p>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.17 06:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/eb7368be8789.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;건강의료&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge health">🩺 건강</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="14cc01322965.html" target="_blank">이번엔 ‘위고비’가 건보 도전…비만약 값 내려가나</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="이번엔 ‘위고비’가 건보 도전…비만약 값 내려가나" data-press="다음뉴스" data-desc="이번엔 ‘위고비’가 건보 도전…비만약 값 내려가나 다음뉴스 보도 내용입니다." data-link="https://iga.pe.kr/board/news/view.php?id=333" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/16/kbs/20261016235443056ydtf.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261016235441467" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261016235441467" target="_blank" class="news-link-text">http://v.daum.net/v/20261016235441467</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.17 06:00</div>
+                                <p class="news-desc " id="desc_2">이번엔 ‘위고비’가 건보 도전…비만약 값 내려가나
+
+다음뉴스 보도 내용입니다.</p>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.17 06:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/b5f6d2af606a.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;보험전문&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge insurance">🛡️ 보험</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="73adccc8f22d.html" target="_blank">취업자 늘었지만 청년은 47개월째 뒷걸음</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="취업자 늘었지만 청년은 47개월째 뒷걸음" data-press="다음뉴스" data-desc="국민일보DB 지난달 취업자가 11만명 넘게 늘었지만 ‘고용 한파’는 여전했다. 숙박·음식점업 취업자 수는 코로나19 시기 이후 가장 큰 폭으로 " data-link="https://iga.pe.kr/board/news/view.php?id=332" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/17/kukminilbo/20261017000641222osmk.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261017000639668" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261017000639668" target="_blank" class="news-link-text">http://v.daum.net/v/20261017000639668</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.17 06:00</div>
+                                <p class="news-desc collapsed" id="desc_3">국민일보DB
+
+ 지난달 취업자가 11만명 넘게 늘었지만 ‘고용 한파’는 여전했다. 숙박·음식점업 취업자 수는 코로나19 시기 이후 가장 큰 폭으로 감소했고, 청년 취업자 수는 47개월째 뒷걸음쳤다. 
+
+ 국가데이터처가 16일 발표한 ‘9월 고용동향’에 따르면 지난달 취업자는 2926만6000명으로 1년 전보다 11만3000명 늘었다. 지난 7월부터 석 달째 증가 폭이 10만명을 웃돌았다. 
+
+ 전체적인 고용 지표는 개선됐다. 경제협력개발기구(OECD) 비교 기준인 15~64세 고용률은 0.2% 포인트 오른 70.6%로 1989년 관련 통계 작성 이후 9월 기준 가장 높았다. 실업률은 0.1% 포인트 하락한 2.0%로 1999년 관련 통계 작성 이후 9월 기준 최저치다. 
+
+ 다만 산업·연령별로 온도 차가 컸다. 특히 내수 경기에 민감한 숙박·음식점업에 한파가 불었다. 취업자 9만7000명이 줄면서 2021년 2월(-23만2000명) 이후 5년 7개월 만에 가장 큰 감소 폭을 보였다. 지난해 소비쿠폰 발행으로 해당 업종의 취업자 증가 폭이 컸던 기저효과라는 게 데이터처 설명이다. 
+
+ 청년층의 고용 부진도 이어졌다. 15~29세 취업자는 14만7000명 줄어 47개월 연속 감소했다. 청년 고용률은 44.0%로 1.1% 포인트 떨어지며 29개월째 하락했다. 빈현준 데이터처 사회통계국장은 “청년 취업자가 금융·보험업과 운수·창고업 등에서는 증가했지만 정보통신업, 보건·복지업, 도소매업 등에서 감소했다”고 말했다. 
+
+ 데이터처는 이번 발표부터 청년고용촉진특별법상 청년인 15~34세 통계도 추가로 제공했다. 이 연령대 취업자 수는 9만8000명 감소했고, 고용률은 56.1%로 0.4% 포인트 떨어졌다.
+
+ 세종=이누리 기자 nuri@kmib.co.kr
+
+ GoodNews paper ⓒ 국민일보(www.kmib.co.kr), 무단전재 및 수집, 재배포 및 AI학습 이용 금지</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(3, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.17 06:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/aa258f4b6e82.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;보험전문&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge insurance">🛡️ 보험</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="ec1a5fc7632d.html" target="_blank">[더사주 오늘의 띠별 운세] &lt;10월 17일 토요일(음력 9월7일)&gt;</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="[더사주 오늘의 띠별 운세] &lt;10월 17일 토요일(음력 9월7일)&gt;" data-press="다음뉴스" data-desc="쥐띠(子) ▶48년생 좋은 책이 찾아옵니다. 주변에 인생 책을 추천해 달라고 하세요. ▶60년생 생색 없이 건넨 도움이 돌고 돌아 큰 복으로 돌" data-link="https://iga.pe.kr/board/news/view.php?id=331" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/17/551746-KJTfZ0q/20261017043027091tqgw.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261017043026657" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261017043026657" target="_blank" class="news-link-text">http://v.daum.net/v/20261017043026657</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.17 06:00</div>
+                                <p class="news-desc collapsed" id="desc_4">쥐띠(子)
+
+ ▶48년생 좋은 책이 찾아옵니다. 주변에 인생 책을 추천해 달라고 하세요.
+▶60년생 생색 없이 건넨 도움이 돌고 돌아 큰 복으로 돌아오는 날입니다.
+▶72년생 알람마다 약속 이름을 적어 두세요. 시간을 헷갈릴 일이 줄어듭니다.
+▶84년생 기한을 정해 두는 것이 오늘 목표에 운을 붙이는 가장 좋은 방법입니다.
+▶96년생 잠든 시각과 기분을 함께 적다 보면 몸의 패턴이 또렷이 보입니다.
+
+ 소띠(丑)
+
+ ▶49년생 최소 주문 금액에 끌려 더 담기 쉽습니다. 필요 없는 메뉴는 빼세요.
+▶61년생 정한 분량을 끝까지 해내는 데 오늘 성취감의 열쇠가 있습니다.
+▶73년생 부담스러운 일정을 하나 덜어 보세요. 마음 건강을 챙기는 날입니다.
+▶85년생 초대에 준비해 간 작은 선물이 예의를 빛내고 관계를 넓혀 줍니다.
+▶97년생 망설이던 동호회의 문을 두드리면 반갑게 맞아 주는 날입니다.
+
+ 범띠(寅)
+
+ ▶50년생 모르는 결제가 끼어들기 쉬운 날입니다. 카드 명세서를 살펴보세요.
+▶62년생 배운 것을 실전에 쓸 기회가 옵니다. 익힌 방법을 적용해 보세요.
+▶74년생 광고성 정보가 판단을 흐립니다. 공식 자료를 찾아 비교하세요.
+▶86년생 가족의 기대가 짐처럼 느껴졌다면 솔직한 속내를 털어놓아도 됩니다.
+▶98년생 걷다 본 풍경을 서로 이야기하는 사이 공감이 조용히 자랍니다.
+
+ 토끼띠(卯)
+
+ ▶51년생 말투에 따라 결과가 달라지는 날입니다. 부탁은 공손하게 청하세요.
+▶63년생 신발은 짝을 맞춰 가지런히 두세요. 제자리가 아침을 가볍게 합니다.
+▶75년생 스스로 건넨 격려가 힘이 됩니다. 거울 앞에서 괜찮다고 말해 주세요.
+▶87년생 핵심어를 가리고 떠올려 본 빈칸 채우기가 기억을 단단히 다집니다.
+▶99년생 꿈에 필요한 준비물부터 챙겨 두세요. 구체적일수록 길이 열립니다.
+
+ 용띠(辰)
+
+ ▶52년생 커피에서 시럽을 뺀 작은 변화에 입맛이 산뜻하게 살아납니다.
+▶64년생 흠을 찾느라 지쳤다면 충분하다 싶을 때 손을 떼도 괜찮습니다.
+▶76년생 사진마다 남긴 날짜와 장소가 훗날 가족의 귀한 보물이 됩니다.
+▶88년생 오늘 익힌 내용을 한 문단으로 요약하면 머릿속이 환하게 정리됩니다.
+▶00년생 밤 여덟 시쯤 온 메시지에 설렘이 담겼습니다. 다정하게 답하세요.
+
+ 뱀띠(巳)
+
+ ▶53년생 몸이 무겁다면 쉬라는 뜻입니다. 저녁 일정은 가볍게 잡으세요.
+▶65년생 보험 증권의 조건을 읽다 보면 모르고 내던 돈이 눈에 들어옵니다.
+▶77년생 내가 잘하는 점 세 가지를 적어 보세요. 자신감이 차오릅니다.
+▶89년생 일에 속도가 붙었습니다. 지금의 리듬이 곧 오늘의 행운입니다.
+▶01년생 남의 성과를 기꺼이 자랑해 준 하루가 따뜻한 인망으로 남습니다.
+
+ 말띠(午)
+
+ ▶54년생 시간을 벌수록 판단이 선명해지니 중요한 결정은 조금 미뤄 두세요.
+▶66년생 장소를 옮기면 집중이 새로워집니다. 도서관이나 카페로 나가세요.
+▶78년생 유행보다 내 필요를 따른 선택이 오래도록 깊은 만족을 남깁니다.
+▶90년생 손목이 쉽게 뻐근해지는 날입니다. 쉬는 틈에 가볍게 돌려 주세요.
+▶02년생 이름에 ㄷ이 든 이가 내 강점을 알아봅니다. 그 칭찬은 진심입니다.
+
+ 양띠(未)
+
+ ▶55년생 마음이 쉽게 지쳤다면 잠시 걸으며 생각을 비우세요. 숨이 트입니다.
+▶67년생 가까운 대여소 위치를 알아 둔 작은 준비가 새 길을 열어 줍니다.
+▶79년생 익숙한 관계에 새바람이 붑니다. 평소와 다른 인사를 건네세요.
+▶91년생 음질이 대화를 매끄럽게 합니다. 접속 전 마이크 상태를 살피세요.
+▶03년생 서두르면 손끝이 먼저 놀라는 날입니다. 칼과 가위는 천천히 쓰세요.
+
+ 원숭이띠(申)
+
+ ▶56년생 가족이 머리를 맞댈 일이 생깁니다. 의견을 고루 들어 보세요.
+▶68년생 작업 과정을 조금씩 공유한 꾸준함이 두터운 신뢰로 쌓입니다.
+▶80년생 처음 가 보는 동네의 가게에서 뜻밖의 즐거움을 만나게 됩니다.
+▶92년생 중요한 원본은 스캔해 이중으로 보관하세요. 잃어도 걱정 없습니다.
+▶04년생 서쪽 물건을 정리하면 마음의 짐도 덜어집니다. 서랍 하나면 됩니다.
+
+ 닭띠(酉)
+
+ ▶57년생 가계를 함께 꾸리는 운이 돕니다. 공동 목표 하나를 정해 보세요.
+▶69년생 물병을 든 이에게 좋은 습관을 배웁니다. 물을 자주 마셔 보세요.
+▶81년생 배운 단어를 오늘 대화에서 한 번 써 보세요. 입에 착 붙습니다.
+▶93년생 담아 둔 것이 많아 고민이었다면 장바구니를 가볍게 비워 보세요.
+▶05년생 전해 듣는 말에 살이 붙기 쉬운 날입니다. 들은 그대로만 전하세요.
+
+ 개띠(戌)
+
+ ▶58년생 향과 식감에 집중한 고요한 식탁이 소화도 마음도 편하게 합니다.
+▶70년생 겉옷 하나가 오늘 몸과 마음을 든든하게 지켜 주는 부적이 됩니다.
+▶82년생 질문이 실력을 키우는 날입니다. 모르는 부분을 정리해 물어보세요.
+▶94년생 어두운 곳에서 화면을 보면 눈이 지치기 쉽습니다. 밝기를 낮추세요.
+▶06년생 생각을 곧장 행동으로 옮길 날입니다. 떠오른 계획에 첫발을 떼세요.
+
+ 돼지띠(亥)
+
+ ▶59년생 부담 없는 관심이 호감을 부르는 비결입니다. 적당한 거리를 두세요.
+▶71년생 두 사람을 이어 준 다리 역할이 오늘 뜻밖에 크게 빛을 발합니다.
+▶83년생 중고 거래에서 상태를 놓치기 쉽습니다. 꼼꼼히 살핀 뒤 정하세요.
+▶95년생 하늘색 소품이 새 출발을 응원합니다. 오늘은 지니고 나가 보세요.
+▶07년생 잘 보이게 붙인 분담표 한 장이 다툼을 줄이고 웃음을 늘립니다.
+
+ 자료제공: 더사주제공</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(4, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.17 06:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/770670cef0ba.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;보험전문&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge insurance">🛡️ 보험</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="dd200b34b5bc.html" target="_blank">17년간 아버지 살해한 범인인 줄 알았는데… 재심 앞둔 무기수 손 꼭 잡은 유가족</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="17년간 아버지 살해한 범인인 줄 알았는데… 재심 앞둔 무기수 손 꼭 잡은 유가족" data-press="다음뉴스" data-desc="17년 만에 재심을 위해 석방된 보조로브 아크말(오른쪽)이 15일 2009년 택시 강도살인사건 피해자 유가족에게 감사와 사과를 전하고 있다. 창" data-link="https://iga.pe.kr/board/news/view.php?id=330" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/17/hankooki/20261017043156877qmcu.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261017043155663" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261017043155663" target="_blank" class="news-link-text">http://v.daum.net/v/20261017043155663</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.17 06:00</div>
+                                <p class="news-desc collapsed" id="desc_5">17년 만에 재심을 위해 석방된 보조로브 아크말(오른쪽)이 15일 2009년 택시 강도살인사건 피해자 유가족에게 감사와 사과를 전하고 있다. 창원=조소진 기자
+
+ "아이고, 왜 그러고 있어. 들어와요. 내가 눈물이 다 나네."
+
+ 15일 오후 경남 창원시. 전날 '택시기사 강도살인 사건' 재심 개시 결정을 받은 우즈베키스탄 국적 보조로브 아크말(37)씨가 피해자 고(故) 박모씨 유가족의 집을 찾았다. 17년 전 박씨를 살해한 범인으로 몰려 무기징역형을 받았던 그는 형집행정지로 풀려나자마자 박씨 가족에게로 한걸음에 달려갔다. 자신을 범인으로 알고 지내왔을 그들을 만나는 게 여간 두려운 게 아니었다는 아크말씨는 가족 앞에서 연신 고개를 숙였다.
+
+ 그런 아크말씨에게 그들은 손을 내밀었다. "우리 아들 또래네. 아들 같다. 앞으로 열심히 살고 부모님께 잘하세요." 실상 이들은 가장이었던 박씨를 잃은 슬픔을 꺼내 놓는 것조차 조심스러워했다. 서로의 상처를 건드릴까 봐 가족끼리도 고인에 관한 이야기를 거의 하지 않았다. 그러나 재심 개시 결정으로 가족들은 17년 전 그날을 다시 마주하게 됐다.
+
+ 17년 만에 재심을 위해 석방된 보조로브 아크말과 아버지 보조로브 아슬람이 15일 2009년 택시 강도살인사건 피해자 유가족에게 감사를 전하고 있다. 창원=조소진 기자
+
+ 택시기사였던 박씨는 가족들에게 '평생 일만 하다 떠난 남편이자 아버지'였다. 젊은 시절 무역선을 타고 해외를 오가며 일했던 그는 외환위기 이후 생계를 위해 여러 일을 거쳐 법인택시 운전을 시작했다. 낯선 마산 지역의 지리를 익히기 위해 지도를 가지고 다녔고, 24시간씩 택시를 운전한 뒤 하루를 쉬는 생활을 반복했다. 회사에 사납금을 내고 나면 손에 쥐는 돈이 거의 없을 때가 대부분이었다. 
+
+ 아내는 출근길부터 늘 빠듯했던 남편을 떠올렸다. 새벽 4시쯤 일어나면 사발면조차 다 먹지 못한 채 집을 나서야 했다. 시간과 돈을 아끼겠다면서 늘 김치와 밥뿐인 도시락을 챙겼다. 막내아들은 "아버지에게 맛있는 음식 한 번 대접하지 못한 게 지금도 마음에 남는다"고 했다.
+
+ 17년 만에 재심을 위해 석방된 보조로브 아크말과 아버지 보조로브 아슬람이 15일 2009년 택시 강도살인사건 피해자 유가족에게 감사를 전하고 있다. 창원=조소진 기자
+
+ 그런 박씨도 쉬는 날이면 낚시를 즐겼고, 집에서는 열대어를 정성껏 길렀다. LP로 팝송을 듣거나 사진을 찍는 것을 좋아했다. 유품 중에는 박씨가 직접 맞춘 퍼즐도 있다. 17년이 흐르면서 색이 바랬지만 차마 버리지 못한 그의 흔적이다.
+
+ 남편이 황망하게 세상을 떠나고 아내는 생계를 책임져야 했다. 어렵게 마련한 집에는 대출금이 남아 있었고, 보험 해약환급금으로 300만 원 정도를 받아 빚을 갚는 데 보탰다. "내가 눈을 감아야 잊어버리지. 나도 저세상에 가야 잊어버리지. 이 세상에 사는 이상 잊어버릴 수가 없어요."
+
+ 가족은 오랫동안 아크말씨를 범인이라 믿었다. 경찰의 발표와 법원의 판결을 믿었다. 그러나 방송을 통해 사건을 다시 접했고, 아크말씨의 변호인인 박준영 변호사로부터 경찰에서의 자백과 객관적 증거가 어긋나는 정황을 듣게 됐다. 그렇다고 아크말씨의 무죄를 쉽게 단정할 순 없는 상황. 가족은 오랜 고민 끝에 사건의 진실을 확인해야겠다 판단했고, 아크말씨 재심 청구에 적극 협조했다.
+
+ 2009년 창원 강도살인사건 용의자 몽타주. 박준영 변호사 제공
+
+ 15일 창원지법 형사2부(부장 김성환)가 사건의 재심 개시를 결정하면서 가족들 고민은 새로운 국면을 맞게 됐다. 재심 개시는 기존 유죄 판결을 다시 심리하겠다는 결정, 아크말씨의 무죄가 확정된 게 아니었다. 하지만 17년 동안 범인이라고 믿었던 사람이 실제로는 범인이 아닐 수도 있다는 그 가능성에 유가족은 혼란스러워했다.
+
+ 아들은 솔직한 마음을 털어놨다. "이제 마음에서 조금 정리되려는데 또 이렇게 돼 버리니까." 아버지를 잃은 슬픔에 더해 그동안 믿어왔던 사건의 진상을 다시 확인해야 하는 상황. 유가족은 그럼에도 아크말씨의 재심이 어떤 결론에 이르든, 박씨를 살해한 범인이 누구인지 반드시 밝혀져야 한다고 입을 모았다. 
+
+ "재수사를 꼭 해서 진범을 잡아야 해요."(아내) "그래야 아버지도 눈을 편히 감을 겁니다."(아들)
+
+ 빛이 바래고 낡았지만 차마 버릴 수 없었던 아버지의 흔적, 박씨가 생전에 맞춰 놓은 퍼즐처럼 17년 전 멈춰 버린 사건의 진실이 언젠가는 온전히 맞춰지기를 가족은 바라고 있었다. 
+
+ 2009년 창원 택시기사 살해 사건 피해자 고 박모씨가 맞췄던 퍼즐. 창원=조소진 기자
+
+ 연관기사</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(5, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.17 06:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/fa020eb528c1.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;건강의료&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge health">🩺 건강</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="3e9bc6c64375.html" target="_blank">[헬스체크] 연말 건강검진 가성비 전략</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="[헬스체크] 연말 건강검진 가성비 전략" data-press="다음뉴스" data-desc="[우먼센스] 건강검진을 예약할 때면 선택지가 쏟아진다. 국가건강검진만 받아도 될지, 초음파나 CT를 추가해야 할지 고민하다 보면 어느새 비용이 " data-link="https://iga.pe.kr/board/news/view.php?id=329" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/17/womansense/20261017045630144gomu.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261017045628709" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261017045628709" target="_blank" class="news-link-text">http://v.daum.net/v/20261017045628709</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.17 06:00</div>
+                                <p class="news-desc collapsed" id="desc_6">[우먼센스] 건강검진을 예약할 때면 선택지가 쏟아진다. 국가건강검진만 받아도 될지, 초음파나 CT를 추가해야 할지 고민하다 보면 어느새 비용이 불어난다. 이럴 때는 순서를 정하면 쉽다.
+
+먼저 무료이거나 비용을 지원받는 국가건강검진을 확인한다. 다음으로 가족력과 생활 습관, 과거 검사 결과를 바탕으로 추가할 항목을 고른다. 같은 검사라도 국가건강검진 대상인지, 개인이 선택한 검사인지에 따라 비용이 달라진다. '받을 수 있는 혜택'과 '내게 필요한 추가 검사'를 구분하는 것이 가성비 검진의 시작이다.&nbsp;</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(6, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.17 06:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/cc4e1414258c.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;보험전문&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge insurance">🛡️ 보험</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="8eb23d5fdea3.html" target="_blank">건보재정 위해 "특사경 도입부터 약가·유통까지 손봐야한다"</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="건보재정 위해 &quot;특사경 도입부터 약가·유통까지 손봐야한다&quot;" data-press="다음뉴스" data-desc="건강보험공단과 건강보험심사평가원에 대한 국정감사는 특별사법경찰의 필요성과 건강보험 재정을 지속하기 위한 제도개선과 관리감독에 초점이 맞춰졌다." data-link="https://iga.pe.kr/board/news/view.php?id=328" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/17/552819-FLED2hB/20261017055030121tkzh.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261017055023492" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261017055023492" target="_blank" class="news-link-text">http://v.daum.net/v/20261017055023492</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.17 06:00</div>
+                                <p class="news-desc " id="desc_7">건강보험공단과 건강보험심사평가원에 대한 국정감사는 특별사법경찰의 필요성과 건강보험 재정을 지속하기 위한 제도개선과 관리감독에 초점이 맞춰졌다.</p>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.17 06:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/adc78d2173c6.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;보험전문&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge insurance">🛡️ 보험</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="8bc4010d4e3b.html" target="_blank">비자 상담부터 지역기업 채용까지…영남대, 유학생 정착 지원 축제</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="비자 상담부터 지역기업 채용까지…영남대, 유학생 정착 지원 축제" data-press="다음뉴스" data-desc="[경산=이데일리 홍석천 기자] 영남대가 외국인 유학생의 비자·생활 상담과 지역기업 채용정보를 한자리에서 제공하는 축제를 열었다. 문화교류에 취업" data-link="https://iga.pe.kr/board/news/view.php?id=323" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/16/Edaily/20261016182919057opmq.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261016182917435" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261016182917435" target="_blank" class="news-link-text">http://v.daum.net/v/20261016182917435</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.16 21:00</div>
+                                <p class="news-desc collapsed" id="desc_8">[경산=이데일리 홍석천 기자] 영남대가 외국인 유학생의 비자·생활 상담과 지역기업 채용정보를 한자리에서 제공하는 축제를 열었다. 문화교류에 취업·정착 지원을 결합해 유학생이 졸업 후에도 지역에서 일하고 생활할 수 있도록 돕는 데 초점을 맞췄다.
+
+ 영남대는 지난 13일 교내 천마지문 일대에서 ‘유학생 지역정주를 위한 글로벌 컬처 페스티벌’을 개최했다고 16일 밝혔다. 국제처 유학생지원본부 유학생취업정착팀이 주관했으며 유학생과 지역 공공기관·기업 관계자 등 3000여 명이 참여했다.
+
+ 행사장은 12개 구역, 60개 부스로 구성했다. 학사·생활·정착상담 구역에서는 학사 안내와 외국인 법률·심리 상담, 비자와 경산 거주, 유학생 보험, 국가건강검진 등을 안내했다.
+
+ 사진=영남대
+
+ 사진=영남대
+
+ 취업·기업·정착연계 구역에는 CU메디칼과 한울, 에스엘, 루브캠코리아 등 지역기업과 중국 현지 기업이 참여해 채용 상담과 기업 소개를 진행했다. 유학생 취업·정착 컨설팅과 퍼스널 컬러 진단, 미용·의료 체험 상담도 운영했다.</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(8, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.16 21:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/6dcd9014d961.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;건강의료&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge health">🩺 건강</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="637ba8a892ca.html" target="_blank">암 사망률 1위 ‘폐암’…도시보다 농촌·고소득층보다 저소득층서 높았다 [헬시타임]</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="암 사망률 1위 ‘폐암’…도시보다 농촌·고소득층보다 저소득층서 높았다 [헬시타임]" data-press="다음뉴스" data-desc="클립아트코리아 국내 암 사망 원인 1위를 차지하는 폐암 발생률이 도시보다 농촌에서, 고소득층보다 저소득층에서 높은 것으로 나타났다. 5년 생존율" data-link="https://iga.pe.kr/board/news/view.php?id=321" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/16/seouleconomy/20261016195423404urne.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261016195421008" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261016195421008" target="_blank" class="news-link-text">http://v.daum.net/v/20261016195421008</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.16 21:00</div>
+                                <p class="news-desc collapsed" id="desc_9">클립아트코리아
+
+ 국내 암 사망 원인 1위를 차지하는 폐암 발생률이 도시보다 농촌에서, 고소득층보다 저소득층에서 높은 것으로 나타났다. 5년 생존율은 의료급여 수급권자가 36.9%에 그쳤지만, 최상위 소득 직장가입자는 71%였다.
+
+ 15일 국민건강보험공단과 대한폐암학회가 공동 발간한 ‘2026 폐암 백서’에 따르면, 지난해 기준 도시 수준별 폐암 표준화 발생률은 인구 10만명당 대도시가 61.7명, 중소도시가 62.1명, 농촌이 65.6명이었다．
+
+ 소득수준별 폐암 표준화 발생률은 의료급여 수급권자가 10만명 당 81.1명으로 가장 높았다. 지역가입자·소득 상위층의 폐암 표준화 발생률이 10만명당 57.5명, 지역가입자·소득 최상위층이 58.7명으로 낮았다.
+
+ 폐암 환자 수는 남성과 여성 모두에서 꾸준히 증가하는 양상을 보여 지난해 남성 신규 환자는 2만1488명, 여성 1만1438명을 기록했다. 인구 10만명당 표준화 발생률로 보면 2008년 67.3명에서 2020년 64.4명, 지난해 62.1명으로 감소 추세다. 전체 폐암 환자 중 67.1%가 60∼79세로 60대와 70대에서 가장 많이 발생했다.
+
+ 치료와 생존율은 꾸준히 개선되고 있다. 폐암 진단 후 1년 이내 수술 치료가 시행되는 비율은 2008년 22.7%에서 점차 증가해 지난해 39.2%를 기록했다. 1년 생존율은 2008년 48.8%에서 2024년 70.3%로, 5년 생존율은 2008년 18.7%에서 2020년 38.4%로 상승했다.
+
+ 그러나 경제력에 따른 생존율 격차는 여전히 컸다. 5년 생존율은 의료급여 수급권자가 36.9%인 데 비해 최상위 소득 직장가입자는 71%였다. 저소득층과 고소득층 간 생존 격차가 34.1%포인트에 달하는 셈이다.
+
+ 건보공단과 폐암학회는 건강보험 대규모 자료를 활용해 국내 폐암 환자의 발생 현황과 치료·생존율을 분석한 백서를 지난해에 이어 올해 두 번째로 발간했다. 공단과 학회는 “이번 분석 결과를 바탕으로 폐암 예방과 조기 검진의 중요성을 알리는 한편, 건강 격차를 줄이고 국민 누구나 필요한 치료와 건강관리를 받을 수 있도록 데이터 기반의 정책 지원을 지속해 나갈 계획”이라고 설명했다.
+
+ 한편 최근 국가데이터처가 발표한 ‘2025년 사망원인통계 결과’에 따르면 지난해 사망 원인 1위는 암이었다. 암에 의한 사망률(인구 10만명당 사망자수)은 177.1명으로 전년 대비 2.8명(1.6%) 증가했다. 종류별로 보면 폐암(38.9명), 간암(20.4명), 대장암(19.1명), 췌장암(17.0명), 위암(13.7명), 유방암(6.0명), 전립선암(5.7명) 순으로 높았다.
+
+ 헬시타임</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(9, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.16 21:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/efcf3a6b6906.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;건강의료&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge health">🩺 건강</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="c7ee85bff30b.html" target="_blank">한고은, 유방 혹 조직검사 양성이었는데 커졌다…다시 수술한 이유</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="한고은, 유방 혹 조직검사 양성이었는데 커졌다…다시 수술한 이유" data-press="다음뉴스" data-desc="한고은이 건강검진에서 발견된 왼쪽 유방의 3.2cm 혹이 9개월 만에 5cm 이상으로 커져 수술을 받았다고 밝혔다. 유튜브 채널 ‘고은언니 한고" data-link="https://iga.pe.kr/board/news/view.php?id=301" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/16/donga/20261016171328278khki.png">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261016150832522" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261016150832522" target="_blank" class="news-link-text">http://v.daum.net/v/20261016150832522</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.16 18:00</div>
+                                <p class="news-desc " id="desc_10">한고은이 건강검진에서 발견된 왼쪽 유방의 3.2cm 혹이 9개월 만에 5cm 이상으로 커져 수술을 받았다고 밝혔다. 유튜브 채널 ‘고은언니 한고은’ 화면
+
+ 배우 한고은이 건강검진에서 발견된 유방 혹이 9개월 만에 5cm 이상으로 커져 수술을 받은 뒤, 회복 과정에서 심한 구토와 저혈압 증상으로 응급실까지 찾았다고 밝혔다.</p>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.16 18:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/7511167980eb.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;건강의료&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge health">🩺 건강</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="f769b1156c67.html" target="_blank">경북 구미칠곡축협서 농촌왕진버스 ‘빵빵’</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="경북 구미칠곡축협서 농촌왕진버스 ‘빵빵’" data-press="다음뉴스" data-desc="경북농협본부(본부장 김주원)는 16일 구미칠곡축협(조합장 &nbsp;장영익)과 함께 축협 대회의실에서 농촌왕진버스를 운영하고 구미시와 칠곡군의 축산농가와" data-link="https://iga.pe.kr/board/news/view.php?id=300" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/16/nongmin/20261016161821676dyoa.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261016161820112" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261016161820112" target="_blank" class="news-link-text">http://v.daum.net/v/20261016161820112</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.16 18:00</div>
+                                <p class="news-desc collapsed" id="desc_11">경북농협본부(본부장 김주원)는 16일 구미칠곡축협(조합장 &nbsp;장영익)과 함께 축협 대회의실에서 농촌왕진버스를 운영하고 구미시와 칠곡군의 축산농가와 지역주민 등 200여명에게 한·양방 진료를 펼쳤다.&nbsp; 
+
+ 이날 왕진버스에는 대한의료봉사회에서 의사·한의사·간호사·약사 등 의료진 32명이 참여했다. 이들은 왕진버스를 찾은 사람들을 진찰하고 침·부황 시술 등 한방 치료와 영양 수액 주사 등 양방 치료를 펼치고 처방약을 제공했다. 또 연세대 스포츠재활연구소에선 운동치료사들이 근골격계 질환을 앓는 사람들에게 운동요법으로 치료를 해주고 건강관리법을 친절하게 안내했다.&nbsp; 
+
+ 정밀 검안을 받은 후엔 맞춤형 돋보기도 제공됐다. 특히 이날 왕진버스에선 의료 플랫폼 솔닥과 구미시보건소 치매안심센터에서 정신건강 상담과 치매검사를 펼쳐 큰 호응을 얻었다. &nbsp; 
+
+ 벼농사를 지으며 한우를 사육하는 조합원 변금수씨(79)는 “어깨가 아프고 팔다리가 저려 고생했는데, 왕진버스에서 진료를 받고 나니 몸이 한결 개운해졌다”고 말했다. &nbsp;농협과 대한의료봉사회는 이날 진료를 받은 사람들에게 부위별 통증관리법을 요약한 카드를 나눠주기도 했다.&nbsp; 
+
+ 장영익 구미칠곡축협 조합장은 “농촌왕진버스를 처음 진행했는데, 조합원과 주민들로부터 매우 유익하고 도움이 됐다는 말을 듣게 돼 보람을 느낀다”며 “앞으로도 구미칠곡축협은 조합원과 주민들의 건강과 행복을 지켜주는 지킴이로서 최선을 다하겠다”고 밝혔다. 
+
+ 한편 농촌왕진버스는 농협중앙회가 농림축산식품부, 지방자치단체와 협력해 추진하는 사업으로, 의료 접근성이 취약한 농촌 주민을 대상으로 양·한방 진료와 처방, 구강·안과 검진 등 다양한 맞춤형 의료서비스를 제공한다.</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(11, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.16 18:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/dffb4e8e727c.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;건강의료&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge health">🩺 건강</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="12f6aee3abeb.html" target="_blank">[롱제비티] "수면 검사하러 병원 갈 일 없도록"···젠다카디언·슬립넷 재택 진료 '맞손'</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="[롱제비티] &quot;수면 검사하러 병원 갈 일 없도록&quot;···젠다카디언·슬립넷 재택 진료 '맞손'" data-press="다음뉴스" data-desc="16일 여성경제신문 취재에 따르면 비접촉 생체신호 측정 기업 젠다카디언과 수면검사 전문기업 슬립넷은 일상 수면 사전 선별과 재택 수면다원검사를 " data-link="https://iga.pe.kr/board/news/view.php?id=299" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/16/552814-8XPEppr/20261016172231222jnmc.png">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261016172224402" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261016172224402" target="_blank" class="news-link-text">http://v.daum.net/v/20261016172224402</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.16 18:00</div>
+                                <p class="news-desc collapsed" id="desc_12">16일 여성경제신문 취재에 따르면 비접촉 생체신호 측정 기업 젠다카디언과 수면검사 전문기업 슬립넷은 일상 수면 사전 선별과 재택 수면다원검사를 결합해 수면무호흡증 환자를 찾아내는 3단계 협력 모델을 최근 논의했다.
+
+ 핵심 요약
+
+ ① 비접촉 생체신호 측정 기업 젠다카디언과 수면검사 전문기업 슬립넷이 비접촉 레이더 사전 선별과 재택 수면다원검사를 결합한 3단계 수면 진단 협력 모델을 논의했다.
+
+ ② 요양원·실버타운 등 고령자 시설과 동네 의원에서 비접촉 레이더로 호흡 이상자를 먼저 가려낸 뒤 집에서 정밀 수면검사를 받고 의료기관 진료로 연결하는 방식이다.
+
+ ③ 실제 상용화를 위해서는 재택 수면다원검사의 건강보험 수가 체계 확인과 원격진료 법적 요건 검토 및 생체데이터 개인정보 보호 기준 마련이 선행돼야 한다.</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(12, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.16 18:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/bcedac846076.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;건강의료&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge health">🩺 건강</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="4f29762fa4f0.html" target="_blank">"신약 경평에 사회적 편익 1원도 없다"…홍승권 "지침 필요성 동의"</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="&quot;신약 경평에 사회적 편익 1원도 없다&quot;…홍승권 &quot;지침 필요성 동의&quot;" data-press="다음뉴스" data-desc="최보윤 의원. 국내 신약 경제성평가에서 환자의 일상 복귀나 가족의 돌봄 부담 경감 등 '사회적 편익'이 전혀 반영되지 않고 있는 것으로 확인돼 " data-link="https://iga.pe.kr/board/news/view.php?id=298" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/16/552819-FLED2hB/20261016173330150mymh.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261016173328833" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261016173328833" target="_blank" class="news-link-text">http://v.daum.net/v/20261016173328833</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.16 18:00</div>
+                                <p class="news-desc collapsed" id="desc_13">최보윤 의원.
+
+ 국내 신약 경제성평가에서 환자의 일상 복귀나 가족의 돌봄 부담 경감 등 '사회적 편익'이 전혀 반영되지 않고 있는 것으로 확인돼 개선할 필요가 있다는 지적이 나왔다. 홍승권 심사평가원장은 현행 평가에 사회적 편익이 포함돼 있지 않다고 설명하며 관련 객관적 가이드라인 마련을 약속했다.
+
+ 국회 보건복지위원회 최보윤 의원은 16일 원주에서 진행 중인 국민건강보험공단·건강보험심사평가원 국정감사에서 홍승권 심평원장에게 신약 경제성평가 과정에서 사회적 편익을 반영하고 있는지 질의했다.
+
+ 최 의원은 먼저 급성골수성백혈병 치료제 마일로탁과 루푸스 치료제 벤리스타를 사례로 들었다.
+
+ 최 의원은 "급성골수성백혈병 치료제 마일로탁 같은 경우도 비용효과성 부족이라는 이유로 2년 가까이 비급여였고, 루푸스 신약인 벤리스타도 비용효과성 입증이 어려워 급여까지 무려 6년이 걸렸다"고 지적했다.
+
+ 이어 비급여 항암제를 권유받은 환자 4명 중 1명이 비용 때문에 치료를 포기한다는 점을 언급하며 "건보 등재가 지연되거나 무산되는 동안 그 고통은 오롯이 환자와 가족의 몫으로 돌아가고 있다"고 말했다.
+
+ 특히 중증질환이 환자 개인의 치료비 부담을 넘어 가계 경제에도 영향을 미친다는 점을 짚었다.
+
+ 최 의원은 강청희 국민건강보험공단 이사장과 홍승권 심평원장을 향해 "중증질환의 경우 환자가 실직하고 가족의 간병 퇴직으로도 이어져 가계 경제가 무너지는 것을 알고 있지 않느냐"고 물었고, 홍 원장은 "네"라고 답했다.
+
+ 최 의원은 신약을 통해 환자가 건강을 회복할 경우 일터에 복귀하고 가족의 돌봄 부담도 줄어들 수 있다는 점을 강조했다.
+
+ 그러면서 네덜란드의 사례를 제시했다. 최 의원에 따르면 네덜란드는 근로 손실을 시간당 금액으로 환산해 약제의 편익을 계산하고, 가족의 무급 간병 시간 역시 시간당 가치로 인정해 약제 편익에 반영하고 있다.
+
+ 최 의원은 홍 원장에게 "우리 심평원은 이렇게 환자의 일상 복귀나 가족의 돌봄 부담 경감 같은 사회적 편익을 평가 상식에 단 1원이라도 반영하고 있느냐"고 물었다.</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(13, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.16 18:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                                        <div class="news-item">
+                        <div class="news-thumb-box">
+                                                            <img src="../assets/489b8eaab1c1.jpg" class="news-thumb-img" alt="기사 사진" onerror="this.parentElement.innerHTML='&lt;div class=\'no-thumb-box\'&gt;&lt;span class=\'no-thumb-icon\'&gt;📰&lt;/span&gt;&lt;span&gt;건강의료&lt;/span&gt;&lt;/div&gt;';">
+                                                    </div>
+
+                        <div class="news-content">
+                            <div class="news-header-line">
+                                <h3 class="news-title">
+                                                                            <span class="cat-badge health">🩺 건강</span>
+                                                                        <span class="news-press">[다음뉴스]</span>
+                                    <a href="6fe6fae23f4a.html" target="_blank">ABL생명, 유병자 가입 문턱 낮춘 ‘간편건강보험’ 출시 [코주부]</a>
+                                </h3>
+                                <button type="button" class="btn-kakao-news btn-do-kakao-share" data-title="ABL생명, 유병자 가입 문턱 낮춘 ‘간편건강보험’ 출시 [코주부]" data-press="다음뉴스" data-desc="ABL생명 ABL생명은 질병 이력이 있는 고객도 간편한 심사를 통해 가입할 수 있는 ‘(무)우리WON(3.10.5)간편건강보험(해약환급금 미지급" data-link="https://iga.pe.kr/board/news/view.php?id=297" data-thumb="https://img1.daumcdn.net/thumb/S1200x630/?fname=https://t1.daumcdn.net/news/202610/16/seouleconomy/20261016151324328ocjm.jpg">
+                                    💬 카톡
+                                </button>
+                            </div>
+
+                            <div class="news-link-bar">
+                                <a href="http://v.daum.net/v/20261016151322743" target="_blank" class="news-link-btn">🔗 언론사 원문</a>
+                                <a href="http://v.daum.net/v/20261016151322743" target="_blank" class="news-link-text">http://v.daum.net/v/20261016151322743</a>
+                            </div>
+
+                            <div class="news-desc-box">
+                                <div class="news-input-badge">입력 2026.10.16 18:00</div>
+                                <p class="news-desc collapsed" id="desc_14">ABL생명
+
+ ABL생명은 질병 이력이 있는 고객도 간편한 심사를 통해 가입할 수 있는 ‘(무)우리WON(3.10.5)간편건강보험(해약환급금 미지급형)’을 출시했다고 16일 밝혔다. 건강등급에 따라 보험료를 최대 10% 할인하고 주요 질병의 보장 기간을 선택할 수 있도록 한 것이 특징이다.
+
+ 이 상품은 일반 심사보험 가입이 어려운 유병력자도 세 가지 고지 항목에 해당하지 않으면 가입할 수 있도록 설계됐다. 고지 항목은 △최근 3개월 내 입원·수술·추가검사(재검사) 필요 소견이나 질병 확정진단·의심 소견 여부 △최근 10년 내 질병 또는 사고로 인한 입원·수술(제왕절개 포함) 여부 △최근 5년 내 7대 질병으로 진단받거나 입원·수술한 이력 여부 등이다.
+
+ 7대 질병에는 암·협심증·심근경색·뇌졸중증·간경화증·심장판막증·투석 중인 만성신장질환이 포함된다. 과거 치료 이력이 있더라도 해당 고지 항목에 해당하지 않으면 가입할 수 있어 유병력자의 보험 가입 문턱을 낮췄다.
+
+ 건강등급에 따라 주계약과 선택특약 보험료를 각각 최대 10% 할인하는 혜택도 제공한다. 건강등급은 모바일 앱 ‘로그(LOG)’에서 건강상태와 의료이용 정보 등을 바탕으로 1~9등급으로 산정된다. 1등급에 가까울수록 건강 상태가 양호하다는 의미로 건강기록이 개선되면 보험료 할인 혜택도 확대될 수 있다.
+
+ 주요 질병에 대한 보장 설계의 선택권도 넓혔다. 일반암과 소액암, 뇌혈관질환, 허혈심장질환 관련 진단특약은 80세 만기로 가입할 수 있도록 해 보험료 납입 부담을 낮췄다. 이후 80세 시점에 보장을 종신까지 연장할지 여부를 결정할 수 있도록 했다.
+
+ 김순재 ABL생명 상품본부장은 “질병 이력으로 보험 가입에 어려움을 겪었던 고객의 가입 문턱을 낮추는 동시에 건강한 고객에게는 건강등급에 따른 보험료 할인 혜택을 제공할 수 있도록 설계했다”며 “앞으로도 고객의 다양한 수요를 반영한 실속 있는 상품을 개발하겠다”고 말했다.
+
+ 코주부
+
+ 박민주 기자 parkmj@sedaily.com</p>
+                                                                    <button type="button" class="btn-toggle-desc" onclick="toggleNewsDesc(14, this)">▼ 본문 더보기</button>
+                                                            </div>
+
+                            <div class="news-footer-line">
+                                <span class="news-date">수집일자: 2026-10-17 (입력 2026.10.16 18:00)</span>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+
+                    <div class="pagination">
+                                    <a href="66f1beb9ce10.html" class="page-link active">
+                        1                    </a>
+                                    <a href="228cc85344d6.html" class="page-link ">
+                        2                    </a>
+                                    <a href="b3fe9457e57f.html" class="page-link ">
+                        3                    </a>
+                            </div>
+            </div>
+
+    <script>
+        function toggleNewsDesc(idx, btn) {
+            var target = document.getElementById('desc_' + idx);
+            if (target.classList.contains('collapsed')) {
+                target.classList.remove('collapsed');
+                btn.innerText = '▲ 본문 접기';
+            } else {
+                target.classList.add('collapsed');
+                btn.innerText = '▼ 본문 더보기';
+            }
+        }
+
+        // 제목바 썸네일 업로드 처리
+        var btnUploadThumb = document.getElementById('btn-upload-title-thumb');
+        var thumbFileInput = document.getElementById('title-thumb-input');
+        var imgTitleThumb = document.getElementById('img-title-thumb');
+        var iconTitleThumb = document.getElementById('icon-title-thumb');
+
+        if (btnUploadThumb && thumbFileInput) {
+            btnUploadThumb.addEventListener('click', function() {
+                thumbFileInput.click();
+            });
+
+            thumbFileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    var formData = new FormData();
+                    formData.append('title_thumb', this.files[0]);
+
+                    fetch('index.php?action=upload_title_thumb', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        if (data.success) {
+                            if (imgTitleThumb) {
+                                imgTitleThumb.src = data.url;
+                                imgTitleThumb.style.display = 'block';
+                            }
+                            if (iconTitleThumb) {
+                                iconTitleThumb.style.display = 'none';
+                            }
+                            alert('제목바 썸네일이 성공적으로 등록되었습니다.');
+                        } else {
+                            alert('업로드 실패: ' + data.message);
+                        }
+                    })
+                    .catch(function(err) {
+                        alert('통신 오류: ' + err);
+                    });
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.Kakao && !Kakao.isInitialized()) {
+                Kakao.init('8185d4df87316ddd8d930243d002100c');
+            }
+
+            // 개별 기사 단건 카카오톡 공유
+            var shareButtons = document.querySelectorAll(".btn-do-kakao-share");
+            shareButtons.forEach(function(btn) {
+                btn.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    if (!window.Kakao) return alert("카카오톡 SDK 로드 실패");
+
+                    var title = this.getAttribute("data-title") || "";
+                    var press = this.getAttribute("data-press") || "";
+                    var desc = this.getAttribute("data-desc") || "보도 내용입니다.";
+                    var linkUrl = this.getAttribute("data-link") || window.location.href;
+                    var thumbUrl = this.getAttribute("data-thumb") || "";
+
+                    try {
+                        Kakao.Share.sendDefault({
+                            objectType: 'feed',
+                            content: { 
+                                title: '[' + press + '] ' + title, 
+                                description: desc, 
+                                imageUrl: thumbUrl, 
+                                link: { mobileWebUrl: linkUrl, webUrl: linkUrl } 
+                            },
+                            buttons: [{ title: '기사 전문 보기', link: { mobileWebUrl: linkUrl, webUrl: linkUrl } }]
+                        });
+                    } catch (err) { alert("공유 오류: " + err.message); }
+                });
+            });
+
+            // 해당 날짜 전체 주요 기사 브리핑 카카오톡 전송
+            var dateBriefingBtn = document.getElementById("btn-share-date-briefing");
+            if (dateBriefingBtn) {
+                dateBriefingBtn.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    if (!window.Kakao) return alert("카카오톡 SDK 로드 실패");
+
+                    var targetDate = this.getAttribute("data-date") || "오늘";
+                    var totalCount = this.getAttribute("data-count") || "0";
+                    var briefingDesc = this.getAttribute("data-desc") || "";
+                    var pageLink = this.getAttribute("data-link") || window.location.href;
+                    var headerImg = 'https://' + window.location.host + '/assets/title_news_thumb.png';
+
+                    try {
+                        Kakao.Share.sendDefault({
+                            objectType: 'feed',
+                            content: {
+                                title: '📰 [' + targetDate + '] 주요 이슈&뉴스 브리핑 (총 ' + totalCount + '건)',
+                                description: briefingDesc,
+                                imageUrl: headerImg,
+                                link: { mobileWebUrl: pageLink, webUrl: pageLink }
+                            },
+                            buttons: [{
+                                title: targetDate + ' 전체 기사 목록 보기',
+                                link: { mobileWebUrl: pageLink, webUrl: pageLink }
+                            }]
+                        });
+                    } catch (err) {
+                        alert("브리핑 공유 오류: " + err.message);
+                    }
+                });
+            }
+        });
+    </script>
+
+</body></html>

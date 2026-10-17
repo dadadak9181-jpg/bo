@@ -1,0 +1,1838 @@
+<!DOCTYPE html><html lang="ko"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>영업 이슈</title>
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="오늘의 영업 이슈">
+    <meta property="og:description" content="매일의 중요 영업 이슈를 기록하고 빠르게 공유하세요">
+    <meta property="og:image" content="https://iga.pe.kr/board/sales_issue/sns_thumb.jpg?1790940939">
+    <!-- 🚨 카카오톡 JavaScript SDK 및 초기화 -->
+    <script src="../assets/61ec38d3371a.js"></script>
+    <script>
+        if (window.Kakao && !Kakao.isInitialized()) {
+            Kakao.init('8185d4df87316ddd8d930243d002100c');
+        }
+    </script>
+
+    <script src="../assets/a3133eb07bfa.js"></script>
+    <link href="../assets/3304ac8d12e0.css" rel="stylesheet">
+    <script src="../assets/b60bbc1a00d6.js"></script>
+    <script src="../assets/b53021848188.js"></script>
+    
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
+        a { text-decoration: none; color: inherit; }
+        * { box-sizing: border-box; }
+
+        .promo-header { 
+            background: linear-gradient(rgba(15,23,42,0.7), rgba(30,41,59,0.8)), url('board_cover.jpg?1790940591') center/cover;            padding: 60px 20px 70px 20px; text-align: center; position: relative; 
+        }
+        .promo-header h1 { margin: 0 0 15px 0; font-size: 34px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .promo-header p { margin: 0; font-size: 16px; color: #cbd5e1; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        
+        .search-wrapper { max-width: 800px; margin: -28px auto 40px auto; position: relative; z-index: 10; padding: 0 20px; display: flex; gap: 10px; }
+        .search-form { flex: 1; position: relative; }
+        .search-input { width: 100%; padding: 18px 24px 18px 50px; border-radius: 50px; border: 1px solid #e2e8f0; font-size: 16px; font-weight: 500; color: #1e293b; background-color: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.08); outline: none; }
+        .search-input:focus { border-color: #93c5fd; }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 18px; border: none; background: transparent; cursor: pointer; }
+
+        .btn-write-main { background: #2563eb; color: #ffffff; border: none; border-radius: 50px; padding: 0 30px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 30px rgba(37,99,235,0.3); transition: 0.2s; white-space: nowrap; }
+        .btn-write-main:hover { background: #1d4ed8; transform: translateY(-2px); }
+
+        .container { max-width: 1240px; margin: 0 auto 60px auto; padding: 0 20px; }
+        .board-layout { display: flex; gap: 30px; align-items: flex-start; }
+        .board-sidebar { flex: 0 0 300px; background: #ffffff; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; }
+        .board-content { flex: 1; min-width: 0; }
+
+        .mobile-menu-btn { display: none; }
+
+        .sidebar-title { font-size: 17px; font-weight: 800; color: #0f172a; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .sidebar-title:not(:first-child) { margin-top: 35px; }
+        
+        .mode-btn { display: inline-block; padding: 10px 15px; font-size: 14px; font-weight: 700; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; width: calc(50% - 5px); text-align: center; transition: 0.2s; }
+        .mode-btn:hover { background: #e2e8f0; }
+        .mode-btn.active { background: #2563eb; color: #ffffff; border-color: #2563eb; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+
+        .filter-badge { display: inline-block; padding: 6px 12px; font-size: 13px; color: #475569; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 20px; margin: 0 5px 8px 0; transition: 0.2s; }
+        .filter-badge:hover { background: #e2e8f0; color: #0f172a; }
+        .filter-badge.active { background: #0f172a; color: #ffffff; border-color: #0f172a; font-weight: 700; }
+
+        .tree-year { font-weight: 800; cursor: pointer; font-size: 15px; color: #1e293b; margin-top: 10px; background: #f8fafc; padding: 10px 15px; border-radius: 10px; border: 1px solid #f1f5f9; transition: 0.2s; }
+        .tree-year:hover { background: #f1f5f9; }
+        .tree-month { cursor: pointer; margin-left: 15px; color: #475569; display: none; margin-top: 8px; font-weight: 700; padding: 5px 0; border-left: 2px solid #e2e8f0; padding-left: 15px; }
+        .tree-day { margin-left: 30px; display: none; margin-top: 4px; border-left: 2px solid #e2e8f0; padding-left: 15px; }
+        .tree-day a { color: #0284c7; text-decoration: none; font-size: 14px; display: block; padding: 5px 0; }
+        .tree-day a:hover { text-decoration: underline; color: #0369a1; font-weight: 800; }
+
+        .msg-room { column-count: 2; column-gap: 20px; padding: 25px 20px; background: #ebf0f5; border-radius: 16px; border: 1px solid #dae2eb; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); }
+
+        .msg-row { display: flex; gap: 12px; align-items: flex-start; width: 100%; break-inside: avoid; margin-bottom: 20px; }
+        .msg-avatar { width: 42px; height: 42px; border-radius: 40%; background: #3b82f6; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; text-align: center; line-height: 1.1; flex-shrink: 0; box-shadow: 0 2px 6px rgba(59,130,246,0.3); word-break: keep-all; padding: 2px; }
+        .msg-content-area { display: flex; flex-direction: column; width: calc(100% - 54px); }
+        .msg-info { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; padding-left: 2px; }
+        .msg-company { font-size: 13px; font-weight: 800; color: #475569; }
+        .msg-time { font-size: 11px; color: #94a3b8; }
+        .msg-tools { display: flex; gap: 5px; margin-left: auto; align-items: center; }
+        .btn-msg-edit, .btn-msg-del { background: none; border: none; font-size: 11px; font-weight: 700; color: #cbd5e1; cursor: pointer; padding: 0 4px; transition: 0.2s; }
+        .btn-msg-edit:hover { color: #3b82f6; } .btn-msg-del:hover { color: #ef4444; }
+
+        .btn-kakao-share {
+            background: #fee500;
+            color: #191919;
+            border: 1px solid #fada0a;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            padding: 2px 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            transition: 0.15s;
+            text-decoration: none;
+            line-height: 1.3;
+        }
+        .btn-kakao-share:hover { background: #fdd800; }
+
+        .btn-kakao-date {
+            background: #fee500;
+            color: #191919;
+            border: 1px solid #fada0a;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            padding: 6px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        .btn-kakao-date:hover { background: #fdd800; }
+        
+        .msg-bubble { background: #ffffff; border-radius: 0 16px 16px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; position: relative; overflow: hidden; transition: box-shadow 0.2s; }
+        .msg-bubble:hover { box-shadow: 0 6px 16px rgba(59,130,246,0.15); }
+        
+        .msg-text-clickable { padding: 14px 18px; cursor: pointer; transition: background 0.2s; }
+        .msg-text-clickable:hover { background: #f8fafc; }
+        .msg-title { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 6px; line-height: 1.3; }
+        .msg-body { font-size: 14px; color: #334155; line-height: 1.5; word-break: break-word; pointer-events: none; }
+        .msg-body a { pointer-events: auto; } 
+        
+        .msg-media-area { padding: 0 18px 14px 18px; }
+        .msg-images { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+        .msg-img-thumb { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0; cursor: pointer; transition: transform 0.2s; }
+        .msg-img-thumb:hover { transform: scale(1.05); border-color: #94a3b8; z-index: 10; position: relative; }
+        
+        .msg-videos { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .msg-video-thumb { position: relative; display: inline-block; cursor: pointer; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; background: #0f172a; transition: transform 0.2s; }
+        .msg-video-thumb:hover { transform: scale(1.02); }
+        .msg-video-thumb video { display: block; width: 100%; max-height: 200px; object-fit: cover; opacity: 0.7; }
+        .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.6); color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; padding-left: 3px; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        
+        .msg-files { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+        .msg-file-link { font-size: 12px; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0; color: #475569; display: inline-flex; align-items: center; width: fit-content; text-decoration: none; font-weight: 600; transition: 0.2s; }
+        .msg-file-link:hover { background: #e2e8f0; color: #0f172a; }
+
+        .link-preview-container { margin-top: 12px; display: none; }
+        .og-card { display: block; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; text-decoration: none; color: inherit; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .og-card:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); border-color: #cbd5e1; }
+        .og-img { width: 100%; height: 160px; background-size: cover; background-position: center; border-bottom: 1px solid #e2e8f0; }
+        .og-text { padding: 12px 14px; }
+        .og-title { font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .og-desc { font-size: 12px; color: #64748b; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
+        .og-domain { font-size: 11px; color: #94a3b8; margin-top: 8px; font-weight: 600; text-transform: uppercase; }
+
+        .btn-file { display: inline-flex; align-items: center; background: #f1f5f9; color: #1e293b; padding: 7px 12px; border-radius: 8px; font-weight: 800; border: 1px solid #cbd5e1; font-size: 13px; text-decoration: none; }
+        .btn-file:hover { background: #e2e8f0; }
+
+        @media (max-width: 768px) {
+            .board-layout { flex-direction: column; gap: 0; }
+            .mobile-menu-btn { display: block; width: 100%; background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 14px; border-radius: 16px; font-size: 15px; font-weight: 800; cursor: pointer; text-align: center; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+            .board-sidebar { display: none; width: 100%; flex: auto; margin-bottom: 20px; }
+            .msg-room { padding: 15px 12px; column-count: 1; column-gap: 0; display: block; }
+            .msg-row { gap: 8px; margin-bottom: 16px; display: flex; width: 100%; }
+            .msg-avatar { width: 36px; height: 36px; font-size: 11px; }
+            .msg-content-area { width: calc(100% - 44px); }
+            .msg-title { font-size: 14px; }
+            .msg-body { font-size: 13px; }
+            .og-img { height: 130px; }
+            .nav-top-buttons { flex-wrap: wrap; }
+        }
+
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15,23,42,0.8); backdrop-filter: blur(5px); }
+        .gallery-content { display: flex; align-items: center; justify-content: center; height: 100%; position: relative; width: 100%; pointer-events: none; flex-direction: column; }
+        .gallery-content img, .gallery-content video, .gallery-content button { pointer-events: auto; }
+        .gallery-content img, .gallery-content video { max-width: 90%; max-height: 80vh; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); background: #000; }
+        
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: #fff; width: 50px; height: 50px; border-radius: 50%; border: none; font-size: 24px; cursor: pointer; transition: 0.2s; }
+        .nav-btn:hover { background: rgba(255,255,255,0.4); }
+        .nav-btn.prev { left: 5%; } .nav-btn.next { right: 5%; }
+        .close-btn { position: absolute; top: 30px; right: 40px; background: rgba(255,255,255,0.2); color: #fff; width: 40px; height: 40px; border-radius: 50%; border: none; font-size: 26px; cursor: pointer; transition: 0.2s; }
+        .close-btn:hover { background: #ef4444; }
+
+        .write-modal-content { background-color: #ffffff; padding: 30px; border-radius: 20px; width: 90%; max-width: 800px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 25px 50px rgba(0,0,0,0.25); max-height: 90vh; overflow-y: auto; }
+        .write-modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 20px; }
+        .write-form-group { margin-bottom: 15px; }
+        .write-form-group label { display: block; font-size: 14px; font-weight: 700; color: #475569; margin-bottom: 8px; }
+        .write-input { width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
+        .write-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .write-btn-submit { width: 100%; background: #0f172a; color: #fff; padding: 15px; border: none; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; }
+        
+        .edit-file-item { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 5px; font-size: 13px; color: #475569; }
+        .edit-file-item button { border: none; background: #fee2e2; color: #ef4444; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; cursor: pointer; }
+
+        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .cal-header a { background: #f1f5f9; color: #1e293b; padding: 8px 15px; border-radius: 8px; font-weight: 800; border: 1px solid #cbd5e1; transition: 0.2s; }
+        .cal-header h3 { margin: 0; font-size: 24px; font-weight: 800; color: #0f172a; }
+        .calendar-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; }
+        .calendar-table th { background: #f8fafc; padding: 15px; text-align: center; border-bottom: 2px solid #e2e8f0; color: #64748b; font-weight: 800; }
+        .calendar-table th:first-child, .calendar-table td:first-child { color: #ef4444; } 
+        .calendar-table th:last-child, .calendar-table td:last-child { color: #3b82f6; } 
+        .calendar-table td { padding: 15px; height: 100px; vertical-align: top; border: 1px solid #f1f5f9; transition: 0.2s; }
+        .cal-date { font-weight: 800; font-size: 16px; margin-bottom: 10px; display: block; }
+        .cal-post-badge { display: inline-block; background: #2563eb; color: #fff; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-top: 5px; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
+    </style>
+</head>
+<body>
+
+
+<style>
+    .navbar { background-color: #ffffff; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 65px; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 900; box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-container { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+    
+    .nav-left { display: flex; height: 100%; align-items: center; margin:0; padding:0; }
+    .nav-item { position: relative; display: inline-block; height: 100%; }
+    .nav-item > a { color: #334155; font-weight: 700; font-size: 15px; padding: 0 18px; display: flex; align-items: center; height: 65px; transition: color 0.2s; text-decoration: none; box-sizing: border-box;}
+    .nav-item:hover > a { color: #2563eb; }
+
+    .nav-dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 220px; box-shadow: 0px 10px 25px rgba(0,0,0,0.1); z-index: 1001; top: 100%; left: 0; border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; border-top: none; }
+    .nav-dropdown-content a { color: #475569; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; border-bottom: 1px solid #f1f5f9; transition: 0.2s; font-weight: 500; text-decoration: none; position: relative; }
+    .nav-dropdown-content a:hover { background-color: #f8fafc; color: #2563eb; }
+
+    .nav-sub-item { position: relative; width: 100%; }
+    .nav-sub-dropdown { display: none; position: absolute; left: 100%; top: 0; background-color: #ffffff; min-width: 210px; box-shadow: 5px 10px 25px rgba(0,0,0,0.1); z-index: 1002; border-radius: 0 8px 8px 8px; border: 1px solid #e2e8f0; }
+    .nav-sub-dropdown a { padding: 11px 16px; font-size: 13.5px; border-bottom: 1px solid #f1f5f9; }
+
+    .arrow-indicator { font-size: 11px; margin-left: 6px; transition: transform 0.2s ease; display: inline-block; }
+    .arrow-sub { font-size: 11px; margin-left: 6px; color: #94a3b8; transition: transform 0.2s ease; display: inline-block; }
+
+    @media (min-width: 851px) {
+        .nav-item:hover > .nav-dropdown-content { display: block; }
+        .nav-sub-item:hover > .nav-sub-dropdown { display: block; }
+        .mobile-only-link { display: none !important; }
+    }
+    
+    .nav-right { display: flex; gap: 12px; align-items: center; margin:0; padding:0; height: 100%; }
+    .visitor-counter { background: #f8fafc; border: 1px solid #e2e8f0; padding: 5px 10px; border-radius: 6px; font-size: 12px; color: #64748b; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+    .visitor-counter span { color: #0ea5e9; }
+    
+    .nav-group-btn { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #334155; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; cursor: pointer; transition: 0.2s; text-decoration: none; }
+    .nav-group-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+    .btn-sitemap { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 13.5px; font-weight: 800; padding: 7px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; text-decoration: none; }
+    .btn-sitemap:hover { background: #2563eb; color: #ffffff; border-color: #2563eb; }
+    
+    .nav-right-dropdown { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-right-content { display: none; position: absolute; right: 0; top: 100%; background: #fff; min-width: 215px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; overflow: hidden; z-index: 1000; }
+    @media (min-width: 851px) {
+        .nav-right-dropdown:hover .nav-right-content { display: block; }
+    }
+    .nav-right-content a { display: block; padding: 12px 16px; font-size: 13.5px; color: #475569; text-decoration: none; font-weight: 600; border-bottom: 1px solid #f1f5f9; transition: 0.2s; }
+    .nav-right-content a:hover { background: #f8fafc; color: #2563eb; }
+    .nav-right-content a.danger:hover { color: #ef4444; background: #fef2f2; }
+
+    .nav-mobile-toggle { display: none; font-size: 26px; cursor: pointer; color: #334155; }
+
+    .nav-modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15,23,42,0.6); backdrop-filter: blur(5px); }
+    .nav-modal-content { background-color: #ffffff; margin: 3vh auto; padding: 40px; border-radius: 24px; width: 95%; position: relative; max-height: 94vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.25); box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-close-btn { position: absolute; right: 25px; top: 20px; font-size: 32px; cursor: pointer; color: #94a3b8; transition: 0.2s; line-height: 1; z-index:10; }
+    .nav-close-btn:hover { color: #ef4444; }
+    
+    #navIframeModal .nav-modal-content { padding: 0; max-width: 1100px; height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+    #navIframeModal .nav-close-btn { right: 20px; top: 15px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    #navIframeModal iframe { width: 100%; height: 100%; border: none; border-radius: 24px; }
+
+    #navSitemapModal .nav-modal-content { max-width: 1150px; padding: 35px 30px; }
+    .sitemap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 15px; margin-bottom: 25px; }
+    .sitemap-header h2 { margin: 0; font-size: 22px; font-weight: 900; color: #0f172a; }
+    .sitemap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .sitemap-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .sitemap-p1-title { font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 12px; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
+    .sitemap-p1-title a { color: inherit; text-decoration: none; }
+    .sitemap-p1-title a:hover { color: #2563eb; }
+    .sitemap-p2-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .sitemap-p2-item { font-size: 13.5px; font-weight: 700; }
+    .sitemap-p2-item > a { color: #334155; text-decoration: none; display: block; padding: 3px 0; }
+    .sitemap-p2-item > a:hover { color: #2563eb; }
+    .sitemap-p3-list { list-style: none; padding-left: 14px; margin: 4px 0 0 0; display: flex; flex-direction: column; gap: 4px; border-left: 2px solid #cbd5e1; }
+    .sitemap-p3-item { font-size: 12.5px; font-weight: 600; }
+    .sitemap-p3-item a { color: #64748b; text-decoration: none; }
+    .sitemap-p3-item a:hover { color: #2563eb; }
+
+    @media (max-width: 850px) {
+        .navbar { flex-direction: column; align-items: flex-start; height: auto; padding: 15px 20px; }
+        .nav-mobile-toggle { display: block; position: absolute; right: 20px; top: 18px; }
+        .nav-logo-area { display: block; font-weight: 800; font-size: 20px; color: #0f172a; text-decoration: none; }
+        .nav-container { display: none; flex-direction: column; width: 100%; gap: 15px; margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+        .nav-container.active { display: flex; }
+        .nav-left { flex-direction: column; align-items: flex-start; width: 100%; }
+        .nav-right { flex-direction: column; align-items: stretch; width: 100%; gap: 10px; }
+        .nav-item, .nav-right-dropdown { width: 100%; height: auto; }
+        
+        .nav-item > a, .nav-group-btn { 
+            height: auto; 
+            padding: 13px 8px; 
+            border-bottom: 1px solid #f1f5f9; 
+            width: 100%; 
+            border-radius: 0; 
+            border: none; 
+            background: transparent; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .nav-dropdown-content { 
+            display: none; 
+            position: static; 
+            box-shadow: none; 
+            border: none; 
+            border-left: 3px solid #2563eb; 
+            border-radius: 0; 
+            background: #f8fafc; 
+            padding-left: 8px; 
+            margin: 4px 0 10px 0; 
+            width: 100%; 
+        }
+        .nav-dropdown-content.open { 
+            display: block !important; 
+        }
+
+        .nav-dropdown-content a {
+            padding: 11px 12px;
+            font-size: 13.5px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .nav-sub-dropdown { 
+            display: none; 
+            position: static; 
+            border: none; 
+            box-shadow: none; 
+            background: #ffffff; 
+            padding-left: 12px; 
+            border-left: 2px solid #94a3b8; 
+            margin: 4px 0 8px 0; 
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+        .nav-sub-dropdown.open { 
+            display: block !important; 
+        }
+
+        .nav-sub-dropdown a {
+            padding: 9px 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .nav-parent-link.active-toggle .arrow-indicator {
+            transform: rotate(180deg);
+            color: #2563eb;
+        }
+
+        .nav-sub-parent.active-toggle .arrow-sub {
+            transform: rotate(90deg);
+            color: #2563eb;
+        }
+
+        .visitor-counter { justify-content: center; padding: 10px 0; }
+        .btn-sitemap { justify-content: center; width: 100%; padding: 10px; }
+    }
+</style>
+<link href="../assets/2b9f3e10cb8b.css" rel="stylesheet">
+<script src="../assets/4395c6aa4084.js"></script>
+
+<div class="navbar no-print">
+    <a href="947659214c33.html" class="nav-logo-area" style="display:none;">GA매뉴얼</a>
+    <div class="nav-mobile-toggle" onclick="toggleMobileNav()">☰</div>
+
+    <div class="nav-container" id="navMobileContainer">
+        <div class="nav-left">
+                                            <div class="nav-item">
+                                            <a href="947659214c33.html" class="nav-parent-link" data-has-children="true" style="color: #2563eb;">
+                            <span>홈(메인)</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="947659214c33.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 홈(메인) 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="44e3452ef6c9.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>메인모듬링크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="44e3452ef6c9.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 메인모듬링크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="44e3452ef6c9.html">
+                                                    보험전산 링크                                                </a>
+                                                                                                                                            <a href="e6ed6a9f92e2.html">
+                                                    고객센터/팩스번호                                                </a>
+                                                                                                                                            <a href="3153c6257bf8.html">
+                                                    청구_이메일/URL링크                                                </a>
+                                                                                                                                            <a href="75533ed272f1.html">
+                                                    청구한도금액안내                                                </a>
+                                                                                                                                            <a href="3b392eb2b880.html">
+                                                    청구 우편주소                                                </a>
+                                                                                                                                            <a href="75ddd1a0ebd6.html">
+                                                    청구서_모아보기                                                </a>
+                                                                                                                                            <a href="21587080263e.html">
+                                                    보험사별 수납일                                                </a>
+                                                                                                                                            <a href="c49fc0e88d53.html">
+                                                    카드정보                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="f2ca5133a8c2.html" class="" data-has-sub="false">
+                                        <span>GA인트라넷링크</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                                            <div class="nav-item">
+                                            <a href="efd4d09ef92f.html" class="nav-parent-link" data-has-children="true" style="">
+                            <span>영업자료</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="efd4d09ef92f.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 영업자료 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="96dc9c2d9f73.html" class="" data-has-sub="false">
+                                        <span>매일영업이슈</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="efd4d09ef92f.html" class="" data-has-sub="false">
+                                        <span>월별소식지</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="835c17bc6127.html" class="" data-has-sub="false">
+                                        <span>영업전략자료</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="cb73c93e4162.html" class="" data-has-sub="false">
+                                        <span>상품정보</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="27b61ac494e2.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험니즈자료</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="27b61ac494e2.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험니즈자료 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="27b61ac494e2.html">
+                                                    질병니즈자료                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="bdc5fd445533.html" class="" data-has-sub="false">
+                                        <span>보험상품이자계산기</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="969023e484dc.html" class="" data-has-sub="false">
+                                        <span>질문과답변</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="b9442215d61e.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험북마크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="b9442215d61e.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험북마크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="b9442215d61e.html">
+                                                    유투브채널                                                </a>
+                                                                                                                                            <a href="665f386a4d32.html">
+                                                    Today_NEWS                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                    </div>
+        
+        <div class="nav-right">
+            <button type="button" class="btn-sitemap" onclick="openNavSitemapModal()" title="전체 사이트 메뉴 구조 한눈에 보기">
+                <span>🗺️</span>
+                <span>사이트맵</span>
+            </button>
+
+            <form action="/board/search.php" method="get" style="display:flex; align-items:center; background:#f8fafc; border:1px solid #cbd5e1; border-radius:20px; padding:3px 10px; margin:0;">
+                <input type="text" name="keyword" placeholder="사이트 전체 검색..." style="border:none; background:transparent; font-size:13px; font-weight:600; color:#1e293b; outline:none; width:130px; font-family:inherit;">
+                <button type="submit" style="background:none; border:none; cursor:pointer; font-size:14px; padding:0; display:flex; align-items:center;" title="검색">🔍</button>
+            </form>
+
+            <div class="visitor-counter" title="오늘 접속자 / 전체 누적 접속자">
+                📊 <span>3</span> / 793            </div>
+            
+                            <span style="color: #94a3b8; font-size: 13px; margin-right: 8px; font-weight:700; cursor:pointer; background:#f1f5f9; padding:6px 12px; border-radius:20px;" onclick="openNavDevNoteModal()">
+                    Ver 3.0.01 ⓘ
+                </span>
+                        
+                            <a href="82a0d3621888.html" class="nav-group-btn" style="background:#2563eb; color:#fff; border:none; justify-content:center;">🔒 로그인/회원가입</a>
+                    </div>
+    </div>
+</div>
+
+<!-- 사이트맵 모달 팝업 -->
+<div id="navSitemapModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavSitemapModal()">×</span>
+        <div class="sitemap-header">
+            <h2>🗺️ 전체 사이트맵</h2>
+        </div>
+        <div class="sitemap-grid">
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="947659214c33.html">📁 홈(메인)</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="44e3452ef6c9.html">└ 메인모듬링크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="44e3452ef6c9.html">• 보험전산 링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="e6ed6a9f92e2.html">• 고객센터/팩스번호</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3153c6257bf8.html">• 청구_이메일/URL링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75533ed272f1.html">• 청구한도금액안내</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3b392eb2b880.html">• 청구 우편주소</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75ddd1a0ebd6.html">• 청구서_모아보기</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="21587080263e.html">• 보험사별 수납일</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="c49fc0e88d53.html">• 카드정보</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="f2ca5133a8c2.html">└ GA인트라넷링크</a>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="efd4d09ef92f.html">📁 영업자료</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="96dc9c2d9f73.html">└ 매일영업이슈</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="efd4d09ef92f.html">└ 월별소식지</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="835c17bc6127.html">└ 영업전략자료</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="cb73c93e4162.html">└ 상품정보</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="27b61ac494e2.html">└ 보험니즈자료</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="27b61ac494e2.html">• 질병니즈자료</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="bdc5fd445533.html">└ 보험상품이자계산기</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="969023e484dc.html">└ 질문과답변</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="b9442215d61e.html">└ 보험북마크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="b9442215d61e.html">• 유투브채널</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="665f386a4d32.html">• Today_NEWS</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                    </div>
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center; color:#64748b;">
+            Designed &amp; Developed by <b>보험명장 김영환</b> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<div id="navIframeModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavIframeModal()">×</span>
+        <iframe id="navMyAccountIframe" src=""></iframe>
+    </div>
+</div>
+
+<div id="navDevNoteModal" class="nav-modal">
+    <div class="nav-modal-content" style="max-width:700px;">
+        <span class="nav-close-btn" onclick="closeNavDevNoteModal()">×</span>
+        <h2 style="margin-top:0; color:#0f172a; border-bottom:2px solid #f1f5f9; padding-bottom:15px;">🛠️ 시스템 업데이트 노트</h2>
+        
+                    <div class="ql-snow" style="margin-top:20px; max-height:500px; overflow-y:auto; padding-right:10px;">
+                <div class="ql-editor" style="padding:0; line-height:1.7; color:#334155; font-size:15px; font-family:inherit;">
+                    <div class="note-version-block">
+<h4 style="color:#2563eb; margin-bottom:10px; margin-top:0;">[Ver 3.0.01] 업데이트 내역</h4>
+<ul style="padding-left:20px; margin-bottom:0;">
+<li>1. 뉴스 및 북마크 게시판 생성 적용.</li>
+<li>2. 대부분의 게시물 카톡 공유 적용.(웹에서 바로 공유 가능)</li>
+<li>3. Today이슈 &amp; 뉴스 06시~21시까지 네이버, 네이트, 다음 뉴스 검색 보험/건강뉴스 갈무리 기능 제공. 약간의 문장만 적용 기사 내용 각 포털 사이트로 연결됨.</li>
+<li>4. 보험상품이자계산기 프로그램 제작/출력기능 결과값 카톡전송기능제공</li>
+</ul>
+<hr style="border:0; border-top:1px dashed #cbd5e1; margin:20px 0;">
+</div>
+<h4>[Ver 3.000] 업데이트 내역</h4><ul><li>팩스서버 구성 및 지점별 팩스 서버 관리 솔루션 구성완료</li></ul><h4>[Ver 3.000] 업데이트 내역</h4><ul><li>전체적으로 디자인을 카드형으로 변경</li><li>1. 회원가입 기능(최소한의 정보 데이터 암호화)</li><li>2. 기존 링크를 최신 버전으로 전부 수정함.</li><li>3. 청구서와 관련 자료 모두를 업데이트함.</li><li>4. 각 보험사의 전산 설치 및 전산 사용 매뉴얼 등록</li><li>5. 모바일청약 업데이트</li><li>6. 신용카드 결제 업데이트</li><li>7. 본부연락처 추가 기능</li><li>+ 본인 소속의 원수사 지점장/총무/설계매니저 등록가능(본부장, 지점장, 총무가 등록(유료기능))</li><li>+ 원수사 전산 본인 코드 및 비번 저장 기능</li></ul>                </div>
+            </div>
+                
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center;">
+            <strong>Designed &amp; Developed by</strong><br>
+            <span style="color:#002b5e; font-size:15px; font-weight:bold;">보험명장 김영환</span> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<script>
+    let visitorLogId = sessionStorage.getItem('visitor_log_id') ? sessionStorage.getItem('visitor_log_id') : 0;
+    
+    fetch('/api/track.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'action=enter&page_url=' + encodeURIComponent(window.location.href) 
+            + '&ref=' + encodeURIComponent(document.referrer) 
+            + '&log_id=' + visitorLogId
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.log_id) {
+            visitorLogId = data.log_id;
+            sessionStorage.setItem('visitor_log_id', visitorLogId);
+        }
+    }).catch(e => console.log('추적기 대기'));
+
+    setInterval(() => {
+        if (visitorLogId > 0) {
+            fetch('/api/track.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'action=ping&log_id=' + visitorLogId
+            }).catch(() => {});
+        }
+    }, 10000);
+
+    window.addEventListener('beforeunload', function() {
+        if (visitorLogId > 0) {
+            navigator.sendBeacon('/api/track.php', new URLSearchParams({
+                'action': 'exit',
+                'log_id': visitorLogId
+            }));
+        }
+    });
+
+    function toggleMobileNav() {
+        const container = document.getElementById('navMobileContainer');
+        container.classList.toggle('active');
+        const logo = document.querySelector('.nav-logo-area');
+        if (window.innerWidth <= 850) {
+            logo.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // [1차 메뉴 모바일 터치 이벤트 제어]
+        const parentLinks = document.querySelectorAll('.nav-parent-link');
+        parentLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 하위 메뉴가 있을 경우: 링크 이동 차단 및 아코디언 토글
+                if (window.innerWidth <= 850) {
+                    const hasChildren = this.getAttribute('data-has-children') === 'true';
+                    const dropdown = this.nextElementSibling;
+                    
+                    if (hasChildren && dropdown && dropdown.classList.contains('nav-dropdown-content')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isOpen = dropdown.classList.contains('open');
+
+                        // 다른 열린 1차 메뉴 닫기 및 화살표 초기화
+                        document.querySelectorAll('.nav-dropdown-content').forEach(d => d.classList.remove('open'));
+                        document.querySelectorAll('.nav-parent-link').forEach(p => p.classList.remove('active-toggle'));
+
+                        // 현재 클릭한 메뉴 토글
+                        if (!isOpen) {
+                            dropdown.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+
+        // [2차 메뉴 모바일 터치 이벤트 제어]
+        const subParents = document.querySelectorAll('.nav-sub-parent');
+        subParents.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 3차 하위 메뉴가 있을 경우: 링크 이동 차단 및 3차 드롭다운 토글
+                if (window.innerWidth <= 850) {
+                    const hasSub = this.getAttribute('data-has-sub') === 'true';
+                    const subDrop = this.nextElementSibling;
+
+                    if (hasSub && subDrop && subDrop.classList.contains('nav-sub-dropdown')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isSubOpen = subDrop.classList.contains('open');
+                        const parentContainer = this.closest('.nav-dropdown-content');
+
+                        // 같은 1차 메뉴 내부의 다른 열린 2차 메뉴 닫기
+                        if (parentContainer) {
+                            parentContainer.querySelectorAll('.nav-sub-dropdown').forEach(d => d.classList.remove('open'));
+                            parentContainer.querySelectorAll('.nav-sub-parent').forEach(p => p.classList.remove('active-toggle'));
+                        }
+
+                        // 현재 클릭한 2차 메뉴 토글
+                        if (!isSubOpen) {
+                            subDrop.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    function toggleRightDropdown(btn) {
+        if (window.innerWidth <= 850) {
+            const dropdown = btn.nextElementSibling;
+            if (dropdown && dropdown.classList.contains('nav-right-content')) {
+                dropdown.classList.toggle('open');
+            }
+        }
+    }
+
+    function openNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function openNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    function openNavAccountModal(e) {
+        if(e) e.preventDefault();
+        document.getElementById("navMyAccountIframe").src = "/member/my_accounts.php";
+        document.getElementById("navIframeModal").style.display = "block";
+        document.body.style.overflow = "hidden";
+    }
+    function closeNavIframeModal() {
+        document.getElementById("navIframeModal").style.display = "none";
+        document.getElementById("navMyAccountIframe").src = ""; 
+        document.body.style.overflow = "auto";
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target == document.getElementById('navSitemapModal')) closeNavSitemapModal();
+        if (event.target == document.getElementById('navDevNoteModal')) closeNavDevNoteModal();
+        if (event.target == document.getElementById('navIframeModal')) closeNavIframeModal();
+    });
+
+    let navQuillEditor = null;
+    if (document.getElementById('nav_quill_editor')) {
+        navQuillEditor = new Quill('#nav_quill_editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+        
+        const noteHistoryRaw = document.getElementById('nav_dev_note_history').value;
+        navQuillEditor.clipboard.dangerouslyPasteHTML(noteHistoryRaw);
+    }
+
+    function saveNavDevNote(e) {
+        e.preventDefault();
+        const ver = document.getElementById('nav_dev_app_ver').value;
+        const appDate = document.getElementById('nav_dev_app_date').value; 
+        const newUpdate = document.getElementById('nav_dev_new_update').value;
+        const historyNote = navQuillEditor ? navQuillEditor.root.innerHTML : document.getElementById('nav_dev_note_history').value;
+        const btn = document.getElementById('navDevSaveBtn');
+        
+        btn.innerText = "저장 중...";
+        
+        const formData = new FormData();
+        formData.append('ajax_action', 'save_dev_note');
+        formData.append('app_ver', ver);
+        formData.append('app_date', appDate); 
+        formData.append('new_update', newUpdate);
+        formData.append('dev_note', historyNote);
+        
+        fetch('/index.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 'success') {
+                alert('버전 및 개발자 노트가 성공적으로 저장되었습니다.');
+                location.reload();
+            } else {
+                alert(data.msg ? data.msg : '저장에 실패했습니다.');
+                btn.innerText = "💾 변경사항 전체 저장하기";
+            }
+        });
+    }
+
+    function navRequireAuth(isNeedLogin) {
+        if (isNeedLogin) {
+            alert('로그인 후 이용 가능한 메뉴입니다.\n로그인 페이지로 이동합니다.');
+            location.href = '/member/login.php';
+        } else {
+            alert('해당 메뉴를 이용할 수 있는 권한이 아닙니다.\n관리자에게 문의해 주세요.');
+        }
+    }
+</script>
+<div class="promo-header">
+        <h1>영업 이슈</h1>
+    <p><b>오늘의 핵심 영업 이슈를 함께 나누고 빠르게 소통해 보세요.</b><br><br>본 게시판의 정보는 <b>더블유에셋 파이코트 천안본부 제휴사</b>를 기준으로 제공되므로 타 GA의 규정 및 내용과는 다를 수 있습니다.<br>또한, 본 자료는 소속 설계사님들의 <b>사내 학습 및 이해를 돕기 위한 교육용 자료</b>이므로 고객 제시용으로는 사용을 삼가 주시기 바랍니다.</p>
+</div>
+
+<div class="search-wrapper">
+    <form action="/board/search.php" method="get" class="search-form">
+        <button type="submit" class="search-icon">🔍</button>
+        <input type="text" name="keyword" class="search-input" placeholder="전체 게시판 이슈, 내용, 회사명 통합 검색" value="">
+    </form>
+    
+    </div>
+
+<div class="container">
+    <button id="mobile-menu-btn" class="mobile-menu-btn">📁 메뉴 및 검색 필터 열기</button>
+
+    <div class="board-layout">
+        <aside class="board-sidebar">
+            <h3 class="sidebar-title">⚙ 보기 모드</h3>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <a href="eabb3976e1d2.html" class="mode-btn active">📋 리스트</a>
+                <a href="d4cfc6197e6b.html" class="mode-btn ">📅 캘린더</a>
+            </div>
+
+                        <h3 class="sidebar-title">🛡 손해보험</h3>
+            <div>
+                                    <a href="dc4a7fec9f56.html" class="filter-badge ">메리츠화재</a>
+                                    <a href="89e81b3e09eb.html" class="filter-badge ">삼성화재</a>
+                                    <a href="1fb6f66be8cd.html" class="filter-badge ">KB손해보험</a>
+                                    <a href="cf0a7b0abfb6.html" class="filter-badge ">현대해상</a>
+                                    <a href="a238651f8db9.html" class="filter-badge ">DB손해보험</a>
+                                    <a href="eb7a9194a16e.html" class="filter-badge ">한화손해보험</a>
+                                    <a href="53e2fa3eb2af.html" class="filter-badge ">NH농협손해보험</a>
+                                    <a href="1dfa8e19a07a.html" class="filter-badge ">흥국화재</a>
+                                    <a href="63bda9878e76.html" class="filter-badge ">하나손해보험</a>
+                                    <a href="ffdf94cdeb5c.html" class="filter-badge ">롯데손해보험</a>
+                                    <a href="adcac4baa72c.html" class="filter-badge ">AIG손해보험</a>
+                                    <a href="fa4d194c17fe.html" class="filter-badge ">라이나손해보험</a>
+                                    <a href="dfb06492edbe.html" class="filter-badge ">신한EZ손해보험</a>
+                            </div>
+            
+                        <h3 class="sidebar-title">❤️ 생명보험</h3>
+            <div>
+                                    <a href="a23f5e3bdce1.html" class="filter-badge ">삼성생명</a>
+                                    <a href="9702f33c71ec.html" class="filter-badge ">동양생명</a>
+                                    <a href="5ba57bea5130.html" class="filter-badge ">한화생명</a>
+                                    <a href="2d9bc89f7c5c.html" class="filter-badge ">DB생명</a>
+                                    <a href="ccb6fec2753f.html" class="filter-badge ">흥국생명</a>
+                                    <a href="a96b1e234c9b.html" class="filter-badge ">NH농협생명</a>
+                                    <a href="bec1cd44d2c7.html" class="filter-badge ">KB라이프생명</a>
+                                    <a href="7fb0ff1a24cf.html" class="filter-badge ">하나생명</a>
+                                    <a href="b1d2d5259b45.html" class="filter-badge ">라이나생명</a>
+                                    <a href="50058d3dad46.html" class="filter-badge ">미래에셋생명</a>
+                                    <a href="7ab5e3712fca.html" class="filter-badge ">처브라이프생명</a>
+                                    <a href="6856ad4ccfeb.html" class="filter-badge ">메트라이프생명</a>
+                                    <a href="79082917a5ac.html" class="filter-badge ">신한라이프생명</a>
+                                    <a href="bff6be31ce3c.html" class="filter-badge ">ABL생명</a>
+                                    <a href="e030755ded49.html" class="filter-badge ">교보생명</a>
+                                    <a href="9383e3ce41ef.html" class="filter-badge ">iM라이프생명</a>
+                                    <a href="fd96bb76ff19.html" class="filter-badge ">푸본현대생명</a>
+                                    <a href="aa6b175b491e.html" class="filter-badge ">KDB생명</a>
+                                    <a href="d5c2d3858493.html" class="filter-badge ">BNP파리바카디프생명</a>
+                                    <a href="e227b7d3ee67.html" class="filter-badge ">IBK연금보험</a>
+                                    <a href="18b43ea7ead4.html" class="filter-badge ">AIA생명</a>
+                            </div>
+            
+            <h3 class="sidebar-title">📅 날짜별 조회</h3>
+            <div id="tree-menu">
+                                    <div class="tree-year" onclick="$(this).nextUntil('.tree-year').slideToggle(200);">📂 2026년</div>
+                                            <div class="tree-month" onclick="$(this).nextUntil('.tree-month').slideToggle(200);">📁 10월</div>
+                                                    <div class="tree-day">
+                                <a href="79d99f7db8b0.html">📄 16일 이슈</a>
+                            </div>
+                                                    <div class="tree-day">
+                                <a href="b25f35425bcb.html">📄 15일 이슈</a>
+                            </div>
+                                                    <div class="tree-day">
+                                <a href="5510af2f2624.html">📄 14일 이슈</a>
+                            </div>
+                                                    <div class="tree-day">
+                                <a href="6a11b4fc3e9a.html">📄 13일 이슈</a>
+                            </div>
+                                                    <div class="tree-day">
+                                <a href="b6b6d1877f7c.html">📄 12일 이슈</a>
+                            </div>
+                                                    <div class="tree-day">
+                                <a href="fc4a7c7af9b5.html">📄 08일 이슈</a>
+                            </div>
+                                                    <div class="tree-day">
+                                <a href="3d1959ba86d9.html">📄 07일 이슈</a>
+                            </div>
+                                                    <div class="tree-day">
+                                <a href="ce9ca833f725.html">📄 06일 이슈</a>
+                            </div>
+                                                    <div class="tree-day">
+                                <a href="9ed655dfd812.html">📄 02일 이슈</a>
+                            </div>
+                                                    <div class="tree-day">
+                                <a href="7e66009d7647.html">📄 01일 이슈</a>
+                            </div>
+                                                                        </div>
+        </aside>
+
+        <main class="board-content">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:15px; border-bottom:2px solid #e2e8f0; flex-wrap:wrap; gap:10px;">
+                    <h4 style="margin:0; font-size:20px; font-weight:800; color:#0f172a;">
+                        🗓 2026-10-02 영업 이슈                    </h4>
+                    
+                    <div class="nav-top-buttons" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                                    <button type="button" class="btn-kakao-date" onclick="shareDateKakao('2026-10-02', 15)">
+                                💬 <b>카톡</b> 일자별 전체 공유
+                            </button>
+                        
+                                                                                    <a href="7e66009d7647.html" class="btn-file" style="margin:0;">◀ 전날 (2026-10-01)</a>
+                                                                                        <a href="ce9ca833f725.html" class="btn-file" style="margin:0;">다음날 (2026-10-06) ▶</a>
+                                                                            <a href="eabb3976e1d2.html" class="btn-file" style="margin:0; background:#0f172a; color:#fff; border-color:#0f172a;">전체보기</a>
+                    </div>
+                </div>
+
+                                    <div class="msg-room"> 
+                                                    
+                            <textarea id="post_data_69" style="display:none;" data-company="삼성생명" data-date="2026-10-02" data-title="플러스원종신보험" data-desc="플러스원종신보험" data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1791447125_5321.png" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1791447125_5321.png&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_150313928.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1791447125_3147.png&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_150313928_01.png&quot;}]">플러스원종신보험</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">삼성</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">삼성생명</span>
+                                        <span class="msg-time">10-08 17:12</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(69)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=69'">
+                                            <div class="msg-title">플러스원종신보험</div>
+                                            <div class="msg-body">플러스원종신보험</div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/a072c583e54d.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1791447125_5321.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1791447125_3147.png&quot;], 0)">
+                                                                                                            <img src="../assets/7a4b88dbab1c.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1791447125_5321.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1791447125_3147.png&quot;], 1)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_33" style="display:none;" data-company="삼성생명" data-date="2026-10-02" data-title="소식지 읽어주는 남자" data-desc="소식지 읽어주는 남자" data-img="https://iga.pe.kr/board/sales_issue/sns_thumb.jpg?1790940939" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934646_6520.mp4&quot;,&quot;name&quot;:&quot;\uc18c\uc77d\ub0a8_2610.mp4&quot;}]">소식지 읽어주는 남자</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">삼성</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">삼성생명</span>
+                                        <span class="msg-time">10-02 18:50</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(33)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=33'">
+                                            <div class="msg-title">소식지 읽어주는 남자</div>
+                                            <div class="msg-body">소식지 읽어주는 남자</div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                            
+                                                                                            <div class="msg-videos">
+                                                                                                            <div class="msg-video-thumb" onclick="openVideoModal('https://bolab.myasustor.com/nas_mount/sales_issue/1790934646_6520.mp4')">
+                                                            <video src="../assets/b17f9614214c.mp4" preload="metadata"></video>
+                                                            <div class="play-icon">▶</div>
+                                                        </div>
+                                                                                                    </div>
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_32" style="display:none;" data-company="KB손해보험" data-date="2026-10-02" data-title="????KB소식팡! - KB손해보험 2026년 9월 영업전략" data-desc="★주의!!!!! 필독!!!!!!!★본 자료는 사내교육을 목적으로 제작·사용하는 설계사 교육용 편집자료로서, 고객에게 교부 및 배포의 목적으로 사용할 수 없으며, " data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1790934212_4468.png" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_4468.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_01.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_1927.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_02.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_3909.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_03.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_4018.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_04.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_5622.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_05.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_6180.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_06.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_1246.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_07.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_4465.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_08.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_5293.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_09.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_9786.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_10.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_3472.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_11.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_2792.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_12.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_2011.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_13.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_6922.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_14.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_5798.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_15.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_1355.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_16.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_8198.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_17.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_5778.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_18.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_1227.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_19.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790934212_2117.png&quot;,&quot;name&quot;:&quot;KB\uc190\ubcf4-\uc601\uc5c5\uc804\ub7b5\uc790\ub8cc_20.png&quot;}]">&lt;span style="color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 15px;"&gt;★주의!!!!! 필독!!!!!!!★&lt;/span&gt;&lt;br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 15px;"&gt;&lt;br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 15px;"&gt;&lt;span style="color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 15px;"&gt;본 자료는 사내교육을 목적으로 제작·사용하는 설계사 교육용 편집자료로서, 고객에게 교부 및 배포의 목적으로 사용할 수 없으며, 보험안내자료[광고·선전물]로 오인토록 사용하는 것을 '절대'금지합니다&lt;/span&gt;&lt;br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 15px;"&gt;&lt;br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 15px;"&gt;&lt;span style="color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 15px;"&gt;★고객에게 절대 제시 금지!!★&lt;/span&gt;&lt;br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 15px;"&gt;&lt;br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 15px;"&gt;&lt;span style="color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 15px;"&gt;☆위 내용으로 발생된 민원 및 분쟁에 대해 일체의 민·형사상 책임을 지지 않습니다☆&lt;/span&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">KB</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">KB손해보험</span>
+                                        <span class="msg-time">10-02 18:43</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(32)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=32'">
+                                            <div class="msg-title">????KB소식팡! - KB손해보험 2026년 9월 영업전략</div>
+                                            <div class="msg-body"><span style="color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 15px;">★주의!!!!! 필독!!!!!!!★</span><br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 15px;"><br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 15px;"><span style="color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 15px;">본 자료는 사내교육을 목적으로 제작·사용하는 설계사 교육용 편집자료로서, 고객에게 교부 및 배포의 목적으로 사용할 수 없으며, 보험안내자료[광고·선전물]로 오인토록 사용하는 것을 '절대'금지합니다</span><br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 15px;"><br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 15px;"><span style="color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 15px;">★고객에게 절대 제시 금지!!★</span><br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 15px;"><br style="text-size-adjust: none; color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 15px;"><span style="color: rgb(66, 66, 66); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 15px;">☆위 내용으로 발생된 민원 및 분쟁에 대해 일체의 민·형사상 책임을 지지 않습니다☆</span></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/5bf6d84b8106.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 0)">
+                                                                                                            <img src="../assets/806849028cf3.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 1)">
+                                                                                                            <img src="../assets/9f2167e972c1.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 2)">
+                                                                                                            <img src="../assets/094a643b434a.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 3)">
+                                                                                                            <img src="../assets/7c910a03cd19.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 4)">
+                                                                                                            <img src="../assets/f435bf0d6ff5.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 5)">
+                                                                                                            <img src="../assets/21d7ce0e4bfc.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 6)">
+                                                                                                            <img src="../assets/e54ec5328b64.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 7)">
+                                                                                                            <img src="../assets/f4458bb8589b.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 8)">
+                                                                                                            <img src="../assets/5351ca3eb029.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 9)">
+                                                                                                            <img src="../assets/4a99017fa40f.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 10)">
+                                                                                                            <img src="../assets/3518baa70329.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 11)">
+                                                                                                            <img src="../assets/ecc4657f276f.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 12)">
+                                                                                                            <img src="../assets/da958d707aa6.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 13)">
+                                                                                                            <img src="../assets/9c2ab1911935.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 14)">
+                                                                                                            <img src="../assets/9837bc161eb6.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 15)">
+                                                                                                            <img src="../assets/27859eaade1f.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 16)">
+                                                                                                            <img src="../assets/b673e3671cb1.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 17)">
+                                                                                                            <img src="../assets/49321e21ca53.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 18)">
+                                                                                                            <img src="../assets/a58e9d4ad9ee.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4468.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1927.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3909.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4018.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5622.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6180.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1246.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_4465.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5293.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_9786.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_3472.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2792.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2011.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_6922.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5798.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1355.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_8198.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_5778.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_1227.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790934212_2117.png&quot;], 19)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_30" style="display:none;" data-company="흥국화재" data-date="2026-10-02" data-title="[모집자교육용] ◆ 흥국화재 F4 인기 담보 소개합니다.~ ◆" data-desc="[모집자교육용] ◆ 흥국화재 F4 인기 담보 소개합니다.~ ◆[흥국화재 F4] 10월 PICK 담보 체크1. 5대질병 진단비-&amp;gt; 10월 한번 더 업그레이드 " data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1790932525_9531.jpg" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932525_9531.jpg&quot;,&quot;name&quot;:&quot;001.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932525_6135.jpg&quot;,&quot;name&quot;:&quot;002.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932525_3267.jpg&quot;,&quot;name&quot;:&quot;003.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932525_5521.jpg&quot;,&quot;name&quot;:&quot;004.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932525_8454.jpg&quot;,&quot;name&quot;:&quot;005.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932525_8581.jpg&quot;,&quot;name&quot;:&quot;006.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932525_1040.jpg&quot;,&quot;name&quot;:&quot;007.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932525_4076.jpg&quot;,&quot;name&quot;:&quot;008.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932525_6491.jpg&quot;,&quot;name&quot;:&quot;009.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932525_3315.jpg&quot;,&quot;name&quot;:&quot;010.jpg&quot;}]">&lt;span class="tit_card" style="text-size-adjust: none; overflow: hidden; text-overflow: ellipsis; display: block; word-break: break-all; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 20px; line-height: 26px; color: rgb(25, 25, 25); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif;"&gt;[모집자교육용] ◆ 흥국화재 F4 인기 담보 소개합니다.~ ◆&lt;/span&gt;&lt;div class="desc_card" style="text-size-adjust: none; margin: 6px 0px 0px; padding: 0px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 15px; color: rgb(66, 66, 66); line-height: 22px; font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif;"&gt;[흥국화재 F4] 10월 PICK 담보 체크&lt;br style="text-size-adjust: none;"&gt;&lt;br style="text-size-adjust: none;"&gt;1. 5대질병 진단비&lt;br style="text-size-adjust: none;"&gt;-&amp;gt; 10월 한번 더 업그레이드 ! 첫진단 1,000만 두번째 2,000만 3번째 3,000만 총 2.1억 !&lt;br style="text-size-adjust: none;"&gt;-&amp;gt; 이제 따로 가입하지말고, 하나로 가입 ! 보험료 또한 GOOD&lt;br style="text-size-adjust: none;"&gt;&lt;br style="text-size-adjust: none;"&gt;2. 열번보장 통합진단비&lt;br style="text-size-adjust: none;"&gt;-&amp;gt; 담보 하나로, 경증~중증진단비까지 한번에 가입 OK&lt;br style="text-size-adjust: none;"&gt;-&amp;gt; 진단 코드 하나로, 중복보장도 가능 !&lt;br style="text-size-adjust: none;"&gt;&lt;br style="text-size-adjust: none;"&gt;3. 한도이연 주요치료비&lt;br style="text-size-adjust: none;"&gt;-&amp;gt; 기존 5년, 10년, 연1회 만기보장 주치 리모델링으로 GOOD&lt;br style="text-size-adjust: none;"&gt;-&amp;gt; 치료별 암주치보다 26% 저렴, 순환계는 34% 저렴 !&lt;br style="text-size-adjust: none;"&gt;&lt;br style="text-size-adjust: none;"&gt;4. 근골격계 통합치료비&lt;br style="text-size-adjust: none;"&gt;-&amp;gt; 운전자플랜으로 3개월 고지만 확인 ! 인수 GOOD&lt;br style="text-size-adjust: none;"&gt;-&amp;gt; 비용담보와 같이 넣어도 1만원으로 준비 끝 !&lt;br style="text-size-adjust: none;"&gt;&lt;br style="text-size-adjust: none;"&gt;☎흥국화재 인기 담보 4종 지금 바로 문의 주세요~☎&lt;/div&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">흥국</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">흥국화재</span>
+                                        <span class="msg-time">10-02 18:15</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(30)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=30'">
+                                            <div class="msg-title">[모집자교육용] ◆ 흥국화재 F4 인기 담보 소개합니다.~ ◆</div>
+                                            <div class="msg-body"><span class="tit_card" style="text-size-adjust: none; overflow: hidden; text-overflow: ellipsis; display: block; word-break: break-all; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 20px; line-height: 26px; color: rgb(25, 25, 25); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif;">[모집자교육용] ◆ 흥국화재 F4 인기 담보 소개합니다.~ ◆</span><div class="desc_card" style="text-size-adjust: none; margin: 6px 0px 0px; padding: 0px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size: 15px; color: rgb(66, 66, 66); line-height: 22px; font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif;">[흥국화재 F4] 10월 PICK 담보 체크<br style="text-size-adjust: none;"><br style="text-size-adjust: none;">1. 5대질병 진단비<br style="text-size-adjust: none;">-&gt; 10월 한번 더 업그레이드 ! 첫진단 1,000만 두번째 2,000만 3번째 3,000만 총 2.1억 !<br style="text-size-adjust: none;">-&gt; 이제 따로 가입하지말고, 하나로 가입 ! 보험료 또한 GOOD<br style="text-size-adjust: none;"><br style="text-size-adjust: none;">2. 열번보장 통합진단비<br style="text-size-adjust: none;">-&gt; 담보 하나로, 경증~중증진단비까지 한번에 가입 OK<br style="text-size-adjust: none;">-&gt; 진단 코드 하나로, 중복보장도 가능 !<br style="text-size-adjust: none;"><br style="text-size-adjust: none;">3. 한도이연 주요치료비<br style="text-size-adjust: none;">-&gt; 기존 5년, 10년, 연1회 만기보장 주치 리모델링으로 GOOD<br style="text-size-adjust: none;">-&gt; 치료별 암주치보다 26% 저렴, 순환계는 34% 저렴 !<br style="text-size-adjust: none;"><br style="text-size-adjust: none;">4. 근골격계 통합치료비<br style="text-size-adjust: none;">-&gt; 운전자플랜으로 3개월 고지만 확인 ! 인수 GOOD<br style="text-size-adjust: none;">-&gt; 비용담보와 같이 넣어도 1만원으로 준비 끝 !<br style="text-size-adjust: none;"><br style="text-size-adjust: none;">☎흥국화재 인기 담보 4종 지금 바로 문의 주세요~☎</div></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/38757391516f.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_9531.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6135.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3267.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_5521.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8454.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8581.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_1040.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_4076.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6491.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3315.jpg&quot;], 0)">
+                                                                                                            <img src="../assets/557e3346c4f9.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_9531.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6135.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3267.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_5521.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8454.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8581.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_1040.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_4076.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6491.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3315.jpg&quot;], 1)">
+                                                                                                            <img src="../assets/31f276dc7840.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_9531.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6135.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3267.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_5521.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8454.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8581.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_1040.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_4076.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6491.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3315.jpg&quot;], 2)">
+                                                                                                            <img src="../assets/5550aaa1926f.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_9531.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6135.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3267.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_5521.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8454.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8581.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_1040.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_4076.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6491.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3315.jpg&quot;], 3)">
+                                                                                                            <img src="../assets/e19695d0680f.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_9531.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6135.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3267.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_5521.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8454.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8581.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_1040.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_4076.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6491.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3315.jpg&quot;], 4)">
+                                                                                                            <img src="../assets/7a358ebacf2f.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_9531.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6135.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3267.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_5521.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8454.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8581.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_1040.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_4076.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6491.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3315.jpg&quot;], 5)">
+                                                                                                            <img src="../assets/888350818a40.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_9531.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6135.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3267.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_5521.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8454.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8581.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_1040.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_4076.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6491.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3315.jpg&quot;], 6)">
+                                                                                                            <img src="../assets/e9ae4bad9854.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_9531.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6135.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3267.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_5521.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8454.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8581.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_1040.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_4076.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6491.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3315.jpg&quot;], 7)">
+                                                                                                            <img src="../assets/59b7027b34b3.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_9531.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6135.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3267.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_5521.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8454.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8581.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_1040.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_4076.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6491.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3315.jpg&quot;], 8)">
+                                                                                                            <img src="../assets/33c045d33441.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_9531.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6135.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3267.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_5521.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8454.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_8581.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_1040.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_4076.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_6491.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932525_3315.jpg&quot;], 9)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_29" style="display:none;" data-company="메리츠화재" data-date="2026-10-02" data-title="메리츠화재 더블유에셋 시책(5사업부)" data-desc="안녕하세요^^더블유 10월1주차 시상 ★익월 400% / 최대 1,300%★입니다.▶정규시상: 400%(익월)▶인보험시상:200%▶통합,간편,어린이 10만원체결시" data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1790932275_5490.png" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790932275_5490.png&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_090202804.png&quot;}]">&lt;div&gt;안녕하세요^^&lt;/div&gt;&lt;div&gt;더블유 10월1주차 시상 ★익월 400% / 최대 1,300%★입니다.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;▶정규시상: 400%(익월)&lt;/div&gt;&lt;div&gt;▶인보험시상:200%&lt;/div&gt;&lt;div&gt;▶통합,간편,어린이 10만원체결시: 200%&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;★★인보험-주요담보:암치단비ii, 표적항암 원투쓰리담보 동시가입 건당3만원이상건에 한함★★&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;★★9월~10월 연속가동시상&amp;nbsp;&lt;/div&gt;&lt;div&gt;▶9/14~9/30&amp;nbsp; &amp;amp;&amp;nbsp; 10/1~10/18일(100%~최대300%)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;★★메리츠클럽플러스 100% (10월,11월,12월:매달 달성시 지급) 시작달 입니다★★&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;1주차 메리츠와 함께해주세요^^&lt;/div&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">메리</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">메리츠화재</span>
+                                        <span class="msg-time">10-02 18:11</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(29)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=29'">
+                                            <div class="msg-title">메리츠화재 더블유에셋 시책(5사업부)</div>
+                                            <div class="msg-body"><div>안녕하세요^^</div><div>더블유 10월1주차 시상 ★익월 400% / 최대 1,300%★입니다.</div><div><br></div><div>▶정규시상: 400%(익월)</div><div>▶인보험시상:200%</div><div>▶통합,간편,어린이 10만원체결시: 200%</div><div><br></div><div>★★인보험-주요담보:암치단비ii, 표적항암 원투쓰리담보 동시가입 건당3만원이상건에 한함★★</div><div><br></div><div>★★9월~10월 연속가동시상&nbsp;</div><div>▶9/14~9/30&nbsp; &amp;&nbsp; 10/1~10/18일(100%~최대300%)</div><div><br></div><div>★★메리츠클럽플러스 100% (10월,11월,12월:매달 달성시 지급) 시작달 입니다★★</div><div><br></div><div>1주차 메리츠와 함께해주세요^^</div></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/3b7953525216.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790932275_5490.png&quot;], 0)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_26" style="display:none;" data-company="DB손해보험" data-date="2026-10-02" data-title="최고저렴한 DB손보" data-desc="업계 최고저렴 DB간편보험19일 보험료 인상!서둘러주세요!https://naver.me/FqIttBwC" data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1790931861_1675.jpg" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790931861_1675.jpg&quot;,&quot;name&quot;:&quot;\ub514\ube44 \uac04\ud3b8\uac1c\uc8151.JPG&quot;}]">&lt;div&gt;업계 최고저렴 DB간편보험&lt;/div&gt;&lt;div&gt;19일 보험료 인상!&lt;/div&gt;&lt;div&gt;서둘러주세요!&lt;/div&gt;&lt;div&gt;https://naver.me/FqIttBwC&lt;/div&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">DB</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">DB손해보험</span>
+                                        <span class="msg-time">10-02 18:04</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(26)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=26'">
+                                            <div class="msg-title">최고저렴한 DB손보</div>
+                                            <div class="msg-body"><div>업계 최고저렴 DB간편보험</div><div>19일 보험료 인상!</div><div>서둘러주세요!</div><div><a href="https://naver.me/FqIttBwC" target="_blank" style="color:#3b82f6; text-decoration:underline;">https://naver.me/FqIttBwC</a></div></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                                                                            <div class="link-preview-container" data-url="https://naver.me/FqIttBwC" style="display: block;">
+                        <a href="https://naver.me/FqIttBwC" target="_blank" class="og-card">
+                            <div class="og-img" style="background-image:url(&quot;../assets/4adee1afa7de.jpg&quot;)"></div>
+                            <div class="og-text">
+                                <div class="og-title">디비 간편개정1.JPG</div>
+                                <div class="og-desc">winn*****님이 공유한 사진을 확인하세요.</div>
+                                <div class="og-domain">naver.me</div>
+                            </div>
+                        </a></div>
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/19412985139b.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790931861_1675.jpg&quot;], 0)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_24" style="display:none;" data-company="KB손해보험" data-date="2026-10-02" data-title="KB손보, 10월 가동하기 너무 좋아요!" data-desc="KB손보, 10월 가동하기 너무 좋아요!① 365간병인사용 최대 20만원 → 6시간 100%!② 비통치 1억→ 90세 한시연장!③ 삼통치 선지급→ 우주최강!④ 상" data-img="https://iga.pe.kr/board/sales_issue/sns_thumb.jpg?1790940939" data-files="[]">&lt;div&gt;KB손보, 10월 가동하기 너무 좋아요!&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;① 365간병인사용 최대 20만원 → 6시간 100%!&lt;/div&gt;&lt;div&gt;② 비통치 1억→ 90세 한시연장!&lt;/div&gt;&lt;div&gt;③ 삼통치 선지급→ 우주최강!&lt;/div&gt;&lt;div&gt;④ 상해.질병입원치료금→ 2일입원 최대 100만원(연간10회)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;간병인 20만원과 비급여1억 한시연장으로 설계폭주중!!!&lt;/div&gt;&lt;div&gt;팀장님들 미리 연락주세요!&lt;/div&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">KB</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">KB손해보험</span>
+                                        <span class="msg-time">10-02 18:01</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(24)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=24'">
+                                            <div class="msg-title">KB손보, 10월 가동하기 너무 좋아요!</div>
+                                            <div class="msg-body"><div>KB손보, 10월 가동하기 너무 좋아요!</div><div><br></div><div>① 365간병인사용 최대 20만원 → 6시간 100%!</div><div>② 비통치 1억→ 90세 한시연장!</div><div>③ 삼통치 선지급→ 우주최강!</div><div>④ 상해.질병입원치료금→ 2일입원 최대 100만원(연간10회)</div><div><br></div><div>간병인 20만원과 비급여1억 한시연장으로 설계폭주중!!!</div><div>팀장님들 미리 연락주세요!</div></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_23" style="display:none;" data-company="NH농협생명" data-date="2026-10-02" data-title="제목 [NH농협생명]" data-desc="제목 [NH농협생명][Web발신]네~팀장님~종신보험도 본인시책 지급합니다.종신도 카드납 되고요~*농협생명*[건강채움NH종신보험]*10월16일까지본인계약_시책지급*" data-img="https://iga.pe.kr/board/sales_issue/sns_thumb.jpg?1790940939" data-files="[]">&lt;div&gt;제목 [NH농협생명]&lt;/div&gt;&lt;div&gt;[Web발신]&lt;/div&gt;&lt;div&gt;네~팀장님~&lt;/div&gt;&lt;div&gt;종신보험도 본인시책 지급합니다.&lt;/div&gt;&lt;div&gt;종신도 카드납 되고요~&lt;/div&gt;&lt;div&gt;*농협생명*&lt;/div&gt;&lt;div&gt;[건강채움NH종신보험]&lt;/div&gt;&lt;div&gt;*10월16일까지본인계약_시책지급*&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;*스마트페이의 귀환*&lt;/div&gt;&lt;div&gt;쉬운완납방법은?&lt;/div&gt;&lt;div&gt;-5년납입후남은5년은30%납입&lt;/div&gt;&lt;div&gt;*일반페이_10년납&lt;/div&gt;&lt;div&gt;-연금보다강력한 노후전환&lt;/div&gt;&lt;div&gt;*주계약&lt;/div&gt;&lt;div&gt;-사망시150%&lt;/div&gt;&lt;div&gt;-암진단시100%/이후 사망시 100%&lt;/div&gt;&lt;div&gt;*일반암진단시 납입면제*&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;*[카톡]주시면 순차적 지원드려요*&lt;/div&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">NH</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">NH농협생명</span>
+                                        <span class="msg-time">10-02 18:01</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(23)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=23'">
+                                            <div class="msg-title">제목 [NH농협생명]</div>
+                                            <div class="msg-body"><div>제목 [NH농협생명]</div><div>[Web발신]</div><div>네~팀장님~</div><div>종신보험도 본인시책 지급합니다.</div><div>종신도 카드납 되고요~</div><div>*농협생명*</div><div>[건강채움NH종신보험]</div><div>*10월16일까지본인계약_시책지급*</div><div><br></div><div>*스마트페이의 귀환*</div><div>쉬운완납방법은?</div><div>-5년납입후남은5년은30%납입</div><div>*일반페이_10년납</div><div>-연금보다강력한 노후전환</div><div>*주계약</div><div>-사망시150%</div><div>-암진단시100%/이후 사망시 100%</div><div>*일반암진단시 납입면제*</div><div><br></div><div>*[카톡]주시면 순차적 지원드려요*</div></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_21" style="display:none;" data-company="삼성화재" data-date="2026-10-02" data-title="삼성화재 영업이슈" data-desc="안녕하세요~&amp;nbsp;삼성화재 박경연입니다????????10월 변경사항과 1주차 시상안 안내드립니다!변경되는 내용 꼭 확인해 주시고,이번 주 시상도 놓치지 않게 " data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1790931199_3710.png" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790931199_3710.png&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_114702854.png&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790931199_8700.png&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_114702854_01.png&quot;}]">&lt;div&gt;안녕하세요~&amp;nbsp;&lt;/div&gt;&lt;div&gt;삼성화재 박경연입니다????????&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;10월 변경사항과 1주차 시상안 안내드립니다!&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;변경되는 내용 꼭 확인해 주시고,&lt;/div&gt;&lt;div&gt;이번 주 시상도 놓치지 않게 알차게 챙겨주세요~ ????&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;10월도 삼성화재와 함께 힘차게 시작해요! ????&lt;/div&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">삼성</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">삼성화재</span>
+                                        <span class="msg-time">10-02 17:53</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(21)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=21'">
+                                            <div class="msg-title">삼성화재 영업이슈</div>
+                                            <div class="msg-body"><div>안녕하세요~&nbsp;</div><div>삼성화재 박경연입니다????????</div><div><br></div><div>10월 변경사항과 1주차 시상안 안내드립니다!</div><div><br></div><div>변경되는 내용 꼭 확인해 주시고,</div><div>이번 주 시상도 놓치지 않게 알차게 챙겨주세요~ ????</div><div><br></div><div>10월도 삼성화재와 함께 힘차게 시작해요! ????</div></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/a7e5811af78d.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790931199_3710.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790931199_8700.png&quot;], 0)">
+                                                                                                            <img src="../assets/46f36a1851b2.png" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790931199_3710.png&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790931199_8700.png&quot;], 1)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_20" style="display:none;" data-company="라이나손해보험" data-date="2026-10-02" data-title="라이나손보 영업이슈 영상" data-desc="https://pf.kakao.com/_dihxcK/114779194" data-img="https://iga.pe.kr/board/sales_issue/sns_thumb.jpg?1790940939" data-files="[]">&lt;span style="color: rgb(25, 25, 25); font-family: -apple-system, system-ui, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, &amp;quot;Malgun Gothic&amp;quot;, &amp;quot;맑은 고딕&amp;quot;, sans-serif; font-size: 14px; white-space: pre;"&gt;https://pf.kakao.com/_dihxcK/114779194&lt;/span&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">라이</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">라이나손해보험</span>
+                                        <span class="msg-time">10-02 17:50</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(20)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=20'">
+                                            <div class="msg-title">라이나손보 영업이슈 영상</div>
+                                            <div class="msg-body"><span style="color: rgb(25, 25, 25); font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Malgun Gothic&quot;, &quot;맑은 고딕&quot;, sans-serif; font-size: 14px; white-space: pre;"><a href="https://pf.kakao.com/_dihxcK/114779194" target="_blank" style="color:#3b82f6; text-decoration:underline;">https://pf.kakao.com/_dihxcK/114779194</a></span></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                                                                            <div class="link-preview-container" data-url="https://pf.kakao.com/_dihxcK/114779194" style="display: block;">
+                        <a href="https://pf.kakao.com/_dihxcK/114779194" target="_blank" class="og-card">
+                            <div class="og-img" style="background-image:url(&quot;../assets/0bdd2d15a092.jpg&quot;)"></div>
+                            <div class="og-text">
+                                <div class="og-title">10월 영업전략 </div>
+                                <div class="og-desc">팀장님들~ 라이나손보가 선보이는 보장의 꿀조합! 레시피를 소개해드리겠습니다!!
+
+10월 영업전략을 영상으로 한 번에!👌
+
+⭐간단 세줄 요약⭐
+
+⭐첫 번째  꿀조합!
+
+암특치(고급형)+치통플랜: 연간 최대 2억까지 보장하는 암특정치료비(고급형)과 암통합치료생활비,
+원격지암직접치료통원 교통및임시거주비보장까지!
+복합치료도 원격지통원도 모두 보장하는 암특치통원플랜!!
+
+⭐두 번째 꿀조합!
+
+통순치+통합질수당(고급형):
+최대 61개 코드를 보장하...</div>
+                                <div class="og-domain">pf.kakao.com</div>
+                            </div>
+                        </a></div>
+                                            
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_19" style="display:none;" data-company="동양생명" data-date="2026-10-02" data-title="●●● 동 양 생 명 안 내 사 항 ●●●" data-desc="●●● 동 양 생 명 안 내 사 항 ●●●&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbs" data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1790930836_1967.jpg" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930836_1967.jpg&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_164718081.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930836_7422.jpg&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_164718081_01.jpg&quot;}]">&lt;div&gt;●●● 동 양 생 명 안 내 사 항 ●●●&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;알뜰종신 단기납 5년납 부활&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; 장기납 종신보험은 모두 판매 중지로 인하여 대체 상품 쑥쑥어린이보험을&amp;nbsp;&lt;/div&gt;&lt;div&gt;강력 추천 드립니다.&lt;/div&gt;&lt;div&gt;(15년납.20년납)&amp;nbsp;&lt;/div&gt;&lt;div&gt;■ 10년 싯점 원금도달 5세 기준&lt;/div&gt;&lt;div&gt;[약 102%~103%]&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;10월도 화이팅 하십시요~!&lt;/div&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">동양</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">동양생명</span>
+                                        <span class="msg-time">10-02 17:47</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(19)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=19'">
+                                            <div class="msg-title">●●● 동 양 생 명 안 내 사 항 ●●●</div>
+                                            <div class="msg-body"><div>●●● 동 양 생 명 안 내 사 항 ●●●&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div><div><br></div><div>알뜰종신 단기납 5년납 부활</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 장기납 종신보험은 모두 판매 중지로 인하여 대체 상품 쑥쑥어린이보험을&nbsp;</div><div>강력 추천 드립니다.</div><div>(15년납.20년납)&nbsp;</div><div>■ 10년 싯점 원금도달 5세 기준</div><div>[약 102%~103%]</div><div><br></div><div>10월도 화이팅 하십시요~!</div></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/81fe4823f07b.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930836_1967.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930836_7422.jpg&quot;], 0)">
+                                                                                                            <img src="../assets/20177dc1e906.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930836_1967.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930836_7422.jpg&quot;], 1)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_18" style="display:none;" data-company="흥국화재" data-date="2026-10-02" data-title="흥국화재 간병인 비교불가 경쟁력 안내" data-desc="[★중요★] 흥국화재 간병인 비교불가 경쟁력 안내아직도 간병인 보험 망설이시나요?흥국화재 간병인보장이 압도적인 이유, 딱 5가지로 정리해 드립니다!✔면책 없음: " data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1790930631_1802.jpg" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930631_1802.jpg&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_171144181.jpg&quot;}]">&lt;div&gt;[★중요★] 흥국화재 간병인 비교불가 경쟁력 안내&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;아직도 간병인 보험 망설이시나요?&lt;/div&gt;&lt;div&gt;흥국화재 간병인보장이 압도적인 이유, 딱 5가지로 정리해 드립니다!&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;✔면책 없음: 180일 면책 NO! (K사: 180일 면책 有)&lt;/div&gt;&lt;div&gt;✔요양병원 보장: 365일 계속 보장! (K사: 180일까지만)&lt;/div&gt;&lt;div&gt;✔지급 기준: 입원 시점 24시간 기준 첫날 보장! (K사: 6시간 미만 시 보장불가)&lt;/div&gt;&lt;div&gt;✔감액 기간: 유병자도 감액기간 0일! (K사: 1년 내 50% 감액)&lt;/div&gt;&lt;div&gt;✔더 착한 보험료: 50세 남 기준 26,880원 (K사: 32,320원)&lt;/div&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">흥국</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">흥국화재</span>
+                                        <span class="msg-time">10-02 17:43</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(18)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=18'">
+                                            <div class="msg-title">흥국화재 간병인 비교불가 경쟁력 안내</div>
+                                            <div class="msg-body"><div>[★중요★] 흥국화재 간병인 비교불가 경쟁력 안내</div><div><br></div><div>아직도 간병인 보험 망설이시나요?</div><div>흥국화재 간병인보장이 압도적인 이유, 딱 5가지로 정리해 드립니다!</div><div><br></div><div>✔면책 없음: 180일 면책 NO! (K사: 180일 면책 有)</div><div>✔요양병원 보장: 365일 계속 보장! (K사: 180일까지만)</div><div>✔지급 기준: 입원 시점 24시간 기준 첫날 보장! (K사: 6시간 미만 시 보장불가)</div><div>✔감액 기간: 유병자도 감액기간 0일! (K사: 1년 내 50% 감액)</div><div>✔더 착한 보험료: 50세 남 기준 26,880원 (K사: 32,320원)</div></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/78ec4df4bd92.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930631_1802.jpg&quot;], 0)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_17" style="display:none;" data-company="한화생명" data-date="2026-10-02" data-title="한화생명 영업이슈" data-desc="한화생명 영업이슈" data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1790930372_7673.jpg" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930372_7673.jpg&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_172049676.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930372_2171.jpg&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_172049676_01.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930372_4437.jpg&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_172049676_02.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930372_5576.jpg&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_172049676_03.jpg&quot;}]">한화생명 영업이슈</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">한화</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">한화생명</span>
+                                        <span class="msg-time">10-02 17:39</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(17)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=17'">
+                                            <div class="msg-title">한화생명 영업이슈</div>
+                                            <div class="msg-body">한화생명 영업이슈</div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/afa8bcd7199e.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_7673.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_2171.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_4437.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_5576.jpg&quot;], 0)">
+                                                                                                            <img src="../assets/594f2fa0cecf.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_7673.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_2171.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_4437.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_5576.jpg&quot;], 1)">
+                                                                                                            <img src="../assets/37381264db5f.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_7673.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_2171.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_4437.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_5576.jpg&quot;], 2)">
+                                                                                                            <img src="../assets/be4966481120.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_7673.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_2171.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_4437.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930372_5576.jpg&quot;], 3)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_15" style="display:none;" data-company="KB라이프생명" data-date="2026-10-02" data-title="딱좋은요즘건강보험" data-desc="딱좋은요즘건강보험" data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1790930101_6443.jpg" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930101_6443.jpg&quot;,&quot;name&quot;:&quot;001.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930101_9670.jpg&quot;,&quot;name&quot;:&quot;002.jpg&quot;},{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930101_8265.jpg&quot;,&quot;name&quot;:&quot;003.jpg&quot;}]">딱좋은요즘건강보험</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">KB</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">KB라이프생명</span>
+                                        <span class="msg-time">10-02 17:35</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(15)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=15'">
+                                            <div class="msg-title">딱좋은요즘건강보험</div>
+                                            <div class="msg-body">딱좋은요즘건강보험</div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/43c84fc222fc.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930101_6443.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930101_9670.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930101_8265.jpg&quot;], 0)">
+                                                                                                            <img src="../assets/83daa73f373a.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930101_6443.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930101_9670.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930101_8265.jpg&quot;], 1)">
+                                                                                                            <img src="../assets/52f3842ab5c8.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930101_6443.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930101_9670.jpg&quot;,&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930101_8265.jpg&quot;], 2)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                            <textarea id="post_data_14" style="display:none;" data-company="KB라이프생명" data-date="2026-10-02" data-title="KB라이프시책공지" data-desc="안녕하세요 ???? KB라이프 매니저 ***입니다(*********)10월 KB라이프 주요 시책 안내드립니다!???? 건강보험10만원 청약 시 최대 2,550%?" data-img="https://iga.pe.kr/board/sales_issue/index.php?action=view_thumb&amp;file=1790930028_7910.jpg" data-files="[{&quot;path&quot;:&quot;\/volume1\/sales_issue\/1790930028_7910.jpg&quot;,&quot;name&quot;:&quot;KakaoTalk_20261002_121944462.jpg&quot;}]">&lt;div&gt;안녕하세요 ???? KB라이프 매니저 ***입니다(*********)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;10월 KB라이프 주요 시책 안내드립니다!&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;???? 건강보험&lt;/div&gt;&lt;div&gt;10만원 청약 시 최대 2,550%&lt;/div&gt;&lt;div&gt;???? 100세 든든연금&lt;/div&gt;&lt;div&gt;10년납부터 700%&lt;/div&gt;&lt;div&gt;???? 트리플레벨업연금&lt;/div&gt;&lt;div&gt;400%&lt;/div&gt;&lt;div&gt;???? 경영인정기&lt;/div&gt;&lt;div&gt;450%&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;10월도 주요 시책 잘 활용하셔서 혜택 꼭 챙기세요! 파이팅입니다 ????&lt;/div&gt;</textarea>
+
+                            <div class="msg-row">
+                                <div class="msg-avatar">KB</div>
+                                <div class="msg-content-area">
+                                    <div class="msg-info">
+                                        <span class="msg-company">KB라이프생명</span>
+                                        <span class="msg-time">10-02 17:33</span>
+                                        
+                                        <div class="msg-tools">
+                                            <!-- 개별 게시물 카카오톡 공유 버튼 -->
+                                            <button type="button" class="btn-kakao-share" onclick="sharePostKakao(14)">
+                                                💬 카톡
+                                            </button>
+
+                                                                                    </div>
+                                    </div>
+                                    
+                                    <div class="msg-bubble">
+                                        <div class="msg-text-clickable" onclick="location.href='view.php?id=14'">
+                                            <div class="msg-title">KB라이프시책공지</div>
+                                            <div class="msg-body"><div>안녕하세요 ???? KB라이프 매니저 ***입니다(*********)</div><div><br></div><div>10월 KB라이프 주요 시책 안내드립니다!</div><div><br></div><div>???? 건강보험</div><div>10만원 청약 시 최대 2,550%</div><div>???? 100세 든든연금</div><div>10년납부터 700%</div><div>???? 트리플레벨업연금</div><div>400%</div><div>???? 경영인정기</div><div>450%</div><div><br></div><div>10월도 주요 시책 잘 활용하셔서 혜택 꼭 챙기세요! 파이팅입니다 ????</div></div>
+                                        </div>
+
+                                        <div class="msg-media-area">
+                                            
+                                                                                            <div class="msg-images">
+                                                                                                            <img src="../assets/6cd9ef26e009.jpg" class="msg-img-thumb" onclick="openGallery([&quot;https:\/\/bolab.myasustor.com\/nas_mount\/sales_issue\/1790930028_7910.jpg&quot;], 0)">
+                                                                                                    </div>
+                                            
+                                                                                        
+                                                                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                            </div> 
+                                    </main>
+    </div>
+</div>
+
+
+<div id="galleryModal" class="modal">
+    <div class="gallery-content" style="flex-direction:column;">
+        <button class="close-btn" onclick="closeModal('galleryModal')">×</button>
+        <button class="nav-btn prev" onclick="prevSlide()">❮</button>
+        <img id="gallery-img" src="" alt="게시물 사진">
+        <button class="nav-btn next" onclick="nextSlide()">❯</button>
+    </div>
+</div>
+
+<div id="videoModal" class="modal">
+    <div class="gallery-content" style="flex-direction:column;">
+        <button class="close-btn" onclick="closeModal('videoModal')">×</button>
+        <video id="popup-video" controls="" autoplay="" style="max-width:90%; max-height:80vh; border-radius:16px; background:#000; box-shadow:0 20px 40px rgba(0,0,0,0.3);"></video>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#form-content').summernote({
+            height: 300, lang: 'ko-KR',
+            toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'clear']], ['color', ['color']], ['para', ['ul', 'ol', 'paragraph']], ['table', ['table']], ['view', ['codeview', 'help']]],
+            placeholder: '이곳에 상세 내용을 입력하세요.'
+        });
+
+        $('#mobile-menu-btn').on('click', function() {
+            $('.board-sidebar').slideToggle(200);
+            var btnText = $(this).text();
+            $(this).text(btnText.includes('열기') ? '📂 메뉴 및 검색 필터 닫기' : '📁 메뉴 및 검색 필터 열기');
+        });
+
+        $('.link-preview-container').each(function() {
+            var container = $(this);
+            var url = container.data('url');
+            if (url) {
+                $.getJSON('?action=get_og&url=' + encodeURIComponent(url), function(data) {
+                    if (data.title || data.img) {
+                        var domain = '';
+                        try { domain = new URL(data.url).hostname; } catch(e) { domain = '외부 링크'; }
+                        var imgHtml = data.img ? `<div class="og-img" style="background-image:url('${data.img}')"></div>` : '';
+                        var html = `
+                        <a href="${data.url}" target="_blank" class="og-card">
+                            ${imgHtml}
+                            <div class="og-text">
+                                <div class="og-title">${data.title}</div>
+                                <div class="og-desc">${data.desc}</div>
+                                <div class="og-domain">${domain}</div>
+                            </div>
+                        </a>`;
+                        container.html(html).fadeIn();
+                    }
+                });
+            }
+        });
+    });
+
+    // 🚨 1. 개별 게시물 카카오톡 공유 함수
+    function sharePostKakao(postId) {
+        if (!window.Kakao) {
+            alert('카카오 SDK 로드에 실패했습니다.');
+            return;
+        }
+        var dataField = document.getElementById('post_data_' + postId);
+        if (!dataField) return;
+
+        var company = dataField.getAttribute('data-company');
+        var title = dataField.getAttribute('data-title');
+        var desc = dataField.getAttribute('data-desc');
+        var imgUrl = dataField.getAttribute('data-img');
+
+        var postUrl = window.location.origin + window.location.pathname.replace('index.php', '') + 'view.php?id=' + postId;
+        
+        var finalImg = (imgUrl && imgUrl.trim() !== '') ? imgUrl : 'https://iga.pe.kr/board/sales_issue/sns_thumb.jpg';
+
+        Kakao.Share.sendDefault({
+            objectType: 'feed',
+            content: {
+                title: '[' + company + '] ' + title,
+                description: desc,
+                imageUrl: finalImg,
+                link: {
+                    mobileWebUrl: postUrl,
+                    webUrl: postUrl
+                }
+            },
+            buttons: [
+                {
+                    title: '게시물 확인하기',
+                    link: {
+                        mobileWebUrl: postUrl,
+                        webUrl: postUrl
+                    }
+                }
+            ]
+        });
+    }
+
+    // 🚨 2. 해당 일자 전체 이슈 카카오톡 공유 함수
+    function shareDateKakao(dateStr, count) {
+        if (!window.Kakao) {
+            alert('카카오 SDK 로드에 실패했습니다.');
+            return;
+        }
+
+        var shareUrl = window.location.origin + window.location.pathname + '?mode=list&date=' + encodeURIComponent(dateStr);
+        var defImg = 'https://iga.pe.kr/board/sales_issue/sns_thumb.jpg?1790940939' || 'https://iga.pe.kr/board/sales_issue/sns_thumb.jpg';
+
+        Kakao.Share.sendDefault({
+            objectType: 'feed',
+            content: {
+                title: '🗓 [' + dateStr + '] 오늘의 영업 이슈 모음',
+                description: '총 ' + count + '건의 중요 영업 이슈가 등록되었습니다. 지금 확인해 보세요.',
+                imageUrl: defImg,
+                link: {
+                    mobileWebUrl: shareUrl,
+                    webUrl: shareUrl
+                }
+            },
+            buttons: [
+                {
+                    title: '일자별 이슈 모아보기',
+                    link: {
+                        mobileWebUrl: shareUrl,
+                        webUrl: shareUrl
+                    }
+                }
+            ]
+        });
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+        document.body.style.overflow = 'auto';
+        if (id === 'videoModal') {
+            document.getElementById('popup-video').pause();
+        }
+    }
+    
+    function openModal(id) {
+        if(id === 'writeModal') {
+            document.getElementById('modal-title-text').innerText = '✍ 영업 이슈 등록';
+            document.getElementById('form-action').value = 'write';
+            document.getElementById('form-post-id').value = '';
+            document.getElementById('form-company').value = '';
+            document.getElementById('form-title').value = '';
+            $('#form-content').summernote('code', ''); 
+            document.getElementById('edit-file-section').style.display = 'none';
+            document.getElementById('form-submit-btn').innerText = '등록 완료하기';
+        }
+        document.getElementById(id).style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function openEditModal(postId) {
+        var dataField = document.getElementById('post_data_' + postId);
+        if(!dataField) return;
+        document.getElementById('modal-title-text').innerText = '✏ 영업 이슈 수정';
+        document.getElementById('form-action').value = 'edit';
+        document.getElementById('form-post-id').value = postId;
+        document.getElementById('form-company').value = dataField.getAttribute('data-company');
+        document.getElementById('form-date').value = dataField.getAttribute('data-date');
+        document.getElementById('form-title').value = dataField.getAttribute('data-title');
+        $('#form-content').summernote('code', dataField.value);
+        
+        var files = JSON.parse(dataField.getAttribute('data-files'));
+        var fileListHtml = '';
+        if (files.length > 0) {
+            files.forEach(function(f, idx) {
+                fileListHtml += `<div class="edit-file-item" id="efile_${idx}"><span>📄 ${f.name}</span><button type="button" onclick="markDeleteFile('${f.path}', ${idx})">❌ 삭제</button></div>`;
+            });
+            document.getElementById('edit-file-section').style.display = 'block';
+        } else { document.getElementById('edit-file-section').style.display = 'none'; }
+        document.getElementById('edit-file-list').innerHTML = fileListHtml;
+        document.getElementById('deleted-files-container').innerHTML = '';
+        document.getElementById('writeModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function markDeleteFile(path, idx) {
+        document.getElementById('efile_' + idx).style.display = 'none';
+        document.getElementById('deleted-files-container').innerHTML += `<input type="hidden" name="delete_file_paths[]" value="${path}">`;
+    }
+
+    var currentImages = [];
+    var currentIndex = 0;
+    
+    function openGallery(images, startIndex = 0) {
+        if (images.length === 0) return;
+        currentImages = images;
+        currentIndex = startIndex;
+        document.getElementById('gallery-img').src = currentImages[currentIndex];
+        document.querySelector('.nav-btn.prev').style.display = (images.length <= 1) ? 'none' : 'flex';
+        document.querySelector('.nav-btn.next').style.display = (images.length <= 1) ? 'none' : 'flex';
+        document.getElementById('galleryModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function openVideoModal(url) {
+        var v = document.getElementById('popup-video');
+        v.src = url;
+        document.getElementById('videoModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        v.play();
+    }
+
+    function prevSlide() {
+        if (currentImages.length <= 1) return;
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : currentImages.length - 1;
+        document.getElementById('gallery-img').src = currentImages[currentIndex];
+    }
+    function nextSlide() {
+        if (currentImages.length <= 1) return;
+        currentIndex = (currentIndex < currentImages.length - 1) ? currentIndex + 1 : 0;
+        document.getElementById('gallery-img').src = currentImages[currentIndex];
+    }
+
+    window.addEventListener('click', function(e) {
+        if (e.target.id === 'galleryModal' || e.target.id === 'videoModal') {
+            e.target.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            var vid = document.getElementById('popup-video');
+            if (vid) vid.pause(); 
+        }
+    });
+</script>
+
+
+</body></html>

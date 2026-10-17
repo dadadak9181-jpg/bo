@@ -1,0 +1,1748 @@
+<!DOCTYPE html><html lang="ko"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>보험사별 사고보험금 청구 서식 통합 다운로드</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        * { box-sizing: border-box; }
+        body { font-family: 'Pretendard', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
+
+        .wrapper { max-width: 1460px; margin: 25px auto 60px auto; padding: 0 16px; }
+
+        .header-box { background: #fff; padding: 24px 28px; border-radius: 14px; border: 1px solid #e2e8f0; margin-bottom: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .header-box h1 { font-size: 24px; font-weight: 900; color: #0f172a; margin: 0 0 6px 0; }
+        .header-box p { margin: 0; font-size: 14px; color: #64748b; font-weight: 600; }
+
+        .tab-wrap { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { padding: 11px 24px; font-size: 15px; font-weight: 800; border-radius: 8px; text-decoration: none; border: 1px solid #cbd5e1; background: #fff; color: #475569; transition: 0.2s; }
+        .tab-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; box-shadow: 0 4px 12px rgba(15,23,42,0.15); }
+        .tab-btn:hover:not(.active) { background: #f1f5f9; }
+
+        /* =========================================================================
+           💻 PC 전용 테이블 스타일 (851px 이상에서 출력)
+           ========================================================================= */
+        .pc-table-card { 
+            display: block;
+            background: #fff; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 14px; 
+            overflow-x: auto; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+        }
+        
+        table.claim-form-table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+            text-align: center;
+            min-width: 1260px;
+        }
+        
+        table.claim-form-table thead th {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 14px 6px;
+            font-size: 13.5px;
+            font-weight: 800;
+            border-right: 1px solid #334155;
+            white-space: nowrap;
+        }
+        table.claim-form-table thead th:last-child { border-right: none; }
+
+        table.claim-form-table tbody tr {
+            border-bottom: 1.5px solid #cbd5e1;
+            transition: background 0.15s;
+        }
+        table.claim-form-table tbody tr:hover { background: #f8fafc; }
+
+        table.claim-form-table tbody td {
+            padding: 10px 4px;
+            vertical-align: middle;
+            font-size: 13px;
+            height: 66px;
+        }
+
+        .logo-box { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 100%; 
+            max-width: 150px; 
+            height: 48px; 
+            margin: 0 auto; 
+            padding: 2px 4px;
+        }
+        .logo-img { 
+            width: 100%; 
+            max-width: 140px; 
+            height: auto; 
+            max-height: 44px; 
+            object-fit: contain; 
+            display: block; 
+        }
+
+        .btn-form-down {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            width: 100%;
+            max-width: 105px;
+            height: 35px;
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            white-space: nowrap;
+        }
+        .btn-form-down:hover {
+            background: #16a34a;
+            color: #ffffff;
+            border-color: #16a34a;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(22,163,74,0.2);
+        }
+        .btn-form-down svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
+
+        .down-empty { color: #cbd5e1; font-weight: 800; font-size: 16px; user-select: none; }
+
+        .btn-etc-more {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 0 12px;
+            height: 35px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .btn-etc-more:hover {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(37,99,235,0.2);
+        }
+
+        /* =========================================================================
+           📱 [모바일 전용] 초슬림 2단(2열) 다단 카드 뷰 (850px 이하)
+           ========================================================================= */
+        .mobile-card-wrap {
+            display: none;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .m-form-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .m-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 8px;
+            height: 38px;
+        }
+        .m-logo-box {
+            width: 100%;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .m-logo-img {
+            max-width: 100%;
+            max-height: 30px;
+            object-fit: contain;
+        }
+        .m-comp-txt {
+            font-size: 14px;
+            font-weight: 900;
+            color: #0f172a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .m-form-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .m-form-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            border-radius: 6px;
+            padding: 4px 6px;
+            border: 1px solid #f1f5f9;
+        }
+        .m-form-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: #475569;
+            white-space: nowrap;
+        }
+
+        .m-btn-down {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 10.5px;
+            font-weight: 800;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .m-btn-down:active {
+            background: #16a34a;
+            color: #ffffff;
+        }
+        .m-btn-down svg { width: 10px; height: 10px; fill: currentColor; }
+
+        .m-empty-dash {
+            font-size: 11px;
+            color: #cbd5e1;
+            font-weight: 800;
+            padding-right: 4px;
+        }
+
+        .m-btn-etc {
+            width: 100%;
+            height: 30px;
+            margin-top: 4px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+        .m-btn-etc:active {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        /* 추가 서식 모달 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(3px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-card {
+            background: #fff;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 720px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            padding: 24px 26px;
+            animation: modalFadeIn 0.2s ease-out;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1.5px solid #e2e8f0;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+        .modal-header h3 { margin: 0; font-size: 18px; font-weight: 900; color: #0f172a; }
+        .btn-close-modal {
+            background: none; border: none; font-size: 24px; cursor: pointer; color: #64748b; font-weight: bold;
+        }
+        .btn-close-modal:hover { color: #0f172a; }
+        .modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 12px;
+        }
+        .modal-item-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 14px;
+            transition: all 0.15s;
+        }
+        .modal-item-box:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        .modal-item-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1e293b;
+            word-break: keep-all;
+            line-height: 1.35;
+        }
+        .modal-item-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #16a34a;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: 0.15s;
+            flex-shrink: 0;
+        }
+        .modal-item-btn:hover {
+            background: #15803d;
+            transform: translateY(-1px);
+        }
+
+        .by-me-footer { 
+            margin-top: 50px; 
+            padding: 25px 20px; 
+            background: #fff; 
+            border-radius: 12px; 
+            border: 1px solid #e2e8f0; 
+            text-align: center; 
+            font-size: 13.5px; 
+            color: #64748b; 
+            line-height: 1.6; 
+        }
+        .by-me-footer b { color: #002b5e; font-size: 15px; }
+
+        @media (max-width: 850px) {
+            .wrapper { margin: 15px auto 40px auto; padding: 0 10px; }
+            .header-box { padding: 16px 14px; border-radius: 12px; margin-bottom: 14px; }
+            .header-box h1 { font-size: 19px; }
+            .header-box p { font-size: 12px; }
+            .tab-wrap { margin-bottom: 12px; gap: 6px; }
+            .tab-btn { padding: 8px 6px; font-size: 12.5px; flex: 1 1 calc(33.333% - 6px); text-align: center; white-space: nowrap; }
+
+            .pc-table-card { display: none !important; }
+            .mobile-card-wrap { display: grid !important; }
+            .modal-card { padding: 18px 16px; }
+            .modal-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 360px) {
+            .mobile-card-wrap { grid-template-columns: 1fr; }
+            .tab-btn { flex: 1 1 100%; }
+        }
+    </style>
+</head>
+<body>
+
+
+<style>
+    .navbar { background-color: #ffffff; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 65px; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 900; box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-container { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+    
+    .nav-left { display: flex; height: 100%; align-items: center; margin:0; padding:0; }
+    .nav-item { position: relative; display: inline-block; height: 100%; }
+    .nav-item > a { color: #334155; font-weight: 700; font-size: 15px; padding: 0 18px; display: flex; align-items: center; height: 65px; transition: color 0.2s; text-decoration: none; box-sizing: border-box;}
+    .nav-item:hover > a { color: #2563eb; }
+
+    .nav-dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 220px; box-shadow: 0px 10px 25px rgba(0,0,0,0.1); z-index: 1001; top: 100%; left: 0; border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; border-top: none; }
+    .nav-dropdown-content a { color: #475569; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; border-bottom: 1px solid #f1f5f9; transition: 0.2s; font-weight: 500; text-decoration: none; position: relative; }
+    .nav-dropdown-content a:hover { background-color: #f8fafc; color: #2563eb; }
+
+    .nav-sub-item { position: relative; width: 100%; }
+    .nav-sub-dropdown { display: none; position: absolute; left: 100%; top: 0; background-color: #ffffff; min-width: 210px; box-shadow: 5px 10px 25px rgba(0,0,0,0.1); z-index: 1002; border-radius: 0 8px 8px 8px; border: 1px solid #e2e8f0; }
+    .nav-sub-dropdown a { padding: 11px 16px; font-size: 13.5px; border-bottom: 1px solid #f1f5f9; }
+
+    .arrow-indicator { font-size: 11px; margin-left: 6px; transition: transform 0.2s ease; display: inline-block; }
+    .arrow-sub { font-size: 11px; margin-left: 6px; color: #94a3b8; transition: transform 0.2s ease; display: inline-block; }
+
+    @media (min-width: 851px) {
+        .nav-item:hover > .nav-dropdown-content { display: block; }
+        .nav-sub-item:hover > .nav-sub-dropdown { display: block; }
+        .mobile-only-link { display: none !important; }
+    }
+    
+    .nav-right { display: flex; gap: 12px; align-items: center; margin:0; padding:0; height: 100%; }
+    .visitor-counter { background: #f8fafc; border: 1px solid #e2e8f0; padding: 5px 10px; border-radius: 6px; font-size: 12px; color: #64748b; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+    .visitor-counter span { color: #0ea5e9; }
+    
+    .nav-group-btn { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #334155; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; cursor: pointer; transition: 0.2s; text-decoration: none; }
+    .nav-group-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+    .btn-sitemap { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 13.5px; font-weight: 800; padding: 7px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; text-decoration: none; }
+    .btn-sitemap:hover { background: #2563eb; color: #ffffff; border-color: #2563eb; }
+    
+    .nav-right-dropdown { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-right-content { display: none; position: absolute; right: 0; top: 100%; background: #fff; min-width: 215px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; overflow: hidden; z-index: 1000; }
+    @media (min-width: 851px) {
+        .nav-right-dropdown:hover .nav-right-content { display: block; }
+    }
+    .nav-right-content a { display: block; padding: 12px 16px; font-size: 13.5px; color: #475569; text-decoration: none; font-weight: 600; border-bottom: 1px solid #f1f5f9; transition: 0.2s; }
+    .nav-right-content a:hover { background: #f8fafc; color: #2563eb; }
+    .nav-right-content a.danger:hover { color: #ef4444; background: #fef2f2; }
+
+    .nav-mobile-toggle { display: none; font-size: 26px; cursor: pointer; color: #334155; }
+
+    .nav-modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15,23,42,0.6); backdrop-filter: blur(5px); }
+    .nav-modal-content { background-color: #ffffff; margin: 3vh auto; padding: 40px; border-radius: 24px; width: 95%; position: relative; max-height: 94vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.25); box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-close-btn { position: absolute; right: 25px; top: 20px; font-size: 32px; cursor: pointer; color: #94a3b8; transition: 0.2s; line-height: 1; z-index:10; }
+    .nav-close-btn:hover { color: #ef4444; }
+    
+    #navIframeModal .nav-modal-content { padding: 0; max-width: 1100px; height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+    #navIframeModal .nav-close-btn { right: 20px; top: 15px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    #navIframeModal iframe { width: 100%; height: 100%; border: none; border-radius: 24px; }
+
+    #navSitemapModal .nav-modal-content { max-width: 1150px; padding: 35px 30px; }
+    .sitemap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 15px; margin-bottom: 25px; }
+    .sitemap-header h2 { margin: 0; font-size: 22px; font-weight: 900; color: #0f172a; }
+    .sitemap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .sitemap-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .sitemap-p1-title { font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 12px; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
+    .sitemap-p1-title a { color: inherit; text-decoration: none; }
+    .sitemap-p1-title a:hover { color: #2563eb; }
+    .sitemap-p2-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .sitemap-p2-item { font-size: 13.5px; font-weight: 700; }
+    .sitemap-p2-item > a { color: #334155; text-decoration: none; display: block; padding: 3px 0; }
+    .sitemap-p2-item > a:hover { color: #2563eb; }
+    .sitemap-p3-list { list-style: none; padding-left: 14px; margin: 4px 0 0 0; display: flex; flex-direction: column; gap: 4px; border-left: 2px solid #cbd5e1; }
+    .sitemap-p3-item { font-size: 12.5px; font-weight: 600; }
+    .sitemap-p3-item a { color: #64748b; text-decoration: none; }
+    .sitemap-p3-item a:hover { color: #2563eb; }
+
+    @media (max-width: 850px) {
+        .navbar { flex-direction: column; align-items: flex-start; height: auto; padding: 15px 20px; }
+        .nav-mobile-toggle { display: block; position: absolute; right: 20px; top: 18px; }
+        .nav-logo-area { display: block; font-weight: 800; font-size: 20px; color: #0f172a; text-decoration: none; }
+        .nav-container { display: none; flex-direction: column; width: 100%; gap: 15px; margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+        .nav-container.active { display: flex; }
+        .nav-left { flex-direction: column; align-items: flex-start; width: 100%; }
+        .nav-right { flex-direction: column; align-items: stretch; width: 100%; gap: 10px; }
+        .nav-item, .nav-right-dropdown { width: 100%; height: auto; }
+        
+        .nav-item > a, .nav-group-btn { 
+            height: auto; 
+            padding: 13px 8px; 
+            border-bottom: 1px solid #f1f5f9; 
+            width: 100%; 
+            border-radius: 0; 
+            border: none; 
+            background: transparent; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .nav-dropdown-content { 
+            display: none; 
+            position: static; 
+            box-shadow: none; 
+            border: none; 
+            border-left: 3px solid #2563eb; 
+            border-radius: 0; 
+            background: #f8fafc; 
+            padding-left: 8px; 
+            margin: 4px 0 10px 0; 
+            width: 100%; 
+        }
+        .nav-dropdown-content.open { 
+            display: block !important; 
+        }
+
+        .nav-dropdown-content a {
+            padding: 11px 12px;
+            font-size: 13.5px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .nav-sub-dropdown { 
+            display: none; 
+            position: static; 
+            border: none; 
+            box-shadow: none; 
+            background: #ffffff; 
+            padding-left: 12px; 
+            border-left: 2px solid #94a3b8; 
+            margin: 4px 0 8px 0; 
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+        .nav-sub-dropdown.open { 
+            display: block !important; 
+        }
+
+        .nav-sub-dropdown a {
+            padding: 9px 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .nav-parent-link.active-toggle .arrow-indicator {
+            transform: rotate(180deg);
+            color: #2563eb;
+        }
+
+        .nav-sub-parent.active-toggle .arrow-sub {
+            transform: rotate(90deg);
+            color: #2563eb;
+        }
+
+        .visitor-counter { justify-content: center; padding: 10px 0; }
+        .btn-sitemap { justify-content: center; width: 100%; padding: 10px; }
+    }
+</style>
+<link href="../assets/2b9f3e10cb8b.css" rel="stylesheet">
+<script src="../assets/4395c6aa4084.js"></script>
+
+<div class="navbar no-print">
+    <a href="947659214c33.html" class="nav-logo-area" style="display:none;">GA매뉴얼</a>
+    <div class="nav-mobile-toggle" onclick="toggleMobileNav()">☰</div>
+
+    <div class="nav-container" id="navMobileContainer">
+        <div class="nav-left">
+                                            <div class="nav-item">
+                                            <a href="947659214c33.html" class="nav-parent-link" data-has-children="true" style="">
+                            <span>홈(메인)</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="947659214c33.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 홈(메인) 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="44e3452ef6c9.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>메인모듬링크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="44e3452ef6c9.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 메인모듬링크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="44e3452ef6c9.html">
+                                                    보험전산 링크                                                </a>
+                                                                                                                                            <a href="e6ed6a9f92e2.html">
+                                                    고객센터/팩스번호                                                </a>
+                                                                                                                                            <a href="3153c6257bf8.html">
+                                                    청구_이메일/URL링크                                                </a>
+                                                                                                                                            <a href="75533ed272f1.html">
+                                                    청구한도금액안내                                                </a>
+                                                                                                                                            <a href="3b392eb2b880.html">
+                                                    청구 우편주소                                                </a>
+                                                                                                                                            <a href="75ddd1a0ebd6.html">
+                                                    청구서_모아보기                                                </a>
+                                                                                                                                            <a href="21587080263e.html">
+                                                    보험사별 수납일                                                </a>
+                                                                                                                                            <a href="c49fc0e88d53.html">
+                                                    카드정보                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="f2ca5133a8c2.html" class="" data-has-sub="false">
+                                        <span>GA인트라넷링크</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                                            <div class="nav-item">
+                                            <a href="efd4d09ef92f.html" class="nav-parent-link" data-has-children="true" style="">
+                            <span>영업자료</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="efd4d09ef92f.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 영업자료 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="96dc9c2d9f73.html" class="" data-has-sub="false">
+                                        <span>매일영업이슈</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="efd4d09ef92f.html" class="" data-has-sub="false">
+                                        <span>월별소식지</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="835c17bc6127.html" class="" data-has-sub="false">
+                                        <span>영업전략자료</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="cb73c93e4162.html" class="" data-has-sub="false">
+                                        <span>상품정보</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="27b61ac494e2.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험니즈자료</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="27b61ac494e2.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험니즈자료 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="27b61ac494e2.html">
+                                                    질병니즈자료                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="bdc5fd445533.html" class="" data-has-sub="false">
+                                        <span>보험상품이자계산기</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="969023e484dc.html" class="" data-has-sub="false">
+                                        <span>질문과답변</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="b9442215d61e.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험북마크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="b9442215d61e.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험북마크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="b9442215d61e.html">
+                                                    유투브채널                                                </a>
+                                                                                                                                            <a href="665f386a4d32.html">
+                                                    Today_NEWS                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                    </div>
+        
+        <div class="nav-right">
+            <button type="button" class="btn-sitemap" onclick="openNavSitemapModal()" title="전체 사이트 메뉴 구조 한눈에 보기">
+                <span>🗺️</span>
+                <span>사이트맵</span>
+            </button>
+
+            <form action="/board/search.php" method="get" style="display:flex; align-items:center; background:#f8fafc; border:1px solid #cbd5e1; border-radius:20px; padding:3px 10px; margin:0;">
+                <input type="text" name="keyword" placeholder="사이트 전체 검색..." style="border:none; background:transparent; font-size:13px; font-weight:600; color:#1e293b; outline:none; width:130px; font-family:inherit;">
+                <button type="submit" style="background:none; border:none; cursor:pointer; font-size:14px; padding:0; display:flex; align-items:center;" title="검색">🔍</button>
+            </form>
+
+            <div class="visitor-counter" title="오늘 접속자 / 전체 누적 접속자">
+                📊 <span>3</span> / 793            </div>
+            
+                            <span style="color: #94a3b8; font-size: 13px; margin-right: 8px; font-weight:700; cursor:pointer; background:#f1f5f9; padding:6px 12px; border-radius:20px;" onclick="openNavDevNoteModal()">
+                    Ver 3.0.01 ⓘ
+                </span>
+                        
+                            <a href="82a0d3621888.html" class="nav-group-btn" style="background:#2563eb; color:#fff; border:none; justify-content:center;">🔒 로그인/회원가입</a>
+                    </div>
+    </div>
+</div>
+
+<!-- 사이트맵 모달 팝업 -->
+<div id="navSitemapModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavSitemapModal()">×</span>
+        <div class="sitemap-header">
+            <h2>🗺️ 전체 사이트맵</h2>
+        </div>
+        <div class="sitemap-grid">
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="947659214c33.html">📁 홈(메인)</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="44e3452ef6c9.html">└ 메인모듬링크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="44e3452ef6c9.html">• 보험전산 링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="e6ed6a9f92e2.html">• 고객센터/팩스번호</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3153c6257bf8.html">• 청구_이메일/URL링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75533ed272f1.html">• 청구한도금액안내</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3b392eb2b880.html">• 청구 우편주소</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75ddd1a0ebd6.html">• 청구서_모아보기</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="21587080263e.html">• 보험사별 수납일</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="c49fc0e88d53.html">• 카드정보</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="f2ca5133a8c2.html">└ GA인트라넷링크</a>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="efd4d09ef92f.html">📁 영업자료</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="96dc9c2d9f73.html">└ 매일영업이슈</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="efd4d09ef92f.html">└ 월별소식지</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="835c17bc6127.html">└ 영업전략자료</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="cb73c93e4162.html">└ 상품정보</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="27b61ac494e2.html">└ 보험니즈자료</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="27b61ac494e2.html">• 질병니즈자료</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="bdc5fd445533.html">└ 보험상품이자계산기</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="969023e484dc.html">└ 질문과답변</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="b9442215d61e.html">└ 보험북마크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="b9442215d61e.html">• 유투브채널</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="665f386a4d32.html">• Today_NEWS</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                    </div>
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center; color:#64748b;">
+            Designed &amp; Developed by <b>보험명장 김영환</b> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<div id="navIframeModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavIframeModal()">×</span>
+        <iframe id="navMyAccountIframe" src=""></iframe>
+    </div>
+</div>
+
+<div id="navDevNoteModal" class="nav-modal">
+    <div class="nav-modal-content" style="max-width:700px;">
+        <span class="nav-close-btn" onclick="closeNavDevNoteModal()">×</span>
+        <h2 style="margin-top:0; color:#0f172a; border-bottom:2px solid #f1f5f9; padding-bottom:15px;">🛠️ 시스템 업데이트 노트</h2>
+        
+                    <div class="ql-snow" style="margin-top:20px; max-height:500px; overflow-y:auto; padding-right:10px;">
+                <div class="ql-editor" style="padding:0; line-height:1.7; color:#334155; font-size:15px; font-family:inherit;">
+                    <div class="note-version-block">
+<h4 style="color:#2563eb; margin-bottom:10px; margin-top:0;">[Ver 3.0.01] 업데이트 내역</h4>
+<ul style="padding-left:20px; margin-bottom:0;">
+<li>1. 뉴스 및 북마크 게시판 생성 적용.</li>
+<li>2. 대부분의 게시물 카톡 공유 적용.(웹에서 바로 공유 가능)</li>
+<li>3. Today이슈 &amp; 뉴스 06시~21시까지 네이버, 네이트, 다음 뉴스 검색 보험/건강뉴스 갈무리 기능 제공. 약간의 문장만 적용 기사 내용 각 포털 사이트로 연결됨.</li>
+<li>4. 보험상품이자계산기 프로그램 제작/출력기능 결과값 카톡전송기능제공</li>
+</ul>
+<hr style="border:0; border-top:1px dashed #cbd5e1; margin:20px 0;">
+</div>
+<h4>[Ver 3.000] 업데이트 내역</h4><ul><li>팩스서버 구성 및 지점별 팩스 서버 관리 솔루션 구성완료</li></ul><h4>[Ver 3.000] 업데이트 내역</h4><ul><li>전체적으로 디자인을 카드형으로 변경</li><li>1. 회원가입 기능(최소한의 정보 데이터 암호화)</li><li>2. 기존 링크를 최신 버전으로 전부 수정함.</li><li>3. 청구서와 관련 자료 모두를 업데이트함.</li><li>4. 각 보험사의 전산 설치 및 전산 사용 매뉴얼 등록</li><li>5. 모바일청약 업데이트</li><li>6. 신용카드 결제 업데이트</li><li>7. 본부연락처 추가 기능</li><li>+ 본인 소속의 원수사 지점장/총무/설계매니저 등록가능(본부장, 지점장, 총무가 등록(유료기능))</li><li>+ 원수사 전산 본인 코드 및 비번 저장 기능</li></ul>                </div>
+            </div>
+                
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center;">
+            <strong>Designed &amp; Developed by</strong><br>
+            <span style="color:#002b5e; font-size:15px; font-weight:bold;">보험명장 김영환</span> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<script>
+    let visitorLogId = sessionStorage.getItem('visitor_log_id') ? sessionStorage.getItem('visitor_log_id') : 0;
+    
+    fetch('/api/track.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'action=enter&page_url=' + encodeURIComponent(window.location.href) 
+            + '&ref=' + encodeURIComponent(document.referrer) 
+            + '&log_id=' + visitorLogId
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.log_id) {
+            visitorLogId = data.log_id;
+            sessionStorage.setItem('visitor_log_id', visitorLogId);
+        }
+    }).catch(e => console.log('추적기 대기'));
+
+    setInterval(() => {
+        if (visitorLogId > 0) {
+            fetch('/api/track.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'action=ping&log_id=' + visitorLogId
+            }).catch(() => {});
+        }
+    }, 10000);
+
+    window.addEventListener('beforeunload', function() {
+        if (visitorLogId > 0) {
+            navigator.sendBeacon('/api/track.php', new URLSearchParams({
+                'action': 'exit',
+                'log_id': visitorLogId
+            }));
+        }
+    });
+
+    function toggleMobileNav() {
+        const container = document.getElementById('navMobileContainer');
+        container.classList.toggle('active');
+        const logo = document.querySelector('.nav-logo-area');
+        if (window.innerWidth <= 850) {
+            logo.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // [1차 메뉴 모바일 터치 이벤트 제어]
+        const parentLinks = document.querySelectorAll('.nav-parent-link');
+        parentLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 하위 메뉴가 있을 경우: 링크 이동 차단 및 아코디언 토글
+                if (window.innerWidth <= 850) {
+                    const hasChildren = this.getAttribute('data-has-children') === 'true';
+                    const dropdown = this.nextElementSibling;
+                    
+                    if (hasChildren && dropdown && dropdown.classList.contains('nav-dropdown-content')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isOpen = dropdown.classList.contains('open');
+
+                        // 다른 열린 1차 메뉴 닫기 및 화살표 초기화
+                        document.querySelectorAll('.nav-dropdown-content').forEach(d => d.classList.remove('open'));
+                        document.querySelectorAll('.nav-parent-link').forEach(p => p.classList.remove('active-toggle'));
+
+                        // 현재 클릭한 메뉴 토글
+                        if (!isOpen) {
+                            dropdown.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+
+        // [2차 메뉴 모바일 터치 이벤트 제어]
+        const subParents = document.querySelectorAll('.nav-sub-parent');
+        subParents.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 3차 하위 메뉴가 있을 경우: 링크 이동 차단 및 3차 드롭다운 토글
+                if (window.innerWidth <= 850) {
+                    const hasSub = this.getAttribute('data-has-sub') === 'true';
+                    const subDrop = this.nextElementSibling;
+
+                    if (hasSub && subDrop && subDrop.classList.contains('nav-sub-dropdown')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isSubOpen = subDrop.classList.contains('open');
+                        const parentContainer = this.closest('.nav-dropdown-content');
+
+                        // 같은 1차 메뉴 내부의 다른 열린 2차 메뉴 닫기
+                        if (parentContainer) {
+                            parentContainer.querySelectorAll('.nav-sub-dropdown').forEach(d => d.classList.remove('open'));
+                            parentContainer.querySelectorAll('.nav-sub-parent').forEach(p => p.classList.remove('active-toggle'));
+                        }
+
+                        // 현재 클릭한 2차 메뉴 토글
+                        if (!isSubOpen) {
+                            subDrop.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    function toggleRightDropdown(btn) {
+        if (window.innerWidth <= 850) {
+            const dropdown = btn.nextElementSibling;
+            if (dropdown && dropdown.classList.contains('nav-right-content')) {
+                dropdown.classList.toggle('open');
+            }
+        }
+    }
+
+    function openNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function openNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    function openNavAccountModal(e) {
+        if(e) e.preventDefault();
+        document.getElementById("navMyAccountIframe").src = "/member/my_accounts.php";
+        document.getElementById("navIframeModal").style.display = "block";
+        document.body.style.overflow = "hidden";
+    }
+    function closeNavIframeModal() {
+        document.getElementById("navIframeModal").style.display = "none";
+        document.getElementById("navMyAccountIframe").src = ""; 
+        document.body.style.overflow = "auto";
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target == document.getElementById('navSitemapModal')) closeNavSitemapModal();
+        if (event.target == document.getElementById('navDevNoteModal')) closeNavDevNoteModal();
+        if (event.target == document.getElementById('navIframeModal')) closeNavIframeModal();
+    });
+
+    let navQuillEditor = null;
+    if (document.getElementById('nav_quill_editor')) {
+        navQuillEditor = new Quill('#nav_quill_editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+        
+        const noteHistoryRaw = document.getElementById('nav_dev_note_history').value;
+        navQuillEditor.clipboard.dangerouslyPasteHTML(noteHistoryRaw);
+    }
+
+    function saveNavDevNote(e) {
+        e.preventDefault();
+        const ver = document.getElementById('nav_dev_app_ver').value;
+        const appDate = document.getElementById('nav_dev_app_date').value; 
+        const newUpdate = document.getElementById('nav_dev_new_update').value;
+        const historyNote = navQuillEditor ? navQuillEditor.root.innerHTML : document.getElementById('nav_dev_note_history').value;
+        const btn = document.getElementById('navDevSaveBtn');
+        
+        btn.innerText = "저장 중...";
+        
+        const formData = new FormData();
+        formData.append('ajax_action', 'save_dev_note');
+        formData.append('app_ver', ver);
+        formData.append('app_date', appDate); 
+        formData.append('new_update', newUpdate);
+        formData.append('dev_note', historyNote);
+        
+        fetch('/index.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 'success') {
+                alert('버전 및 개발자 노트가 성공적으로 저장되었습니다.');
+                location.reload();
+            } else {
+                alert(data.msg ? data.msg : '저장에 실패했습니다.');
+                btn.innerText = "💾 변경사항 전체 저장하기";
+            }
+        });
+    }
+
+    function navRequireAuth(isNeedLogin) {
+        if (isNeedLogin) {
+            alert('로그인 후 이용 가능한 메뉴입니다.\n로그인 페이지로 이동합니다.');
+            location.href = '/member/login.php';
+        } else {
+            alert('해당 메뉴를 이용할 수 있는 권한이 아닙니다.\n관리자에게 문의해 주세요.');
+        }
+    }
+</script>
+<div class="wrapper">
+    <div class="header-box">
+        <div>
+            <h1>📥 보험사별 청구 서식 통합 다운로드 센터</h1>
+            <p>공통청구서, 치과확인서, 간병서류, 실비접수대행, 실비연대책임, 위임장 등 전 보험사 다수 공통 핵심 서식을 즉시 다운로드하세요.</p>
+        </div>
+    </div>
+
+    <!-- 탭 네비게이션: 손해보험 / 생명보험 / 공제조합 -->
+    <div class="tab-wrap">
+        <a href="48b03a01eb22.html" class="tab-btn ">🛡 손해보험사 (17)</a>
+        <a href="7554b713a1a4.html" class="tab-btn ">🌿 생명보험사 (22)</a>
+        <a href="357de2b8810e.html" class="tab-btn active">🏛 공제조합 (5)</a>
+    </div>
+
+    <!-- =========================================================================
+         💻 [PC 전용 뷰] 8대 컬럼 테이블 뷰 (851px 이상에서만 출력)
+         ========================================================================= -->
+    <div class="pc-table-card">
+        <table class="claim-form-table">
+            <colgroup>
+                <col style="width: 15%;"> <!-- 보험회사 -->
+                <col style="width: 12%;"> <!-- 1. 공통청구서 -->
+                <col style="width: 12%;"> <!-- 2. 치과확인서 -->
+                <col style="width: 12%;"> <!-- 3. 간병서류 -->
+                <col style="width: 12%;"> <!-- 4. 실비접수대행 -->
+                <col style="width: 12%;"> <!-- 5. 실비연대책임 -->
+                <col style="width: 12%;"> <!-- 6. 위임장 -->
+                <col style="width: 13%;"> <!-- 7. 기타 추가서식 -->
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>보험회사</th>
+                    <th>📄 공통청구서</th>
+                    <th>🦷 치과확인서</th>
+                    <th>🩺 간병서류</th>
+                    <th>🤝 실비접수대행</th>
+                    <th>🤝 실비연대책임</th>
+                    <th>📝 위임장</th>
+                    <th>➕ 기타 추가서식</th>
+                </tr>
+            </thead>
+            <tbody>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/8c20d615edfc.svg" alt="우체국공제보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 1. 공통청구서 -->
+                    <td>
+                                                    <a href="https://epostlife.go.kr/cms/docimg/i-board/form/2026/06/insu_claim_2605.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="공통 청구서">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 2. 치과확인서 -->
+                    <td>
+                                                    <a href="https://epostlife.go.kr/cms/docimg/i-board/form/2023/10/insu_claim_10.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="치과 확인서">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 3. 간병서류 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 4. 실비접수대행 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 5. 실비연대책임 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 6. 위임장 (전 보험사 공통 서식) -->
+                    <td>
+                                                    <a href="https://epostlife.go.kr/cms/docimg/i-board/form/2023/02/20230221_2.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="위임장">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 7. 기타 추가서식 팝업 호출 버튼 -->
+                    <td>
+                                                    <button type="button" class="btn-etc-more" onclick="openEtcModal(&quot;\uc6b0\uccb4\uad6d\uacf5\uc81c\ubcf4\ud5d8&quot;, [{&quot;name&quot;:&quot;\ud45c\uc801\ud56d\uc554\uc57d\ubb3c \ud5c8\uac00\uce58\ub8cc \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/epostlife.go.kr\/cms\/docimg\/i-board\/form\/2022\/12\/insu_claim_16.pdf&quot;},{&quot;name&quot;:&quot;\ub2e8\uccb4\ubcf4\ud5d8\uae08\uccad\uad6c\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/epostlife.go.kr\/cms\/docimg\/i-board\/form\/2024\/01\/insu_claim_03.pdf&quot;}])">
+                                <span>추가 서식 (2)</span>
+                            </button>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/7f743fee8e5a.png" alt="SH수협공제보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 1. 공통청구서 -->
+                    <td>
+                                                    <a href="https://suhyup-bank.com/page/insu/cmn/dhp100200j.jsp?filePathNm=../DIGITALPDF/ins_dmnd.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="공통 청구서">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 2. 치과확인서 -->
+                    <td>
+                                                    <a href="https://suhyup-bank.com/page/insu/cmn/dhp100200j.jsp?filePathNm=../DIGITALPDF/ins_denti.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="치과 확인서">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 3. 간병서류 -->
+                    <td>
+                                                    <a href="https://suhyup-bank.com/page/insu/cmn/dhp100200j.jsp?filePathNm=../DIGITALPDF/ins_carer.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="간병 서류">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 4. 실비접수대행 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 5. 실비연대책임 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 6. 위임장 (전 보험사 공통 서식) -->
+                    <td>
+                                                    <a href="https://suhyup-bank.com/page/insu/cmn/dhp100200j.jsp?filePathNm=../DIGITALPDF/ins_cart.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="위임장">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 7. 기타 추가서식 팝업 호출 버튼 -->
+                    <td>
+                                                    <button type="button" class="btn-etc-more" onclick="openEtcModal(&quot;SH\uc218\ud611\uacf5\uc81c\ubcf4\ud5d8&quot;, [{&quot;name&quot;:&quot;\ubbf8\uc131\ub144\uc790 \uc218\uc775\uc790 \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/suhyup-bank.com\/page\/insu\/cmn\/dhp100200j.jsp?filePathNm=..\/DIGITALPDF\/ins_underage.pdf&quot;},{&quot;name&quot;:&quot;\uc704\uc784\uc7a5(\uad50\ub3c4\uc18c,\uad70\ubcf5\ubb34,\ud574\uc678\uac70\uc8fc\uc790)&quot;,&quot;url&quot;:&quot;https:\/\/suhyup-bank.com\/page\/insu\/cmn\/dhp100200j.jsp?filePathNm=..\/DIGITALPDF\/ins_cart2.pdf&quot;},{&quot;name&quot;:&quot;\uc77c\uc2dc\uae08\uc694\uccad\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/suhyup-bank.com\/page\/insu\/cmn\/dhp100200j.jsp?filePathNm=..\/DIGITALPDF\/ins_lumpsum.pdf&quot;},{&quot;name&quot;:&quot;\uacf5\uc81c\uae08 \uc9c0\uc5f0\uccad\uad6c \uc0ac\uc720\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/suhyup-bank.com\/page\/insu\/cmn\/dhp100200j.jsp?filePathNm=..\/DIGITALPDF\/ins_delay.pdf&quot;},{&quot;name&quot;:&quot;\ud56d\uc554\uc57d\ubb3c\ud5c8\uac00\uce58\ub8cc\ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/suhyup-bank.com\/page\/insu\/cmn\/dhp100200j.jsp?filePathNm=..\/DIGITALPDF\/ins_chemo.pdf&quot;}])">
+                                <span>추가 서식 (5)</span>
+                            </button>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/87abd1b3e496.png" alt="신협공제보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 1. 공통청구서 -->
+                    <td>
+                                                    <a href="../data/claim/6ab938aea5ba1_1790523566.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="공통 청구서">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 2. 치과확인서 -->
+                    <td>
+                                                    <a href="../data/asset/6ab938aea76c7_1790523566.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="치과 확인서">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 3. 간병서류 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 4. 실비접수대행 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 5. 실비연대책임 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 6. 위임장 (전 보험사 공통 서식) -->
+                    <td>
+                                                    <a href="../data/asset/6ab938aea4da9_1790523566.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="위임장">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 7. 기타 추가서식 팝업 호출 버튼 -->
+                    <td>
+                                                    <button type="button" class="btn-etc-more" onclick="openEtcModal(&quot;\uc2e0\ud611\uacf5\uc81c\ubcf4\ud5d8&quot;, [{&quot;name&quot;:&quot;\uc778\uc6b0\ubcf4\uc99d\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea54ad_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\uc911\uc99d\uc554\ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea559a_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\ud45c\uc801\ud56d\uc554\uc57d\ubb3c\ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea56b2_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\uacac\uc778\ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea57ca_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\uc0ac\uace0\uacbd\uc704\uc11c(\ud640\uc778\uc6d0\/\uc54c\ubc14\ud2b8\ub85c\uc2a4\/\uace8\ud504\uc6a9\ud488\ub4f1)&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea58a3_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\uc0ac\uace0\ubc1c\uc0dd\ud655\uc778\uc11c(\ubc30\uc0c1\ucc45\uc784\uc6a9)&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea59ba_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\ud569\uc758\uc11c\/\ub3d9\uc758\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea5a96_1790523566.pdf&quot;}])">
+                                <span>추가 서식 (7)</span>
+                            </button>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/526cf193047d.png" alt="MG새마을금고공제보험" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 1. 공통청구서 -->
+                    <td>
+                                                    <a href="../data/claim/6ab93f03b8a7f_1790525187.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="공통 청구서">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 2. 치과확인서 -->
+                    <td>
+                                                    <a href="../data/asset/6ab93f03b8cd9_1790525187.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="치과 확인서">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 3. 간병서류 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 4. 실비접수대행 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 5. 실비연대책임 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 6. 위임장 (전 보험사 공통 서식) -->
+                    <td>
+                                                    <a href="../data/asset/6ab93f03b833b_1790525187.pdf" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="위임장(공제금 수령권 위임 관련)">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 7. 기타 추가서식 팝업 호출 버튼 -->
+                    <td>
+                                                    <button type="button" class="btn-etc-more" onclick="openEtcModal(&quot;MG\uc0c8\ub9c8\uc744\uae08\uace0\uacf5\uc81c\ubcf4\ud5d8&quot;, [{&quot;name&quot;:&quot;\ub300\ud45c\uc0c1\uc18d\uc778 \uc9c0\uc815\ud569\uc758\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab93f03b8048_1790525187.pdf&quot;},{&quot;name&quot;:&quot;\uc7ac\ubb3c\/\uc5ec\ud589\uc790\/\ud640\uc778\uc6d0 \ubcf4\ud5d8\uae08\uccad\uad6c\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab93f03b8447_1790525187.pdf&quot;},{&quot;name&quot;:&quot;\uc758\ub8cc\ube44 \uc2e0\uc18d\uc9c0\uae09\uc81c\ub3c4 \uc2e0\uccad \ubc0f \ud655\uc57d\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab93f03b8665_1790525187.pdf&quot;},{&quot;name&quot;:&quot;\uc190\ud574\uacf5\uc81c-\ubc30\uc0c1\ucc45\uc784 \uc0ac\uace0\ud1b5\ubcf4\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab93f03b8773_1790525187.pdf&quot;},{&quot;name&quot;:&quot;\uc190\ud574\uacf5\uc81c-\uc190\ud574\ub3c4\ub09c\ub0b4\uc5ed \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab93f03b887c_1790525187.pdf&quot;}])">
+                                <span>추가 서식 (5)</span>
+                            </button>
+                                            </td>
+                </tr>
+                                <tr>
+                    <!-- 보험사 로고 -->
+                    <td>
+                        <div class="logo-box">
+                                                            <img src="../assets/b4d296e22769.png" alt="한국교직원공제회" class="logo-img">
+                                                    </div>
+                    </td>
+
+                    <!-- 1. 공통청구서 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 2. 치과확인서 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 3. 간병서류 -->
+                    <td>
+                                                    <a href="https://www.ktcu.or.kr/media/doc/20231023/2023102314114.pdfx" target="_blank" rel="noopener noreferrer" class="btn-form-down" download="" title="간병 서류">
+                                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                                <span>다운로드</span>
+                            </a>
+                                            </td>
+
+                    <!-- 4. 실비접수대행 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 5. 실비연대책임 -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 6. 위임장 (전 보험사 공통 서식) -->
+                    <td>
+                                                    <span class="down-empty">-</span>
+                                            </td>
+
+                    <!-- 7. 기타 추가서식 팝업 호출 버튼 -->
+                    <td>
+                                                    <button type="button" class="btn-etc-more" onclick="openEtcModal(&quot;\ud55c\uad6d\uad50\uc9c1\uc6d0\uacf5\uc81c\ud68c&quot;, [{&quot;name&quot;:&quot;\ubcf4\ud5d8\uae08 \uccad\uad6c \uc704\uc784 \ubc0f \ub300\ud45c\uc218\uc775\uc790 \uc9c0\uc815\ub3d9\uc758\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20231023\/2023102314321.pdfx&quot;},{&quot;name&quot;:&quot;\ubbf8\uc131\ub144 \uc218\uc775\uc790 \ub300\ud45c \uce5c\uad8c\uc790 \ud655\uc778&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20231023\/2023102314215.pdfx&quot;},{&quot;name&quot;:&quot;\ud45c\uc801\ud56d\uc554\ud2b9\uc815\ud56d\uc554\ud638\ub974\ubaac\uc57d\ubb3c\ud5c8\uac00\uce58\ub8cc \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20250421\/202542114418x&quot;},{&quot;name&quot;:&quot;\uce74\ud2f0(CAR-T)\ud56d\uc554\uc57d\ubb3c\uce58\ub8cc \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20231023\/2023102314751.pdfx&quot;},{&quot;name&quot;:&quot;\ud2b9\uc815\uba74\uc5ed\ud56d\uc554\uc57d\ubb3c\ud5c8\uac00\uce58\ub8cc \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20250421\/20254211488x&quot;},{&quot;name&quot;:&quot;\ub2e8\uccb4\ubcf4\ud5d8\uae08 \uccad\uad6c \ubc0f \uc218\ub839 \uc548\ub0b4 \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20231023\/2023102314153.pdfx&quot;}])">
+                                <span>추가 서식 (6)</span>
+                            </button>
+                                            </td>
+                </tr>
+                
+                            </tbody>
+        </table>
+    </div>
+
+    <!-- =========================================================================
+         📱 [모바일 전용 뷰] 초슬림 2단(2열) 컴팩트 다단 카드 뷰 (850px 이하)
+         ========================================================================= -->
+    <div class="mobile-card-wrap">
+                <div class="m-form-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/8c20d615edfc.svg" alt="우체국공제보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 6대 핵심 서식 인라인 행 -->
+            <div class="m-form-list">
+                <!-- 1. 공통청구서 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">📄 공통청구</span>
+                                            <a href="https://epostlife.go.kr/cms/docimg/i-board/form/2026/06/insu_claim_2605.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="공통 청구서">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+
+                <!-- 2. 치과확인서 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🦷 치과확인</span>
+                                            <a href="https://epostlife.go.kr/cms/docimg/i-board/form/2023/10/insu_claim_10.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="치과 확인서">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+
+                <!-- 3. 간병서류 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🩺 간병서류</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 4. 실비접수대행 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🤝 실비대행</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 5. 실비연대책임 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🤝 실비연대</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 6. 위임장 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">📝 위임장</span>
+                                            <a href="https://epostlife.go.kr/cms/docimg/i-board/form/2023/02/20230221_2.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="위임장">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+            </div>
+
+            <!-- 7. 기타 추가 서식 팝업 호출 버튼 -->
+                            <button type="button" class="m-btn-etc" onclick="openEtcModal(&quot;\uc6b0\uccb4\uad6d\uacf5\uc81c\ubcf4\ud5d8&quot;, [{&quot;name&quot;:&quot;\ud45c\uc801\ud56d\uc554\uc57d\ubb3c \ud5c8\uac00\uce58\ub8cc \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/epostlife.go.kr\/cms\/docimg\/i-board\/form\/2022\/12\/insu_claim_16.pdf&quot;},{&quot;name&quot;:&quot;\ub2e8\uccb4\ubcf4\ud5d8\uae08\uccad\uad6c\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/epostlife.go.kr\/cms\/docimg\/i-board\/form\/2024\/01\/insu_claim_03.pdf&quot;}])">
+                    <span>➕ 추가 서식 (2)</span>
+                </button>
+                    </div>
+                <div class="m-form-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/7f743fee8e5a.png" alt="SH수협공제보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 6대 핵심 서식 인라인 행 -->
+            <div class="m-form-list">
+                <!-- 1. 공통청구서 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">📄 공통청구</span>
+                                            <a href="https://suhyup-bank.com/page/insu/cmn/dhp100200j.jsp?filePathNm=../DIGITALPDF/ins_dmnd.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="공통 청구서">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+
+                <!-- 2. 치과확인서 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🦷 치과확인</span>
+                                            <a href="https://suhyup-bank.com/page/insu/cmn/dhp100200j.jsp?filePathNm=../DIGITALPDF/ins_denti.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="치과 확인서">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+
+                <!-- 3. 간병서류 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🩺 간병서류</span>
+                                            <a href="https://suhyup-bank.com/page/insu/cmn/dhp100200j.jsp?filePathNm=../DIGITALPDF/ins_carer.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="간병 서류">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+
+                <!-- 4. 실비접수대행 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🤝 실비대행</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 5. 실비연대책임 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🤝 실비연대</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 6. 위임장 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">📝 위임장</span>
+                                            <a href="https://suhyup-bank.com/page/insu/cmn/dhp100200j.jsp?filePathNm=../DIGITALPDF/ins_cart.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="위임장">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+            </div>
+
+            <!-- 7. 기타 추가 서식 팝업 호출 버튼 -->
+                            <button type="button" class="m-btn-etc" onclick="openEtcModal(&quot;SH\uc218\ud611\uacf5\uc81c\ubcf4\ud5d8&quot;, [{&quot;name&quot;:&quot;\ubbf8\uc131\ub144\uc790 \uc218\uc775\uc790 \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/suhyup-bank.com\/page\/insu\/cmn\/dhp100200j.jsp?filePathNm=..\/DIGITALPDF\/ins_underage.pdf&quot;},{&quot;name&quot;:&quot;\uc704\uc784\uc7a5(\uad50\ub3c4\uc18c,\uad70\ubcf5\ubb34,\ud574\uc678\uac70\uc8fc\uc790)&quot;,&quot;url&quot;:&quot;https:\/\/suhyup-bank.com\/page\/insu\/cmn\/dhp100200j.jsp?filePathNm=..\/DIGITALPDF\/ins_cart2.pdf&quot;},{&quot;name&quot;:&quot;\uc77c\uc2dc\uae08\uc694\uccad\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/suhyup-bank.com\/page\/insu\/cmn\/dhp100200j.jsp?filePathNm=..\/DIGITALPDF\/ins_lumpsum.pdf&quot;},{&quot;name&quot;:&quot;\uacf5\uc81c\uae08 \uc9c0\uc5f0\uccad\uad6c \uc0ac\uc720\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/suhyup-bank.com\/page\/insu\/cmn\/dhp100200j.jsp?filePathNm=..\/DIGITALPDF\/ins_delay.pdf&quot;},{&quot;name&quot;:&quot;\ud56d\uc554\uc57d\ubb3c\ud5c8\uac00\uce58\ub8cc\ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/suhyup-bank.com\/page\/insu\/cmn\/dhp100200j.jsp?filePathNm=..\/DIGITALPDF\/ins_chemo.pdf&quot;}])">
+                    <span>➕ 추가 서식 (5)</span>
+                </button>
+                    </div>
+                <div class="m-form-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/87abd1b3e496.png" alt="신협공제보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 6대 핵심 서식 인라인 행 -->
+            <div class="m-form-list">
+                <!-- 1. 공통청구서 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">📄 공통청구</span>
+                                            <a href="../data/claim/6ab938aea5ba1_1790523566.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="공통 청구서">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+
+                <!-- 2. 치과확인서 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🦷 치과확인</span>
+                                            <a href="../data/asset/6ab938aea76c7_1790523566.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="치과 확인서">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+
+                <!-- 3. 간병서류 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🩺 간병서류</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 4. 실비접수대행 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🤝 실비대행</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 5. 실비연대책임 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🤝 실비연대</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 6. 위임장 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">📝 위임장</span>
+                                            <a href="../data/asset/6ab938aea4da9_1790523566.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="위임장">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+            </div>
+
+            <!-- 7. 기타 추가 서식 팝업 호출 버튼 -->
+                            <button type="button" class="m-btn-etc" onclick="openEtcModal(&quot;\uc2e0\ud611\uacf5\uc81c\ubcf4\ud5d8&quot;, [{&quot;name&quot;:&quot;\uc778\uc6b0\ubcf4\uc99d\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea54ad_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\uc911\uc99d\uc554\ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea559a_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\ud45c\uc801\ud56d\uc554\uc57d\ubb3c\ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea56b2_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\uacac\uc778\ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea57ca_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\uc0ac\uace0\uacbd\uc704\uc11c(\ud640\uc778\uc6d0\/\uc54c\ubc14\ud2b8\ub85c\uc2a4\/\uace8\ud504\uc6a9\ud488\ub4f1)&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea58a3_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\uc0ac\uace0\ubc1c\uc0dd\ud655\uc778\uc11c(\ubc30\uc0c1\ucc45\uc784\uc6a9)&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea59ba_1790523566.pdf&quot;},{&quot;name&quot;:&quot;\ud569\uc758\uc11c\/\ub3d9\uc758\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab938aea5a96_1790523566.pdf&quot;}])">
+                    <span>➕ 추가 서식 (7)</span>
+                </button>
+                    </div>
+                <div class="m-form-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/526cf193047d.png" alt="MG새마을금고공제보험" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 6대 핵심 서식 인라인 행 -->
+            <div class="m-form-list">
+                <!-- 1. 공통청구서 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">📄 공통청구</span>
+                                            <a href="../data/claim/6ab93f03b8a7f_1790525187.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="공통 청구서">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+
+                <!-- 2. 치과확인서 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🦷 치과확인</span>
+                                            <a href="../data/asset/6ab93f03b8cd9_1790525187.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="치과 확인서">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+
+                <!-- 3. 간병서류 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🩺 간병서류</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 4. 실비접수대행 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🤝 실비대행</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 5. 실비연대책임 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🤝 실비연대</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 6. 위임장 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">📝 위임장</span>
+                                            <a href="../data/asset/6ab93f03b833b_1790525187.pdf" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="위임장(공제금 수령권 위임 관련)">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+            </div>
+
+            <!-- 7. 기타 추가 서식 팝업 호출 버튼 -->
+                            <button type="button" class="m-btn-etc" onclick="openEtcModal(&quot;MG\uc0c8\ub9c8\uc744\uae08\uace0\uacf5\uc81c\ubcf4\ud5d8&quot;, [{&quot;name&quot;:&quot;\ub300\ud45c\uc0c1\uc18d\uc778 \uc9c0\uc815\ud569\uc758\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab93f03b8048_1790525187.pdf&quot;},{&quot;name&quot;:&quot;\uc7ac\ubb3c\/\uc5ec\ud589\uc790\/\ud640\uc778\uc6d0 \ubcf4\ud5d8\uae08\uccad\uad6c\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab93f03b8447_1790525187.pdf&quot;},{&quot;name&quot;:&quot;\uc758\ub8cc\ube44 \uc2e0\uc18d\uc9c0\uae09\uc81c\ub3c4 \uc2e0\uccad \ubc0f \ud655\uc57d\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab93f03b8665_1790525187.pdf&quot;},{&quot;name&quot;:&quot;\uc190\ud574\uacf5\uc81c-\ubc30\uc0c1\ucc45\uc784 \uc0ac\uace0\ud1b5\ubcf4\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab93f03b8773_1790525187.pdf&quot;},{&quot;name&quot;:&quot;\uc190\ud574\uacf5\uc81c-\uc190\ud574\ub3c4\ub09c\ub0b4\uc5ed \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;..\/data\/asset\/6ab93f03b887c_1790525187.pdf&quot;}])">
+                    <span>➕ 추가 서식 (5)</span>
+                </button>
+                    </div>
+                <div class="m-form-card">
+            <!-- 1. 카드 상단: 로고/회사명 -->
+            <div class="m-card-header">
+                <div class="m-logo-box">
+                                            <img src="../assets/b4d296e22769.png" alt="한국교직원공제회" class="m-logo-img">
+                                    </div>
+            </div>
+
+            <!-- 2. 카드 하단: 6대 핵심 서식 인라인 행 -->
+            <div class="m-form-list">
+                <!-- 1. 공통청구서 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">📄 공통청구</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 2. 치과확인서 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🦷 치과확인</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 3. 간병서류 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🩺 간병서류</span>
+                                            <a href="https://www.ktcu.or.kr/media/doc/20231023/2023102314114.pdfx" target="_blank" rel="noopener noreferrer" class="m-btn-down" download="" title="간병 서류">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+                            <span>받기</span>
+                        </a>
+                                    </div>
+
+                <!-- 4. 실비접수대행 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🤝 실비대행</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 5. 실비연대책임 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">🤝 실비연대</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+
+                <!-- 6. 위임장 -->
+                <div class="m-form-row">
+                    <span class="m-form-title">📝 위임장</span>
+                                            <span class="m-empty-dash">-</span>
+                                    </div>
+            </div>
+
+            <!-- 7. 기타 추가 서식 팝업 호출 버튼 -->
+                            <button type="button" class="m-btn-etc" onclick="openEtcModal(&quot;\ud55c\uad6d\uad50\uc9c1\uc6d0\uacf5\uc81c\ud68c&quot;, [{&quot;name&quot;:&quot;\ubcf4\ud5d8\uae08 \uccad\uad6c \uc704\uc784 \ubc0f \ub300\ud45c\uc218\uc775\uc790 \uc9c0\uc815\ub3d9\uc758\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20231023\/2023102314321.pdfx&quot;},{&quot;name&quot;:&quot;\ubbf8\uc131\ub144 \uc218\uc775\uc790 \ub300\ud45c \uce5c\uad8c\uc790 \ud655\uc778&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20231023\/2023102314215.pdfx&quot;},{&quot;name&quot;:&quot;\ud45c\uc801\ud56d\uc554\ud2b9\uc815\ud56d\uc554\ud638\ub974\ubaac\uc57d\ubb3c\ud5c8\uac00\uce58\ub8cc \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20250421\/202542114418x&quot;},{&quot;name&quot;:&quot;\uce74\ud2f0(CAR-T)\ud56d\uc554\uc57d\ubb3c\uce58\ub8cc \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20231023\/2023102314751.pdfx&quot;},{&quot;name&quot;:&quot;\ud2b9\uc815\uba74\uc5ed\ud56d\uc554\uc57d\ubb3c\ud5c8\uac00\uce58\ub8cc \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20250421\/20254211488x&quot;},{&quot;name&quot;:&quot;\ub2e8\uccb4\ubcf4\ud5d8\uae08 \uccad\uad6c \ubc0f \uc218\ub839 \uc548\ub0b4 \ud655\uc778\uc11c&quot;,&quot;url&quot;:&quot;https:\/\/www.ktcu.or.kr\/media\/doc\/20231023\/2023102314153.pdfx&quot;}])">
+                    <span>➕ 추가 서식 (6)</span>
+                </button>
+                    </div>
+        
+            </div>
+
+    <!-- 푸터 -->
+    <div class="by-me-footer">
+        Designed &amp; Developed by <b>보험명장 김영환</b> (010-5532-6259)<br>
+        <span style="font-size:12px; color:#94a3b8;">GA매뉴얼 · 보험사별 사고보험금 청구 서식 및 구비서류 제공 서비스</span>
+    </div>
+</div>
+
+<!-- 기타 추가서식 상세 모달 -->
+<div class="modal-overlay" id="etcModal" onclick="closeEtcModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3 id="modalCompName">보험사 추가 청구 서식</h3>
+            <button type="button" class="btn-close-modal" onclick="closeEtcModal()">×</button>
+        </div>
+        <div class="modal-grid" id="modalGrid">
+            <!-- JS 동적 주입 -->
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEtcModal(compName, forms) {
+        document.getElementById('modalCompName').innerText = compName + ' - 추가 청구 서식';
+        const grid = document.getElementById('modalGrid');
+        grid.innerHTML = '';
+
+        if (!forms || forms.length === 0) {
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #94a3b8; padding: 20px;">등록된 추가 서식이 없습니다.</div>';
+        } else {
+            forms.forEach(f => {
+                const box = document.createElement('div');
+                box.className = 'modal-item-box';
+                box.innerHTML = `
+                    <span class="modal-item-name">📄 ${escapeHtml(f.name)}</span>
+                    <a href="${escapeHtml(f.url)}" target="_blank" rel="noopener noreferrer" class="modal-item-btn" download>
+                        <span>다운로드</span>
+                    </a>
+                `;
+                grid.appendChild(box);
+            });
+        }
+
+        document.getElementById('etcModal').classList.add('active');
+    }
+
+    function closeEtcModal(e) {
+        if (!e || e.target.id === 'etcModal' || e.target.classList.contains('btn-close-modal')) {
+            document.getElementById('etcModal').classList.remove('active');
+        }
+    }
+
+    function escapeHtml(text) {
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+</script>
+
+
+</body></html>

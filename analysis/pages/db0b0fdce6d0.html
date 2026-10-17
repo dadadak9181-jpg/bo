@@ -1,0 +1,430 @@
+<!DOCTYPE html><html lang="ko"><head>
+    <meta charset="UTF-8">
+    <title>통합 회원가입</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f4f6f9; padding: 40px; margin: 0; }
+        .container { max-width: 700px; margin: auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { color: #002b5e; border-bottom: 2px solid #002b5e; padding-bottom: 15px; text-align: center; margin-bottom: 25px;}
+        h3 { font-size: 16px; margin-top: 35px; margin-bottom: 15px; color: #333; border-left: 4px solid #f39c12; padding-left: 8px;}
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; color: #444; font-size: 14px; }
+        .form-group input[type="text"], .form-group input[type="password"], .form-group select, .form-group input[type="email"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        .form-group select:disabled { background-color: #e9ecef; color: #6c757d; cursor: not-allowed; }
+        .form-group input:focus { border-color: #0056b3; outline: none; }
+        .required { color: #dc3545; }
+        
+        .flex-group { display: flex; gap: 8px; }
+        .flex-group input { flex: 1; }
+        .btn-auth { background: #002b5e; color: white; border: none; padding: 12px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; white-space: nowrap; transition: background 0.2s;}
+        .btn-auth:hover { background: #001f44; }
+        .btn-auth:disabled { background: #adb5bd; cursor: not-allowed; }
+
+        .terms-box { background: #fdfdfe; border: 1px solid #e9ecef; padding: 25px; border-radius: 8px; height: 250px; overflow-y: auto; font-size: 13px; color: #495057; line-height: 1.7; margin-bottom: 15px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+        .terms-box h4 { margin: 20px 0 10px 0; color: #002b5e; font-size: 14px; border-bottom: 1px dashed #ccc; padding-bottom: 5px; }
+        .terms-box h4:first-child { margin-top: 0; }
+        .terms-box strong { color: #212529; }
+        
+        .terms-check { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 14px; color: #002b5e; margin-bottom: 30px; background: #f8f9fa; padding: 15px; border-radius: 6px; border: 1px solid #e2e8f0; }
+        .terms-check input { width: 18px; height: 18px; cursor: pointer; }
+
+        .btn-submit { width: 100%; padding: 14px; background-color: #002b5e; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+        .btn-submit:hover { background-color: #001f44; }
+        .msg { padding: 12px; margin-bottom: 20px; border-radius: 6px; text-align: center; font-weight: bold; font-size: 14px; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .footer { text-align: center; margin: 40px 0; font-size: 12px; color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>파트너 회원가입</h2>
+    
+    
+    <form method="POST" action="" onsubmit="return validateForm()">
+        <input type="hidden" name="is_email_verified" id="is_email_verified" value="0">
+        
+        <h3>서비스 이용약관 및 개인정보 처리방침</h3>
+        <div class="terms-box">
+            <h4>제1조 (개인정보의 처리 및 보관 안전성)</h4>
+            1. 회사는 「개인정보 보호법」 등 관련 법령에 따라 회원님의 소중한 개인정보를 안전하게 처리하며, 서비스 이용 기간 동안 엄격하게 보호합니다.<br>
+            2. 회원이 서비스 탈퇴를 요청할 경우, 원칙적으로 회원님의 개인정보는 지체 없이 파기됩니다. 다만, 서비스 부정이용 방지 및 분쟁 해결의 목적으로 <b>아이디(ID), 암호화된 이름, 암호화된 연락처</b>는 회원의 별도 파기 요청이 없는 한 영구 보관됩니다.<br>
+            3. 위 2항의 필수 보존 정보를 제외한 수집된 모든 부수 정보(소속, 직책, 추천인 등)는 <b>탈퇴일로부터 1년 보관 후 지체 없이 시스템에서 영구 파기(삭제)</b>됩니다.
+
+            <h4>제2조 (휴면 계정의 개인정보 분리 보관 및 파기)</h4>
+            1. 정보통신망 이용촉진 및 정보보호 등에 관한 법률 및 개인정보보호법에 의거하여, 회원님의 정보 보호를 위해 <b>3개월 이상 로그인 기록이 없는 계정은 '휴면 계정'으로 자동 전환</b>되며, 해당 개인정보는 일반 회원의 정보와 분리하여 안전하게 별도 보관됩니다.<br>
+            2. 휴면 계정으로 전환된 날로부터 <b>1년이 경과할 때까지 서비스 접속 이력이 없을 경우, 해당 계정의 모든 개인정보는 관련 법령 및 당사 정책에 따라 시스템에서 자동으로 완전 파기</b> 조치됨을 안내해 드립니다.
+
+            <h4>제3조 (저작권의 귀속 및 지적재산권 보호)</h4>
+            1. 본 홈페이지에서 제공되는 모든 디자인, 데이터, 자료 및 텍스트 콘텐츠의 지적재산권 및 저작권은 원작자에게 전적으로 귀속됩니다.<br>
+            2. 본 홈페이지의 자료를 외부 강의 자료, 상업적 목적의 콘텐츠, 또는 기타 형태로 2차 가공 및 재창작하여 활용하고자 하실 경우에는 <b>반드시 원작자와의 사전 협의가 선행되어야 하며, 사용 시 명확한 출처를 표기</b>하셔야 합니다.<br>
+            3. <b>[손해배상의 예정]</b> 당사와의 어떠한 사전 협의 없이 본 홈페이지의 자료를 영리적·상업적 강의 자료 등으로 무단 배포하거나 2차 가공하여 활용하는 중대한 저작권 침해 행위가 적발될 경우, 지적재산권 보호를 위하여 부득이하게 <b>최소 1,000,000원(금 일백만 원) 이상의 손해배상을 청구</b>할 수 있음을 정중하지만 엄중하게 고지합니다.
+        </div>
+        
+        <label class="terms-check">
+            <input type="checkbox" name="agree_terms" required="">
+            위 서비스 이용약관 및 개인정보 처리방침을 모두 숙지하였으며, 이에 동의합니다. (필수)
+        </label>
+
+        <h3>필수 정보 입력</h3>
+        <div class="form-group">
+            <label>아이디 <span class="required">*</span></label>
+            <input type="text" name="user_id" required="" value="" placeholder="영문, 숫자 조합 (admin 등 관리자 단어 사용 불가)">
+        </div>
+        <div class="form-group">
+            <label>비밀번호 <span class="required">*</span></label>
+            <input type="password" name="user_pw" required="" placeholder="안전한 비밀번호를 입력해주세요">
+        </div>
+        <div class="form-group">
+            <label>비밀번호 확인 <span class="required">*</span></label>
+            <input type="password" name="user_pw_confirm" required="" placeholder="비밀번호를 한 번 더 입력해주세요">
+        </div>
+        <div class="form-group">
+            <label>이름 <span class="required">*</span></label>
+            <input type="text" name="user_name" required="" value="" placeholder="실명 입력 (서버에 암호화되어 안전하게 보관됩니다)">
+        </div>
+        <div class="form-group">
+            <label>연락처 <span class="required">*</span></label>
+            <input type="text" name="phone" required="" value="" placeholder="010-0000-0000" oninput="autoHyphenPhone(this)" maxlength="16">
+        </div>
+        
+        <div class="form-group">
+            <label>이메일 인증 <span class="required">*</span></label>
+            <div class="flex-group" style="margin-bottom:10px;">
+                <input type="email" id="email" name="email" value="" placeholder="실제 수신 가능한 이메일 주소를 입력하세요">
+                <button type="button" class="btn-auth" id="btnSendCode" onclick="sendAuthCode()">인증번호 전송</button>
+            </div>
+            <div class="flex-group" id="authCodeArea" style="display:none;">
+                <input type="text" id="auth_code" placeholder="메일로 전송된 6자리 번호 입력">
+                <button type="button" class="btn-auth" id="btnVerifyCode" onclick="verifyAuthCode()">인증 확인</button>
+            </div>
+            <div id="emailMsg" style="font-size:13px; margin-top:5px; color:#dc3545; font-weight:bold;"></div>
+        </div>
+
+        <h3>소속 및 부수 정보 입력</h3>
+        <div style="display:flex; gap:10px; margin-bottom:15px;">
+            <div class="form-group" style="flex:1; margin-bottom:0;">
+                <label>소속 GA <span class="required">*</span></label>
+                <div style="display:flex; gap:5px;">
+                    <select id="ga_select" onchange="handleGaSelect()" style="flex:1; cursor:pointer;">
+                        <option value="">소속 GA를 선택하세요</option>
+                                                    <option value="(주)글로벌금융판매">(주)글로벌금융판매</option>
+                                                    <option value="ABA금융">ABA금융</option>
+                                                    <option value="AIA프리미어파트너스">AIA프리미어파트너스</option>
+                                                    <option value="KP파트너스">KP파트너스</option>
+                                                    <option value="더베스트금융">더베스트금융</option>
+                                                    <option value="더블유에셋 파이코트">더블유에셋 파이코트</option>
+                                                    <option value="더블유에셋(주)">더블유에셋(주)</option>
+                                                    <option value="메가">메가</option>
+                                                    <option value="메리츠화재">메리츠화재</option>
+                                                    <option value="스카이블루에셋">스카이블루에셋</option>
+                                                    <option value="신한금융플러스">신한금융플러스</option>
+                                                    <option value="아이에프에이">아이에프에이</option>
+                                                    <option value="에이원금융판매">에이원금융판매</option>
+                                                    <option value="에이플러스에셋어드바이저">에이플러스에셋어드바이저</option>
+                                                    <option value="에즈금융서비스">에즈금융서비스</option>
+                                                    <option value="엠금융">엠금융</option>
+                                                    <option value="인카금융서비스(주)">인카금융서비스(주)</option>
+                                                    <option value="토스인슈어런스">토스인슈어런스</option>
+                                                    <option value="한화생명금융서비스">한화생명금융서비스</option>
+                                                <option value="_direct_">직접입력 (신규 GA)</option>
+                    </select>
+                    <input type="text" name="ga_name" id="ga_input" value="" placeholder="GA명 직접입력" style="flex:1; display:none;">
+                </div>
+            </div>
+            <div class="form-group" style="flex:1; margin-bottom:0;">
+                <label>직책 <span class="required">*</span></label>
+                <select name="title">
+                    <option value="설계사" selected="">설계사</option>
+                    <option value="팀장">팀장</option>
+                    <option value="매니저">매니저</option>
+                    <option value="지점총무">지점총무</option>
+                    <option value="지점장">지점장</option>
+                    <option value="본부장">본부장</option>
+                    <option value="사업단장">사업단장</option>
+                    <option value="대표이사">대표이사</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>소속 본부(지점) <span class="required">*</span></label>
+            <div style="display:flex; gap:5px;">
+                <select id="hq_select" onchange="handleHqSelect()" style="flex:1; cursor:pointer;" disabled=""><option value="">소속 GA를 먼저 선택하세요</option></select>
+                <input type="text" name="headquarters" id="hq_input" value="" placeholder="본부/지점명 직접입력" style="flex:1; display:none;">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>추천인 정보</label>
+            <div style="display:flex; gap:10px;">
+                <input type="text" name="recommender_id" value="" placeholder="추천인 아이디">
+                <input type="text" name="recommender_name" value="" placeholder="추천인 이름">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>가입 경로</label>
+            <select name="join_path">
+                <option value="인터넷" selected="">인터넷</option>
+                <option value="파이코트">파이코트</option>
+                <option value="보람찬애셋">보람찬애셋</option>
+                <option value="보숨">보숨</option>
+                <option value="안다보험">안다보험</option>
+                <option value="내고객다보여">내고객다보여</option>
+                <option value="설계사아카데미">설계사아카데미</option>
+                <option value="GA정보통">GA정보통</option>
+                <option value="직접입력">직접입력</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-submit">회원가입 완료하기</button>
+        <a href="82a0d3621888.html" style="display:block; text-align:center; margin-top:20px; font-size:14px; color:#666; text-decoration:none;">로그인 페이지로 돌아가기</a>
+    </form>
+    
+    <div class="footer">Designed &amp; Developed by 보험명장 김영환 (010-5532-6259)</div>
+</div>
+
+<script>
+    // 소속 GA별 본부(지점) 매핑 데이터만 사용 (다른 GA 본부가 섞여 나오는 현상 원천 차단)
+    const gaHqMap = {"(주)글로벌금융판매":["WM총괄 유앤미지점"],"ABA금융":["일반지사본부"],"AIA프리미어파트너스":["대한"],"KP파트너스":["유민파트너스"],"더베스트금융":["미래지점"],"더블유에셋 파이코트":["HC본부","엘제이본부","천안본부","테스트본부"],"더블유에셋(주)":["강남센터"],"메가":["메가 우리나라사업단 파인라이프"],"메리츠화재":["GA4본부","수도2본부"],"스카이블루에셋":["수원SKY사업본부"],"신한금융플러스":["경기북부지사"],"아이에프에이":["에이스"],"에이원금융판매":["광진본부"],"에이플러스에셋어드바이저":["대전중부사업단","하이브리드본부"],"에즈금융서비스":["더원지점","탑스지점"],"엠금융":["하랑"],"인카금융서비스(주)":["경북본부","제이어스라이프\/동탄지사","제이어스라이프\/여수본부","해담사업단"],"토스인슈어런스":["금융프라자사업단, 위드본부"],"한화생명금융서비스":["아너스"]};
+
+    const gaSelect = document.getElementById('ga_select');
+    const gaInput = document.getElementById('ga_input');
+    const hqSelect = document.getElementById('hq_select');
+    const hqInput = document.getElementById('hq_input');
+
+    function handleGaSelect() {
+        // 소속 GA 변경 시 기존에 선택/입력된 본부(지점) 값 즉시 초기화
+        hqInput.value = '';
+        hqInput.style.display = 'none';
+
+        if (gaSelect.value === '_direct_') {
+            gaInput.style.display = 'block';
+            gaInput.value = '';
+            gaInput.focus();
+            populateHqSelect('_direct_'); 
+        } else {
+            gaInput.style.display = 'none';
+            gaInput.value = gaSelect.value;
+            populateHqSelect(gaSelect.value);
+        }
+    }
+
+    function populateHqSelect(gaName) {
+        hqSelect.innerHTML = '';
+        
+        // 1. 소속 GA를 아직 선택하지 않은 경우: 본부 선택창을 잠그고 다른 GA의 본부가 보이지 않게 처리
+        if (!gaName) {
+            const emptyOpt = document.createElement('option');
+            emptyOpt.value = '';
+            emptyOpt.textContent = '소속 GA를 먼저 선택하세요';
+            hqSelect.appendChild(emptyOpt);
+            hqSelect.disabled = true;
+            hqInput.style.display = 'none';
+            return;
+        }
+
+        hqSelect.disabled = false;
+
+        // 2. 새로운 GA를 직접 입력하는 경우: 다른 GA의 본부를 보여주지 않고 본부명도 직접 입력하도록 유도
+        if (gaName === '_direct_') {
+            const directOpt = document.createElement('option');
+            directOpt.value = '_direct_';
+            directOpt.textContent = '직접입력 (신규 본부/지점)';
+            hqSelect.appendChild(directOpt);
+            hqSelect.value = '_direct_';
+            hqInput.style.display = 'block';
+            return;
+        }
+
+        // 3. 기존 GA를 선택한 경우: 오직 해당 GA에 등록된 본부(지점)만 표시
+        const targetHqs = (gaHqMap[gaName] && Array.isArray(gaHqMap[gaName])) ? gaHqMap[gaName] : [];
+
+        const defaultOpt = document.createElement('option');
+        defaultOpt.value = '';
+        defaultOpt.textContent = '소속 본부(지점)를 선택하세요';
+        hqSelect.appendChild(defaultOpt);
+
+        targetHqs.forEach(hq => {
+            if (hq && hq !== '공통') {
+                const opt = document.createElement('option');
+                opt.value = hq;
+                opt.textContent = hq;
+                hqSelect.appendChild(opt);
+            }
+        });
+
+        const directOpt = document.createElement('option');
+        directOpt.value = '_direct_';
+        directOpt.textContent = '직접입력 (목록에 없는 본부/지점)';
+        hqSelect.appendChild(directOpt);
+
+        const currentHq = hqInput.value.trim();
+        let found = false;
+        for (let i = 0; i < hqSelect.options.length; i++) {
+            if (hqSelect.options[i].value === currentHq && currentHq !== '') {
+                hqSelect.selectedIndex = i;
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            hqInput.style.display = 'none';
+        } else {
+            hqSelect.value = currentHq === '' ? '' : '_direct_';
+            hqInput.style.display = currentHq === '' ? 'none' : 'block';
+        }
+    }
+
+    function handleHqSelect() {
+        if (hqSelect.value === '_direct_') {
+            hqInput.style.display = 'block';
+            hqInput.value = '';
+            hqInput.focus();
+        } else {
+            hqInput.style.display = 'none';
+            hqInput.value = hqSelect.value;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentGa = gaInput.value.trim();
+        let gaFound = false;
+        
+        if (currentGa === '') {
+            gaSelect.value = '';
+            gaInput.style.display = 'none';
+            populateHqSelect('');
+        } else {
+            for (let i = 0; i < gaSelect.options.length; i++) {
+                if (gaSelect.options[i].value === currentGa) {
+                    gaSelect.selectedIndex = i;
+                    gaFound = true;
+                    break;
+                }
+            }
+            if (gaFound) {
+                gaInput.style.display = 'none';
+                populateHqSelect(currentGa);
+            } else {
+                gaSelect.value = '_direct_';
+                gaInput.style.display = 'block';
+                populateHqSelect('_direct_');
+            }
+        }
+    });
+
+    function autoHyphenPhone(target) {
+        let str = target.value.replace(/[^0-9]/g, '');
+        let tmp = '';
+        
+        if (str.startsWith('02')) {
+            if (str.length < 3) tmp = str;
+            else if (str.length < 6) tmp = str.substr(0, 2) + '-' + str.substr(2);
+            else if (str.length < 10) tmp = str.substr(0, 2) + '-' + str.substr(2, 3) + '-' + str.substr(5);
+            else tmp = str.substr(0, 2) + '-' + str.substr(2, 4) + '-' + str.substr(6, 4);
+        } else if (str.startsWith('1')) {
+            if (str.length < 5) tmp = str;
+            else if (str.length < 9) tmp = str.substr(0, 4) + '-' + str.substr(4, 4);
+            else tmp = str.substr(0, 4) + '-' + str.substr(4, 4) + '-' + str.substr(8);
+        } else if (str.startsWith('050') || str.startsWith('0130')) {
+            if (str.length < 5) tmp = str;
+            else if (str.length < 8) tmp = str.substr(0, 4) + '-' + str.substr(4);
+            else if (str.length < 12) tmp = str.substr(0, 4) + '-' + str.substr(4, 3) + '-' + str.substr(7);
+            else tmp = str.substr(0, 4) + '-' + str.substr(4, 4) + '-' + str.substr(8, 4);
+        } else if (str.startsWith('82')) {
+            if (str.length < 3) tmp = str;
+            else if (str.substr(2, 1) === '2') { 
+                if (str.length < 4) tmp = str.substr(0, 2) + '-' + str.substr(2);
+                else if (str.length < 7) tmp = str.substr(0, 2) + '-' + str.substr(2, 1) + '-' + str.substr(3);
+                else if (str.length < 11) tmp = str.substr(0, 2) + '-' + str.substr(2, 1) + '-' + str.substr(3, 3) + '-' + str.substr(6);
+                else tmp = str.substr(0, 2) + '-' + str.substr(2, 1) + '-' + str.substr(3, 4) + '-' + str.substr(7, 4);
+            } else {
+                if (str.length < 5) tmp = str.substr(0, 2) + '-' + str.substr(2);
+                else if (str.length < 8) tmp = str.substr(0, 2) + '-' + str.substr(2, 2) + '-' + str.substr(4);
+                else if (str.length < 12) tmp = str.substr(0, 2) + '-' + str.substr(2, 2) + '-' + str.substr(4, 3) + '-' + str.substr(7);
+                else tmp = str.substr(0, 2) + '-' + str.substr(2, 2) + '-' + str.substr(4, 4) + '-' + str.substr(8, 4);
+            }
+        } else {
+            if (str.length < 4) tmp = str;
+            else if (str.length < 7) tmp = str.substr(0, 3) + '-' + str.substr(3);
+            else if (str.length < 11) tmp = str.substr(0, 3) + '-' + str.substr(3, 3) + '-' + str.substr(6);
+            else tmp = str.substr(0, 3) + '-' + str.substr(3, 4) + '-' + str.substr(7, 4);
+        }
+        target.value = tmp;
+    }
+
+    function sendAuthCode() {
+        const email = document.getElementById('email').value;
+        if (!email || !email.includes('@')) { alert('올바른 이메일 주소를 입력해주세요.'); return; }
+        
+        document.getElementById('btnSendCode').innerText = '발송 중...';
+        document.getElementById('btnSendCode').disabled = true;
+
+        const formData = new FormData();
+        formData.append('ajax_action', 'send_code');
+        formData.append('email', email);
+
+        fetch('register.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                document.getElementById('authCodeArea').style.display = 'flex';
+                document.getElementById('emailMsg').style.color = '#2563eb';
+                document.getElementById('emailMsg').innerText = '이메일이 발송되었습니다. 스팸 메일함도 함께 확인해주세요.';
+                document.getElementById('btnSendCode').innerText = '재발송';
+                document.getElementById('btnSendCode').disabled = false;
+            } else {
+                alert(data.msg);
+                document.getElementById('btnSendCode').innerText = '인증번호 전송';
+                document.getElementById('btnSendCode').disabled = false;
+            }
+        });
+    }
+
+    function verifyAuthCode() {
+        const email = document.getElementById('email').value;
+        const code = document.getElementById('auth_code').value;
+        if (!code) { alert('인증번호를 입력해주세요.'); return; }
+
+        const formData = new FormData();
+        formData.append('ajax_action', 'verify_code');
+        formData.append('email', email);
+        formData.append('code', code);
+
+        fetch('register.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                document.getElementById('is_email_verified').value = '1';
+                document.getElementById('email').readOnly = true;
+                document.getElementById('email').style.backgroundColor = '#e9ecef';
+                document.getElementById('authCodeArea').style.display = 'none';
+                document.getElementById('btnSendCode').style.display = 'none';
+                document.getElementById('emailMsg').innerText = '✅ 이메일 인증이 성공적으로 완료되었습니다.';
+                document.getElementById('emailMsg').style.color = '#10b981';
+            } else {
+                alert('인증번호가 일치하지 않습니다. 다시 확인해주세요.');
+            }
+        });
+    }
+
+    function validateForm() {
+        if (!gaInput.value.trim()) {
+            alert('소속 GA를 선택하거나 입력해주세요.');
+            gaSelect.focus();
+            return false;
+        }
+        if (!hqInput.value.trim()) {
+            alert('소속 본부(지점)를 선택하거나 입력해주세요.');
+            hqSelect.focus();
+            return false;
+        }
+        if (document.getElementById('is_email_verified').value !== '1') {
+            alert('이메일 인증을 먼저 완료해주셔야 가입이 가능합니다.');
+            return false;
+        }
+        return true;
+    }
+</script>
+
+</body></html>

@@ -1,0 +1,2156 @@
+<!DOCTYPE html><html lang="ko"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>고객 맞춤 비과세 금융 제안서 (실질 체감수익률 계산기)</title>
+
+    <!-- Open Graph 메타태그 (카톡 링크 복사 시 썸네일 노출) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://iga.pe.kr/board/calculator/interest.php">
+    <meta property="og:title" content="고객 맞춤 비과세 금융 제안서 (실질 체감수익률 계산기)">
+    <meta property="og:description" content="이자소득세(15.4%) 전액 면제 혜택에 따른 실질 체감 세전 환산 수익률 및 복리 수익률 정밀 분석 리포트">
+    <meta property="og:image" content="https://iga.pe.kr/assets/title_news_thumb.png?v=1792127877">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="420">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://iga.pe.kr/assets/title_news_thumb.png?v=1792127877">
+
+    <!-- Pretendard 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin="" href="../assets/51ebf3e402e9.css">
+    <script src="../assets/a3133eb07bfa.js"></script>
+    <script src="../assets/61ec38d3371a.js"></script>
+    <style>
+        :root {
+            --primary: #090d16;
+            --primary-blue: #1d4ed8;
+            --highlight-red: #e11d48;
+            --highlight-red-dark: #be123c;
+            --accent-green: #059669;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #334155;
+            --border: #cbd5e1;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 25px auto 50px auto;
+            padding: 0 16px;
+            width: 100%;
+        }
+
+        .cyber-wrapper {
+            width: 100%;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.15);
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+        }
+
+        /* 1. 상단 제안서 헤더 바 */
+        .proposal-header {
+            background: linear-gradient(135deg, #090d16 0%, #0f172a 60%, #1e293b 100%);
+            padding: 24px 34px;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3.5px solid #2563eb;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .title-thumb-wrap {
+            position: relative;
+            width: 72px;
+            height: 54px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #00d2ff;
+            background: #0b1120;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 210, 255, 0.2);
+        }
+        .title-thumb-wrap:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 14px rgba(0, 210, 255, 0.5);
+        }
+        .title-thumb-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: transparent;
+        }
+        .title-thumb-empty {
+            font-size: 24px;
+            color: #00d2ff;
+        }
+        .title-thumb-edit-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            color: #00d2ff;
+            font-size: 11px;
+            font-weight: 900;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .title-thumb-wrap:hover .title-thumb-edit-overlay {
+            display: flex;
+        }
+
+        .header-left h1 {
+            font-size: 27px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+        }
+
+        .header-left h1 span.highlight-cyber {
+            background: linear-gradient(90deg, #00d2ff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-left p {
+            font-size: 14.5px;
+            color: #94a3b8;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        /* 설계사 프로필 배지 */
+        .planner-badge {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(0, 210, 255, 0.4);
+            padding: 10px 20px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 4px 14px rgba(0, 210, 255, 0.12);
+        }
+
+        .planner-badge .avatar-icon {
+            font-size: 26px;
+            background: #1e293b;
+            padding: 6px;
+            border-radius: 50%;
+            border: 2px solid #00d2ff;
+        }
+
+        .planner-badge .info-text {
+            font-size: 13.5px;
+            line-height: 1.45;
+            text-align: right;
+            color: #cbd5e1;
+        }
+
+        .planner-badge .info-text strong {
+            font-size: 16px;
+            color: #ffffff;
+            font-weight: 900;
+        }
+
+        .planner-badge .info-text .phone {
+            color: #00d2ff;
+            font-weight: 900;
+            font-size: 13.5px;
+        }
+
+        /* 2. 본문 2단 레이아웃 */
+        .content-grid {
+            padding: 30px 34px;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 32px;
+            background: #ffffff;
+        }
+
+        /* 좌측 입력 컨트롤 패널 */
+        .control-panel {
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: 900;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            font-weight: 800;
+            color: #334155;
+        }
+
+        .input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 13px 46px 13px 16px;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 900;
+            color: #0f172a;
+            outline: none;
+            text-align: right;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .input-box input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+        }
+
+        .input-box input:read-only {
+            background: #e2e8f0;
+            color: #475569;
+            cursor: not-allowed;
+        }
+
+        .input-box .unit {
+            position: absolute;
+            right: 14px;
+            font-size: 14px;
+            font-weight: 900;
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        .tab-selector {
+            display: flex;
+            background: #e2e8f0;
+            border-radius: 10px;
+            padding: 4px;
+            gap: 3px;
+            margin-bottom: 2px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px 0;
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            font-weight: 900;
+            color: #64748b;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #1d4ed8;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+        }
+
+        .btn-calc-apply {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-calc-apply:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        /* 하단 버튼 3종 그리드 */
+        .action-btn-row {
+            display: grid;
+            grid-template-columns: 1fr 1.15fr 1.15fr;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .btn-print-action {
+            background: linear-gradient(135deg, #090d16 0%, #1e293b 100%);
+            color: #00d2ff;
+            border: 1.5px solid #00d2ff;
+            padding: 11px 4px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: 0.2s;
+        }
+
+        .btn-print-action:hover {
+            background: #00d2ff;
+            color: #090d16;
+        }
+
+        .btn-kakao-site {
+            background: #ffffff;
+            color: #191919;
+            border: 1.5px solid #fee500;
+            padding: 11px 4px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .btn-kakao-site:hover {
+            background: #fffbeb;
+            border-color: #f59e0b;
+        }
+
+        .btn-kakao-result {
+            background: #fee500;
+            color: #191919;
+            border: 1.5px solid #fada0a;
+            padding: 11px 4px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(254, 229, 0, 0.3);
+        }
+
+        .btn-kakao-result:hover {
+            background: #fada0a;
+            transform: translateY(-2px);
+        }
+
+        .shared-mode-badge {
+            background: #fef3c7;
+            border: 1.5px solid #f59e0b;
+            color: #b45309;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        /* 우측 결과 패널 */
+        .report-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .briefing-cards-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .briefing-card {
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 14px;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .briefing-card .card-lbl {
+            font-size: 13px;
+            font-weight: 800;
+            color: #64748b;
+        }
+
+        .briefing-card .card-val {
+            font-size: 20px;
+            font-weight: 950;
+            color: #0f172a;
+        }
+
+        .briefing-card.highlight {
+            background: #fff1f2;
+            border-color: #fca5a5;
+        }
+
+        .briefing-card.highlight .card-lbl,
+        .briefing-card.highlight .card-val {
+            color: var(--highlight-red);
+        }
+
+        .client-briefing-quote {
+            background: #fff1f2;
+            border: 2px solid #fecdd3;
+            border-left: 6px solid var(--highlight-red);
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 800;
+            line-height: 1.6;
+            color: #0f172a;
+        }
+
+        .client-briefing-quote strong {
+            color: var(--highlight-red);
+            font-size: 15px;
+        }
+
+        .mega-rate-showcase {
+            background: linear-gradient(135deg, #ffffff 0%, #fff1f2 100%);
+            border: 3.5px solid #e11d48;
+            border-radius: 16px;
+            padding: 26px 30px;
+            box-shadow: 0 12px 30px rgba(225, 29, 72, 0.15);
+            position: relative;
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .mega-badge {
+            position: absolute;
+            top: -14px;
+            left: 24px;
+            background: linear-gradient(90deg, #e11d48, #be123c);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 900;
+            padding: 4px 16px;
+            border-radius: 20px;
+            box-shadow: 0 3px 8px rgba(225, 29, 72, 0.35);
+        }
+
+        .mega-col {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .mega-col-label {
+            font-size: 16px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mega-hero-val {
+            font-size: 72px;
+            font-weight: 950;
+            color: #e11d48;
+            letter-spacing: -3px;
+            line-height: 0.95;
+            margin: 6px 0 4px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+        }
+
+        .mega-sub-val {
+            font-size: 48px;
+            font-weight: 950;
+            color: #1e3a8a;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin: 6px 0 4px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+        }
+
+        .mega-val-unit {
+            font-size: 26px;
+            font-weight: 900;
+        }
+
+        .mega-caption {
+            font-size: 13px;
+            font-weight: 800;
+            color: #475569;
+            line-height: 1.45;
+        }
+
+        .tax-compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14.5px;
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 12px;
+            overflow: hidden;
+            table-layout: fixed;
+        }
+
+        .tax-compare-table th {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 12px 14px;
+            font-weight: 900;
+            text-align: center;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .tax-compare-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            font-weight: 800;
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        .tax-compare-table td:first-child {
+            text-align: left;
+            color: #475569;
+            white-space: nowrap;
+        }
+
+        .tax-compare-table tr.highlight-tr {
+            background: #fff1f2;
+        }
+
+        .tax-compare-table tr.highlight-tr td {
+            color: var(--highlight-red);
+            font-weight: 950;
+            font-size: 16px;
+        }
+
+        .sub-rates-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            padding: 10px 12px;
+            border-radius: 12px;
+        }
+
+        .sub-rate-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 8px 4px;
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .sub-rate-box.rate-box-compound {
+            border: 2px solid var(--highlight-red);
+            background: #fff1f2;
+        }
+
+        .sub-rate-box .lbl {
+            font-size: 12px;
+            font-weight: 800;
+            color: #64748b;
+        }
+
+        .sub-rate-box.rate-box-compound .lbl {
+            color: var(--highlight-red);
+            font-weight: 900;
+        }
+
+        .sub-rate-box .val {
+            font-size: 16px;
+            font-weight: 950;
+            color: #0f172a;
+        }
+
+        .sub-rate-box.rate-box-compound .val {
+            font-size: 18px;
+            color: var(--highlight-red);
+        }
+
+        .legal-disclaimer-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 11.5px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* ------------------------------------------------------------- */
+        /* 🚨 [핵심] 모바일 전용 반응형 미디어 쿼리 (화면 깨짐 완벽 방지) */
+        /* ------------------------------------------------------------- */
+        @media screen and (max-width: 820px) {
+            .container {
+                padding: 0 8px;
+                margin: 12px auto 30px auto;
+            }
+
+            .cyber-wrapper {
+                border-radius: 14px;
+            }
+
+            /* 상단 헤더 모바일 정돈 */
+            .proposal-header {
+                padding: 16px 18px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .header-left {
+                width: 100%;
+                gap: 12px;
+            }
+
+            .title-thumb-wrap {
+                width: 60px;
+                height: 46px;
+            }
+
+            .header-left h1 {
+                font-size: 20px;
+            }
+
+            .header-left p {
+                font-size: 12px;
+            }
+
+            .planner-badge {
+                width: 100%;
+                justify-content: space-between;
+                padding: 8px 14px;
+            }
+
+            .planner-badge .info-text {
+                text-align: right;
+                font-size: 12px;
+            }
+
+            .planner-badge .info-text strong {
+                font-size: 14px;
+            }
+
+            /* 본문 2열 고정 그리드를 1열 수직 배열로 전환 */
+            .content-grid {
+                grid-template-columns: 1fr;
+                padding: 16px 14px;
+                gap: 20px;
+            }
+
+            .control-panel {
+                padding: 16px;
+                gap: 14px;
+            }
+
+            .panel-title {
+                font-size: 16px;
+            }
+
+            .input-box input {
+                font-size: 15px;
+                padding: 11px 40px 11px 12px;
+            }
+
+            .btn-calc-apply {
+                font-size: 15px;
+                padding: 13px;
+            }
+
+            .action-btn-row {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 4px;
+            }
+
+            .btn-print-action, .btn-kakao-site, .btn-kakao-result {
+                padding: 10px 2px;
+                font-size: 11.5px;
+            }
+
+            /* 3단 요약 카드 모바일 최적화 */
+            .briefing-cards-row {
+                gap: 6px;
+            }
+
+            .briefing-card {
+                padding: 10px 6px;
+                border-radius: 10px;
+            }
+
+            .briefing-card .card-lbl {
+                font-size: 11px;
+            }
+
+            .briefing-card .card-val {
+                font-size: 14px;
+                letter-spacing: -0.5px;
+            }
+
+            /* 초대형 쇼케이스 모바일 1열 전환 */
+            .mega-rate-showcase {
+                grid-template-columns: 1fr;
+                padding: 20px 16px;
+                gap: 16px;
+            }
+
+            .mega-badge {
+                top: -11px;
+                left: 14px;
+                font-size: 11.5px;
+                padding: 3px 12px;
+            }
+
+            .mega-hero-val {
+                font-size: 48px;
+            }
+
+            .mega-sub-val {
+                font-size: 34px;
+            }
+
+            .mega-val-unit {
+                font-size: 20px;
+            }
+
+            .mega-col:last-child {
+                border-left: none !important;
+                border-top: 1.5px dashed #fecdd3;
+                padding-left: 0 !important;
+                padding-top: 14px;
+            }
+
+            .client-briefing-quote {
+                padding: 12px 14px;
+                font-size: 12.5px;
+            }
+
+            /* 테이블 모바일 스크롤 및 폰트 축소 */
+            .tax-compare-table th {
+                font-size: 12px;
+                padding: 9px 6px;
+            }
+
+            .tax-compare-table td {
+                font-size: 12px;
+                padding: 9px 6px;
+            }
+
+            .tax-compare-table tr.highlight-tr td {
+                font-size: 13.5px;
+            }
+
+            /* 4대 보조 지표 2x2 반응형 배치 */
+            .sub-rates-bar {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+                padding: 8px;
+            }
+
+            .sub-rate-box {
+                padding: 6px 4px;
+            }
+
+            .sub-rate-box .lbl {
+                font-size: 11px;
+            }
+
+            .sub-rate-box .val {
+                font-size: 14.5px;
+            }
+
+            .legal-disclaimer-box {
+                font-size: 10.5px;
+                padding: 10px 12px;
+            }
+        }
+
+        /* ------------------------------------------------------------- */
+        /* [인쇄 규격] A4 가로 1장 통출력 전용 (PC 인쇄 규격 100% 보존) */
+        /* ------------------------------------------------------------- */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 6mm 8mm;
+            }
+
+            html, body {
+                width: 100% !important;
+                height: 100% !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                font-size: 10.5pt;
+            }
+
+            .navbar, 
+            .action-btn-row,
+            .control-panel,
+            .no-print {
+                display: none !important;
+            }
+
+            .container {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .cyber-wrapper {
+                border: 2px solid #0f172a !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                width: 100% !important;
+                height: 98vh !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+            }
+
+            .proposal-header {
+                background: #090d16 !important;
+                -webkit-print-color-adjust: exact;
+                padding: 14px 28px !important;
+                border-bottom: 3px solid #00d2ff !important;
+                flex-direction: row !important;
+            }
+
+            .content-grid {
+                display: block !important;
+                padding: 14px 24px !important;
+                flex: 1 !important;
+            }
+
+            .report-panel {
+                display: grid !important;
+                grid-template-columns: 1.15fr 1fr !important;
+                gap: 16px !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            .mega-rate-showcase {
+                background: #fff1f2 !important;
+                border: 3px solid #e11d48 !important;
+                -webkit-print-color-adjust: exact;
+                grid-template-columns: 1.35fr 1fr !important;
+            }
+
+            .tax-compare-table th {
+                background: #0f172a !important;
+                color: #ffffff !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 썸네일 업로드용 숨김 파일 Input -->
+    <input type="file" id="title-thumb-input" accept="image/*" style="display: none;">
+
+    
+<style>
+    .navbar { background-color: #ffffff; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 65px; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); position: sticky; top: 0; z-index: 900; box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-container { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+    
+    .nav-left { display: flex; height: 100%; align-items: center; margin:0; padding:0; }
+    .nav-item { position: relative; display: inline-block; height: 100%; }
+    .nav-item > a { color: #334155; font-weight: 700; font-size: 15px; padding: 0 18px; display: flex; align-items: center; height: 65px; transition: color 0.2s; text-decoration: none; box-sizing: border-box;}
+    .nav-item:hover > a { color: #2563eb; }
+
+    .nav-dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 220px; box-shadow: 0px 10px 25px rgba(0,0,0,0.1); z-index: 1001; top: 100%; left: 0; border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; border-top: none; }
+    .nav-dropdown-content a { color: #475569; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; border-bottom: 1px solid #f1f5f9; transition: 0.2s; font-weight: 500; text-decoration: none; position: relative; }
+    .nav-dropdown-content a:hover { background-color: #f8fafc; color: #2563eb; }
+
+    .nav-sub-item { position: relative; width: 100%; }
+    .nav-sub-dropdown { display: none; position: absolute; left: 100%; top: 0; background-color: #ffffff; min-width: 210px; box-shadow: 5px 10px 25px rgba(0,0,0,0.1); z-index: 1002; border-radius: 0 8px 8px 8px; border: 1px solid #e2e8f0; }
+    .nav-sub-dropdown a { padding: 11px 16px; font-size: 13.5px; border-bottom: 1px solid #f1f5f9; }
+
+    .arrow-indicator { font-size: 11px; margin-left: 6px; transition: transform 0.2s ease; display: inline-block; }
+    .arrow-sub { font-size: 11px; margin-left: 6px; color: #94a3b8; transition: transform 0.2s ease; display: inline-block; }
+
+    @media (min-width: 851px) {
+        .nav-item:hover > .nav-dropdown-content { display: block; }
+        .nav-sub-item:hover > .nav-sub-dropdown { display: block; }
+        .mobile-only-link { display: none !important; }
+    }
+    
+    .nav-right { display: flex; gap: 12px; align-items: center; margin:0; padding:0; height: 100%; }
+    .visitor-counter { background: #f8fafc; border: 1px solid #e2e8f0; padding: 5px 10px; border-radius: 6px; font-size: 12px; color: #64748b; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+    .visitor-counter span { color: #0ea5e9; }
+    
+    .nav-group-btn { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: #334155; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; cursor: pointer; transition: 0.2s; text-decoration: none; }
+    .nav-group-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+    .btn-sitemap { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 13.5px; font-weight: 800; padding: 7px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.2s; text-decoration: none; }
+    .btn-sitemap:hover { background: #2563eb; color: #ffffff; border-color: #2563eb; }
+    
+    .nav-right-dropdown { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-right-content { display: none; position: absolute; right: 0; top: 100%; background: #fff; min-width: 215px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; overflow: hidden; z-index: 1000; }
+    @media (min-width: 851px) {
+        .nav-right-dropdown:hover .nav-right-content { display: block; }
+    }
+    .nav-right-content a { display: block; padding: 12px 16px; font-size: 13.5px; color: #475569; text-decoration: none; font-weight: 600; border-bottom: 1px solid #f1f5f9; transition: 0.2s; }
+    .nav-right-content a:hover { background: #f8fafc; color: #2563eb; }
+    .nav-right-content a.danger:hover { color: #ef4444; background: #fef2f2; }
+
+    .nav-mobile-toggle { display: none; font-size: 26px; cursor: pointer; color: #334155; }
+
+    .nav-modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15,23,42,0.6); backdrop-filter: blur(5px); }
+    .nav-modal-content { background-color: #ffffff; margin: 3vh auto; padding: 40px; border-radius: 24px; width: 95%; position: relative; max-height: 94vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.25); box-sizing: border-box; font-family: 'Pretendard', sans-serif;}
+    .nav-close-btn { position: absolute; right: 25px; top: 20px; font-size: 32px; cursor: pointer; color: #94a3b8; transition: 0.2s; line-height: 1; z-index:10; }
+    .nav-close-btn:hover { color: #ef4444; }
+    
+    #navIframeModal .nav-modal-content { padding: 0; max-width: 1100px; height: 90vh; overflow: hidden; display: flex; flex-direction: column; }
+    #navIframeModal .nav-close-btn { right: 20px; top: 15px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    #navIframeModal iframe { width: 100%; height: 100%; border: none; border-radius: 24px; }
+
+    #navSitemapModal .nav-modal-content { max-width: 1150px; padding: 35px 30px; }
+    .sitemap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 15px; margin-bottom: 25px; }
+    .sitemap-header h2 { margin: 0; font-size: 22px; font-weight: 900; color: #0f172a; }
+    .sitemap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .sitemap-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .sitemap-p1-title { font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 12px; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
+    .sitemap-p1-title a { color: inherit; text-decoration: none; }
+    .sitemap-p1-title a:hover { color: #2563eb; }
+    .sitemap-p2-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .sitemap-p2-item { font-size: 13.5px; font-weight: 700; }
+    .sitemap-p2-item > a { color: #334155; text-decoration: none; display: block; padding: 3px 0; }
+    .sitemap-p2-item > a:hover { color: #2563eb; }
+    .sitemap-p3-list { list-style: none; padding-left: 14px; margin: 4px 0 0 0; display: flex; flex-direction: column; gap: 4px; border-left: 2px solid #cbd5e1; }
+    .sitemap-p3-item { font-size: 12.5px; font-weight: 600; }
+    .sitemap-p3-item a { color: #64748b; text-decoration: none; }
+    .sitemap-p3-item a:hover { color: #2563eb; }
+
+    @media (max-width: 850px) {
+        .navbar { flex-direction: column; align-items: flex-start; height: auto; padding: 15px 20px; }
+        .nav-mobile-toggle { display: block; position: absolute; right: 20px; top: 18px; }
+        .nav-logo-area { display: block; font-weight: 800; font-size: 20px; color: #0f172a; text-decoration: none; }
+        .nav-container { display: none; flex-direction: column; width: 100%; gap: 15px; margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+        .nav-container.active { display: flex; }
+        .nav-left { flex-direction: column; align-items: flex-start; width: 100%; }
+        .nav-right { flex-direction: column; align-items: stretch; width: 100%; gap: 10px; }
+        .nav-item, .nav-right-dropdown { width: 100%; height: auto; }
+        
+        .nav-item > a, .nav-group-btn { 
+            height: auto; 
+            padding: 13px 8px; 
+            border-bottom: 1px solid #f1f5f9; 
+            width: 100%; 
+            border-radius: 0; 
+            border: none; 
+            background: transparent; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .nav-dropdown-content { 
+            display: none; 
+            position: static; 
+            box-shadow: none; 
+            border: none; 
+            border-left: 3px solid #2563eb; 
+            border-radius: 0; 
+            background: #f8fafc; 
+            padding-left: 8px; 
+            margin: 4px 0 10px 0; 
+            width: 100%; 
+        }
+        .nav-dropdown-content.open { 
+            display: block !important; 
+        }
+
+        .nav-dropdown-content a {
+            padding: 11px 12px;
+            font-size: 13.5px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .nav-sub-dropdown { 
+            display: none; 
+            position: static; 
+            border: none; 
+            box-shadow: none; 
+            background: #ffffff; 
+            padding-left: 12px; 
+            border-left: 2px solid #94a3b8; 
+            margin: 4px 0 8px 0; 
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+        .nav-sub-dropdown.open { 
+            display: block !important; 
+        }
+
+        .nav-sub-dropdown a {
+            padding: 9px 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .nav-parent-link.active-toggle .arrow-indicator {
+            transform: rotate(180deg);
+            color: #2563eb;
+        }
+
+        .nav-sub-parent.active-toggle .arrow-sub {
+            transform: rotate(90deg);
+            color: #2563eb;
+        }
+
+        .visitor-counter { justify-content: center; padding: 10px 0; }
+        .btn-sitemap { justify-content: center; width: 100%; padding: 10px; }
+    }
+</style>
+<link href="../assets/2b9f3e10cb8b.css" rel="stylesheet">
+<script src="../assets/4395c6aa4084.js"></script>
+
+<div class="navbar no-print">
+    <a href="947659214c33.html" class="nav-logo-area" style="display:none;">GA매뉴얼</a>
+    <div class="nav-mobile-toggle" onclick="toggleMobileNav()">☰</div>
+
+    <div class="nav-container" id="navMobileContainer">
+        <div class="nav-left">
+                                            <div class="nav-item">
+                                            <a href="947659214c33.html" class="nav-parent-link" data-has-children="true" style="">
+                            <span>홈(메인)</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="947659214c33.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 홈(메인) 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="44e3452ef6c9.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>메인모듬링크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="44e3452ef6c9.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 메인모듬링크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="44e3452ef6c9.html">
+                                                    보험전산 링크                                                </a>
+                                                                                                                                            <a href="e6ed6a9f92e2.html">
+                                                    고객센터/팩스번호                                                </a>
+                                                                                                                                            <a href="3153c6257bf8.html">
+                                                    청구_이메일/URL링크                                                </a>
+                                                                                                                                            <a href="75533ed272f1.html">
+                                                    청구한도금액안내                                                </a>
+                                                                                                                                            <a href="3b392eb2b880.html">
+                                                    청구 우편주소                                                </a>
+                                                                                                                                            <a href="75ddd1a0ebd6.html">
+                                                    청구서_모아보기                                                </a>
+                                                                                                                                            <a href="21587080263e.html">
+                                                    보험사별 수납일                                                </a>
+                                                                                                                                            <a href="c49fc0e88d53.html">
+                                                    카드정보                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="f2ca5133a8c2.html" class="" data-has-sub="false">
+                                        <span>GA인트라넷링크</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                                            <div class="nav-item">
+                                            <a href="efd4d09ef92f.html" class="nav-parent-link" data-has-children="true" style="">
+                            <span>영업자료</span>
+                            <span class="arrow-indicator">▼</span>
+                        </a>
+
+                        <div class="nav-dropdown-content">
+                                                            <a href="efd4d09ef92f.html" class="mobile-only-link" style="background:#eff6ff; color:#1d4ed8; font-weight:700;">
+                                    📌 영업자료 바로가기
+                                </a>
+                            
+                                                                                            <div class="nav-sub-item">
+                                    <a href="96dc9c2d9f73.html" class="" data-has-sub="false">
+                                        <span>매일영업이슈</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="efd4d09ef92f.html" class="" data-has-sub="false">
+                                        <span>월별소식지</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="835c17bc6127.html" class="" data-has-sub="false">
+                                        <span>영업전략자료</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="cb73c93e4162.html" class="" data-has-sub="false">
+                                        <span>상품정보</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="27b61ac494e2.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험니즈자료</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="27b61ac494e2.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험니즈자료 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="27b61ac494e2.html">
+                                                    질병니즈자료                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="bdc5fd445533.html" class="" data-has-sub="false">
+                                        <span>보험상품이자계산기</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="969023e484dc.html" class="" data-has-sub="false">
+                                        <span>질문과답변</span>
+                                                                            </a>
+
+                                                                    </div>
+                                                                                            <div class="nav-sub-item">
+                                    <a href="b9442215d61e.html" class="nav-sub-parent" data-has-sub="true">
+                                        <span>보험북마크</span>
+                                                                                    <span class="arrow-sub">▶</span>
+                                                                            </a>
+
+                                                                            <div class="nav-sub-dropdown">
+                                                                                            <a href="b9442215d61e.html" class="mobile-only-link" style="background:#f1f5f9; color:#1e293b; font-weight:700;">
+                                                    📌 보험북마크 바로가기
+                                                </a>
+                                            
+                                                                                                                                            <a href="b9442215d61e.html">
+                                                    유투브채널                                                </a>
+                                                                                                                                            <a href="665f386a4d32.html">
+                                                    Today_NEWS                                                </a>
+                                                                                    </div>
+                                                                    </div>
+                                                    </div>
+
+                                    </div>
+                    </div>
+        
+        <div class="nav-right">
+            <button type="button" class="btn-sitemap" onclick="openNavSitemapModal()" title="전체 사이트 메뉴 구조 한눈에 보기">
+                <span>🗺️</span>
+                <span>사이트맵</span>
+            </button>
+
+            <form action="/board/search.php" method="get" style="display:flex; align-items:center; background:#f8fafc; border:1px solid #cbd5e1; border-radius:20px; padding:3px 10px; margin:0;">
+                <input type="text" name="keyword" placeholder="사이트 전체 검색..." style="border:none; background:transparent; font-size:13px; font-weight:600; color:#1e293b; outline:none; width:130px; font-family:inherit;">
+                <button type="submit" style="background:none; border:none; cursor:pointer; font-size:14px; padding:0; display:flex; align-items:center;" title="검색">🔍</button>
+            </form>
+
+            <div class="visitor-counter" title="오늘 접속자 / 전체 누적 접속자">
+                📊 <span>3</span> / 793            </div>
+            
+                            <span style="color: #94a3b8; font-size: 13px; margin-right: 8px; font-weight:700; cursor:pointer; background:#f1f5f9; padding:6px 12px; border-radius:20px;" onclick="openNavDevNoteModal()">
+                    Ver 3.0.01 ⓘ
+                </span>
+                        
+                            <a href="82a0d3621888.html" class="nav-group-btn" style="background:#2563eb; color:#fff; border:none; justify-content:center;">🔒 로그인/회원가입</a>
+                    </div>
+    </div>
+</div>
+
+<!-- 사이트맵 모달 팝업 -->
+<div id="navSitemapModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavSitemapModal()">×</span>
+        <div class="sitemap-header">
+            <h2>🗺️ 전체 사이트맵</h2>
+        </div>
+        <div class="sitemap-grid">
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="947659214c33.html">📁 홈(메인)</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="44e3452ef6c9.html">└ 메인모듬링크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="44e3452ef6c9.html">• 보험전산 링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="e6ed6a9f92e2.html">• 고객센터/팩스번호</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3153c6257bf8.html">• 청구_이메일/URL링크</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75533ed272f1.html">• 청구한도금액안내</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="3b392eb2b880.html">• 청구 우편주소</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="75ddd1a0ebd6.html">• 청구서_모아보기</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="21587080263e.html">• 보험사별 수납일</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="c49fc0e88d53.html">• 카드정보</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="f2ca5133a8c2.html">└ GA인트라넷링크</a>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                                            <div class="sitemap-card">
+                    <div class="sitemap-p1-title">
+                        <a href="efd4d09ef92f.html">📁 영업자료</a>
+                    </div>
+                                            <ul class="sitemap-p2-list">
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="96dc9c2d9f73.html">└ 매일영업이슈</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="efd4d09ef92f.html">└ 월별소식지</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="835c17bc6127.html">└ 영업전략자료</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="cb73c93e4162.html">└ 상품정보</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="27b61ac494e2.html">└ 보험니즈자료</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="27b61ac494e2.html">• 질병니즈자료</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="bdc5fd445533.html">└ 보험상품이자계산기</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="969023e484dc.html">└ 질문과답변</a>
+                                                                    </li>
+                                                                                            <li class="sitemap-p2-item">
+                                    <a href="b9442215d61e.html">└ 보험북마크</a>
+                                                                            <ul class="sitemap-p3-list">
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="b9442215d61e.html">• 유투브채널</a>
+                                                </li>
+                                                                                                                                            <li class="sitemap-p3-item">
+                                                    <a href="665f386a4d32.html">• Today_NEWS</a>
+                                                </li>
+                                                                                    </ul>
+                                                                    </li>
+                                                    </ul>
+                                    </div>
+                    </div>
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center; color:#64748b;">
+            Designed &amp; Developed by <b>보험명장 김영환</b> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<div id="navIframeModal" class="nav-modal">
+    <div class="nav-modal-content">
+        <span class="nav-close-btn" onclick="closeNavIframeModal()">×</span>
+        <iframe id="navMyAccountIframe" src=""></iframe>
+    </div>
+</div>
+
+<div id="navDevNoteModal" class="nav-modal">
+    <div class="nav-modal-content" style="max-width:700px;">
+        <span class="nav-close-btn" onclick="closeNavDevNoteModal()">×</span>
+        <h2 style="margin-top:0; color:#0f172a; border-bottom:2px solid #f1f5f9; padding-bottom:15px;">🛠️ 시스템 업데이트 노트</h2>
+        
+                    <div class="ql-snow" style="margin-top:20px; max-height:500px; overflow-y:auto; padding-right:10px;">
+                <div class="ql-editor" style="padding:0; line-height:1.7; color:#334155; font-size:15px; font-family:inherit;">
+                    <div class="note-version-block">
+<h4 style="color:#2563eb; margin-bottom:10px; margin-top:0;">[Ver 3.0.01] 업데이트 내역</h4>
+<ul style="padding-left:20px; margin-bottom:0;">
+<li>1. 뉴스 및 북마크 게시판 생성 적용.</li>
+<li>2. 대부분의 게시물 카톡 공유 적용.(웹에서 바로 공유 가능)</li>
+<li>3. Today이슈 &amp; 뉴스 06시~21시까지 네이버, 네이트, 다음 뉴스 검색 보험/건강뉴스 갈무리 기능 제공. 약간의 문장만 적용 기사 내용 각 포털 사이트로 연결됨.</li>
+<li>4. 보험상품이자계산기 프로그램 제작/출력기능 결과값 카톡전송기능제공</li>
+</ul>
+<hr style="border:0; border-top:1px dashed #cbd5e1; margin:20px 0;">
+</div>
+<h4>[Ver 3.000] 업데이트 내역</h4><ul><li>팩스서버 구성 및 지점별 팩스 서버 관리 솔루션 구성완료</li></ul><h4>[Ver 3.000] 업데이트 내역</h4><ul><li>전체적으로 디자인을 카드형으로 변경</li><li>1. 회원가입 기능(최소한의 정보 데이터 암호화)</li><li>2. 기존 링크를 최신 버전으로 전부 수정함.</li><li>3. 청구서와 관련 자료 모두를 업데이트함.</li><li>4. 각 보험사의 전산 설치 및 전산 사용 매뉴얼 등록</li><li>5. 모바일청약 업데이트</li><li>6. 신용카드 결제 업데이트</li><li>7. 본부연락처 추가 기능</li><li>+ 본인 소속의 원수사 지점장/총무/설계매니저 등록가능(본부장, 지점장, 총무가 등록(유료기능))</li><li>+ 원수사 전산 본인 코드 및 비번 저장 기능</li></ul>                </div>
+            </div>
+                
+        <div style="margin-top:30px; padding:15px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0; font-size:13px; text-align:center;">
+            <strong>Designed &amp; Developed by</strong><br>
+            <span style="color:#002b5e; font-size:15px; font-weight:bold;">보험명장 김영환</span> (010-5532-6259) · GA매뉴얼
+        </div>
+    </div>
+</div>
+
+<script>
+    let visitorLogId = sessionStorage.getItem('visitor_log_id') ? sessionStorage.getItem('visitor_log_id') : 0;
+    
+    fetch('/api/track.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'action=enter&page_url=' + encodeURIComponent(window.location.href) 
+            + '&ref=' + encodeURIComponent(document.referrer) 
+            + '&log_id=' + visitorLogId
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.log_id) {
+            visitorLogId = data.log_id;
+            sessionStorage.setItem('visitor_log_id', visitorLogId);
+        }
+    }).catch(e => console.log('추적기 대기'));
+
+    setInterval(() => {
+        if (visitorLogId > 0) {
+            fetch('/api/track.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'action=ping&log_id=' + visitorLogId
+            }).catch(() => {});
+        }
+    }, 10000);
+
+    window.addEventListener('beforeunload', function() {
+        if (visitorLogId > 0) {
+            navigator.sendBeacon('/api/track.php', new URLSearchParams({
+                'action': 'exit',
+                'log_id': visitorLogId
+            }));
+        }
+    });
+
+    function toggleMobileNav() {
+        const container = document.getElementById('navMobileContainer');
+        container.classList.toggle('active');
+        const logo = document.querySelector('.nav-logo-area');
+        if (window.innerWidth <= 850) {
+            logo.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // [1차 메뉴 모바일 터치 이벤트 제어]
+        const parentLinks = document.querySelectorAll('.nav-parent-link');
+        parentLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 하위 메뉴가 있을 경우: 링크 이동 차단 및 아코디언 토글
+                if (window.innerWidth <= 850) {
+                    const hasChildren = this.getAttribute('data-has-children') === 'true';
+                    const dropdown = this.nextElementSibling;
+                    
+                    if (hasChildren && dropdown && dropdown.classList.contains('nav-dropdown-content')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isOpen = dropdown.classList.contains('open');
+
+                        // 다른 열린 1차 메뉴 닫기 및 화살표 초기화
+                        document.querySelectorAll('.nav-dropdown-content').forEach(d => d.classList.remove('open'));
+                        document.querySelectorAll('.nav-parent-link').forEach(p => p.classList.remove('active-toggle'));
+
+                        // 현재 클릭한 메뉴 토글
+                        if (!isOpen) {
+                            dropdown.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+
+        // [2차 메뉴 모바일 터치 이벤트 제어]
+        const subParents = document.querySelectorAll('.nav-sub-parent');
+        subParents.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const needAuth = this.getAttribute('data-need-auth');
+                if (needAuth !== null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navRequireAuth(needAuth === 'true');
+                    return false;
+                }
+
+                // 🚨 모바일(850px 이하)에서 3차 하위 메뉴가 있을 경우: 링크 이동 차단 및 3차 드롭다운 토글
+                if (window.innerWidth <= 850) {
+                    const hasSub = this.getAttribute('data-has-sub') === 'true';
+                    const subDrop = this.nextElementSibling;
+
+                    if (hasSub && subDrop && subDrop.classList.contains('nav-sub-dropdown')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const isSubOpen = subDrop.classList.contains('open');
+                        const parentContainer = this.closest('.nav-dropdown-content');
+
+                        // 같은 1차 메뉴 내부의 다른 열린 2차 메뉴 닫기
+                        if (parentContainer) {
+                            parentContainer.querySelectorAll('.nav-sub-dropdown').forEach(d => d.classList.remove('open'));
+                            parentContainer.querySelectorAll('.nav-sub-parent').forEach(p => p.classList.remove('active-toggle'));
+                        }
+
+                        // 현재 클릭한 2차 메뉴 토글
+                        if (!isSubOpen) {
+                            subDrop.classList.add('open');
+                            this.classList.add('active-toggle');
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+    function toggleRightDropdown(btn) {
+        if (window.innerWidth <= 850) {
+            const dropdown = btn.nextElementSibling;
+            if (dropdown && dropdown.classList.contains('nav-right-content')) {
+                dropdown.classList.toggle('open');
+            }
+        }
+    }
+
+    function openNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavSitemapModal() {
+        document.getElementById('navSitemapModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function openNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavDevNoteModal() {
+        document.getElementById('navDevNoteModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    function openNavAccountModal(e) {
+        if(e) e.preventDefault();
+        document.getElementById("navMyAccountIframe").src = "/member/my_accounts.php";
+        document.getElementById("navIframeModal").style.display = "block";
+        document.body.style.overflow = "hidden";
+    }
+    function closeNavIframeModal() {
+        document.getElementById("navIframeModal").style.display = "none";
+        document.getElementById("navMyAccountIframe").src = ""; 
+        document.body.style.overflow = "auto";
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target == document.getElementById('navSitemapModal')) closeNavSitemapModal();
+        if (event.target == document.getElementById('navDevNoteModal')) closeNavDevNoteModal();
+        if (event.target == document.getElementById('navIframeModal')) closeNavIframeModal();
+    });
+
+    let navQuillEditor = null;
+    if (document.getElementById('nav_quill_editor')) {
+        navQuillEditor = new Quill('#nav_quill_editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
+        
+        const noteHistoryRaw = document.getElementById('nav_dev_note_history').value;
+        navQuillEditor.clipboard.dangerouslyPasteHTML(noteHistoryRaw);
+    }
+
+    function saveNavDevNote(e) {
+        e.preventDefault();
+        const ver = document.getElementById('nav_dev_app_ver').value;
+        const appDate = document.getElementById('nav_dev_app_date').value; 
+        const newUpdate = document.getElementById('nav_dev_new_update').value;
+        const historyNote = navQuillEditor ? navQuillEditor.root.innerHTML : document.getElementById('nav_dev_note_history').value;
+        const btn = document.getElementById('navDevSaveBtn');
+        
+        btn.innerText = "저장 중...";
+        
+        const formData = new FormData();
+        formData.append('ajax_action', 'save_dev_note');
+        formData.append('app_ver', ver);
+        formData.append('app_date', appDate); 
+        formData.append('new_update', newUpdate);
+        formData.append('dev_note', historyNote);
+        
+        fetch('/index.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if(data.status === 'success') {
+                alert('버전 및 개발자 노트가 성공적으로 저장되었습니다.');
+                location.reload();
+            } else {
+                alert(data.msg ? data.msg : '저장에 실패했습니다.');
+                btn.innerText = "💾 변경사항 전체 저장하기";
+            }
+        });
+    }
+
+    function navRequireAuth(isNeedLogin) {
+        if (isNeedLogin) {
+            alert('로그인 후 이용 가능한 메뉴입니다.\n로그인 페이지로 이동합니다.');
+            location.href = '/member/login.php';
+        } else {
+            alert('해당 메뉴를 이용할 수 있는 권한이 아닙니다.\n관리자에게 문의해 주세요.');
+        }
+    }
+</script>
+    <div class="container">
+        <div class="cyber-wrapper">
+            <!-- 1. 제안서 헤더 -->
+            <div class="proposal-header">
+                <div class="header-left">
+                    <div class="title-thumb-wrap" id="btn-upload-title-thumb" title="클릭하여 제안서 대표 썸네일 등록/변경">
+                                                    <img src="../assets/f252ebb98200.png" class="title-thumb-img" id="img-title-thumb" alt="제안서 썸네일">
+                                                <div class="title-thumb-edit-overlay">변경</div>
+                    </div>
+
+                    <div>
+                        <h1>
+                            <span>고객 맞춤 <span class="highlight-cyber">비과세 금융 제안서</span></span>
+                        </h1>
+                        <p>이자소득세(15.4%) 전액 면제 혜택에 따른 실질 체감 세전 환산 수익률 정밀 리포트</p>
+                    </div>
+                </div>
+
+                <div class="planner-badge">
+                    <div class="avatar-icon">💼</div>
+                    <div class="info-text">
+                        <div>
+                            <strong>GA 금융서비스</strong> 
+                            <span>영업본부</span>
+                        </div>
+                        <div>
+                            <strong>금융전문가</strong> 
+                            <span>지점장</span>
+                                                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 본문 그리드 -->
+            <div class="content-grid">
+                <!-- 좌측 입력 컨트롤 -->
+                <div class="control-panel no-print">
+                                            <div class="panel-title">
+                            <span>✏️ 적립/거치 조건 설정</span>
+                            <span style="font-size:12px; color:#2563eb; font-weight:800;">실시간 자동 연산</span>
+                        </div>
+                    
+                    <div class="input-group">
+                        <label for="monthlyPay">매월 적립 금액</label>
+                        <div class="input-box">
+                            <input type="text" id="monthlyPay" value="500,000" onkeyup="formatNumberInput(this)">
+                            <span class="unit">원</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="payYears">적립(납입) 기간</label>
+                        <div class="input-box">
+                            <input type="number" id="payYears" value="5" min="1" max="50">
+                            <span class="unit">년 납입</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="deferYears">거치 기간 (완납 후 대기)</label>
+                        <div class="input-box">
+                            <input type="number" id="deferYears" value="5" min="0" max="50">
+                            <span class="unit">년 거치</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>만기 시점 환급 기준 선택</label>
+                        <div class="tab-selector">
+                            <button type="button" class="tab-btn active" id="tabAmountBtn" onclick="switchRefundMode('amount')">환급금액(원)</button>
+                            <button type="button" class="tab-btn" id="tabRateBtn" onclick="switchRefundMode('rate')">환급률(%)</button>
+                        </div>
+
+                        <div class="input-box" id="refundAmountWrap">
+                            <input type="text" id="refundAmount" value="39,000,000" onkeyup="formatNumberInput(this); onAmountChanged();">
+                            <span class="unit">원</span>
+                        </div>
+
+                        <div class="input-box" id="refundRateWrap" style="display: none;">
+                            <input type="number" id="refundRate" value="130.00" step="0.01" min="0" onkeyup="onRateChanged();" onchange="onRateChanged();">
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+
+                                            <button type="button" class="btn-calc-apply" onclick="calculateAllRates()">
+                            <span>계산 결과 즉시 반영</span>
+                        </button>
+                    
+                    <!-- 하단 버튼 3종 행 -->
+                    <div class="action-btn-row">
+                        <button type="button" class="btn-print-action" onclick="window.print()" title="A4 가로 1장 인쇄">
+                            <span>🖨️</span>
+                            <span>A4 인쇄</span>
+                        </button>
+                        <button type="button" class="btn-kakao-site" id="btnKakaoShareSite" title="현재 계산기 사이트 자체를 홍보 공유">
+                            <span>🌐</span>
+                            <span>사이트 공유</span>
+                        </button>
+                        <button type="button" class="btn-kakao-result" id="btnKakaoShareResult" title="현재 계산된 맞춤 견적결과를 확정 공유 (로그인 전용)">
+                            <span>💬</span>
+                            <span>결과 공유</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 우측 제안 결과 리포트 -->
+                <div class="report-panel">
+                    <div class="briefing-cards-row">
+                        <div class="briefing-card">
+                            <span class="card-lbl">원금</span>
+                            <span class="card-val" id="txtTotalPrincipal">30,000,000 원</span>
+                        </div>
+                        <div class="briefing-card">
+                            <span class="card-lbl">만기 수령액</span>
+                            <span class="card-val" id="txtRefundAmount">39,000,000 원</span>
+                        </div>
+                        <div class="briefing-card highlight">
+                            <span class="card-lbl">순이자 (환급률)</span>
+                            <span class="card-val" id="txtNetProfit">+9,000,000원 (130.0%)</span>
+                        </div>
+                    </div>
+
+                    <div class="client-briefing-quote" id="txtClientSpeech">고객님께서 <strong>5년 납입 + <strong>5년 거치</strong></strong> 플랜 완료 시, 총 원금 <strong>30,000,000원</strong> 대비 <strong style="color:#e11d48;">순수익금 9,000,000원 (환급률 130.0%)</strong>을 비과세로 전액 수령하십니다. 일반 은행 적금은 15.4% 세금으로 1,386,000원이 차감되므로, 동일한 수령액을 받으시려면 은행에서 무려 <strong style="color:#e11d48; font-size:16px;">세전 연단리 4.70%</strong>짜리 특판에 가입하셔야 합니다.</div>
+
+                    <div class="mega-rate-showcase">
+                        <span class="mega-badge">🔥 실질 체감 수익률 비교</span>
+
+                        <div class="mega-col">
+                            <span class="mega-col-label" style="color:#e11d48;">
+                                <span>🏦</span>
+                                <span>일반은행 세전 환산금리 (단리)</span>
+                            </span>
+                            <div class="mega-hero-val">
+                                <span id="valPreTaxRate">4.70</span>
+                                <span class="mega-val-unit">%</span>
+                            </div>
+                            <span class="mega-caption">
+                                일반 은행에서 세금(15.4%)을 제하고 <b>동일한 만기 수령액</b>을 받기 위해 은행에서 제공해야 하는 <b>실질 세전 단리 이율</b>입니다.
+                            </span>
+                        </div>
+
+                        <div class="mega-col" style="border-left: 2px dashed #fecdd3; padding-left: 18px;">
+                            <span class="mega-col-label" style="color:#1e3a8a;">
+                                <span>🎯</span>
+                                <span>비과세 실질 연단리 (세후)</span>
+                            </span>
+                            <div class="mega-sub-val">
+                                <span id="valYearSimple">3.98</span>
+                                <span class="mega-val-unit">%</span>
+                            </div>
+                            <span class="mega-caption">
+                                이자소득세를 1원도 떼이지 않고 고객님 통장에 온전히 들어오는 <b>순수 연단리 이율</b>입니다.
+                            </span>
+                        </div>
+                    </div>
+
+                    <table class="tax-compare-table">
+                        <colgroup>
+                            <col style="width: 25%;">
+                            <col style="width: 37%;">
+                            <col style="width: 38%;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>구분 항목</th>
+                                <th>일반은행 (과세)</th>
+                                <th style="background:#1d4ed8; color:#ffffff;">비과세</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>원금</td>
+                                <td id="tblPrincipalGeneral">30,000,000 원</td>
+                                <td id="tblPrincipalPlan" style="font-weight:900;">30,000,000 원</td>
+                            </tr>
+                            <tr>
+                                <td>이자</td>
+                                <td id="tblGrossInterest">9,000,000 원</td>
+                                <td id="tblPlanInterest">9,000,000 원</td>
+                            </tr>
+                            <tr>
+                                <td>이자소득세 (15.4%)</td>
+                                <td id="tblTaxAmount" style="color:#e11d48;">-1,386,000 원</td>
+                                <td style="color:#059669; font-weight:950;">0 원 (세금 면제)</td>
+                            </tr>
+                            <tr class="highlight-tr">
+                                <td style="font-size:15px; font-weight:900;">실수령액 (10년시점)</td>
+                                <td id="tblNetReceiveGeneral" style="color:#475569; font-size:15px;">37,614,000 원</td>
+                                <td id="tblNetReceivePlan" style="color:var(--highlight-red); font-size:16.5px; font-weight:950;">39,000,000 원</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="sub-rates-bar">
+                        <div class="sub-rate-box">
+                            <span class="lbl">월단리 (연환산)</span>
+                            <span class="val" id="valMonthSimple">3.98%</span>
+                        </div>
+                        <div class="sub-rate-box rate-box-compound">
+                            <span class="lbl">연복리 수익률</span>
+                            <span class="val" id="valYearCompound">3.52%</span>
+                        </div>
+                        <div class="sub-rate-box">
+                            <span class="lbl">월복리 수익률</span>
+                            <span class="val" id="valMonthCompound" style="color:#2563eb;">3.47%</span>
+                        </div>
+                        <div class="sub-rate-box">
+                            <span class="lbl">최종 환급률</span>
+                            <span class="val" id="valTotalRate" style="color:var(--highlight-red);">130.0%</span>
+                        </div>
+                    </div>
+
+                    <div class="legal-disclaimer-box">
+                        <div style="font-weight:900; color:#475569; margin-bottom:2px;">📌 고객 안내 및 법적 유의사항 (면책 공고)</div>
+                        • 본 제안서는 입력 수치를 기반으로 한 단순 시뮬레이션 예시 자료로, 실제 금융사 지급액 및 환급률과 다를 수 있습니다.<br>
+                        • 정확한 보장 내용 및 지급 조건은 해당 금융회사(보험사)의 <b>정식 약관 및 상품설명서(가입설계서)</b>를 확인하시기 바랍니다.<br>
+                        • 본 계산 프로그램은 고객의 이해를 돕기 위한 참고용 도구이며, <b>본 사이트(운영자)는 금융상품 판매 주체가 아니므로 법적·금전적 책임을 지지 않습니다.</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRefundMode = 'amount';
+
+        function formatNumberInput(obj) {
+            let val = obj.value.replace(/[^0-9]/g, '');
+            if (val === '') {
+                obj.value = '';
+            } else {
+                obj.value = Number(val).toLocaleString('ko-KR');
+            }
+        }
+
+        function getNumberOnly(str) {
+            return parseFloat(String(str).replace(/[^0-9.]/g, '')) || 0;
+        }
+
+        function switchRefundMode(mode) {
+            currentRefundMode = mode;
+            const tabAmountBtn = document.getElementById('tabAmountBtn');
+            const tabRateBtn = document.getElementById('tabRateBtn');
+            const wrapAmount = document.getElementById('refundAmountWrap');
+            const wrapRate = document.getElementById('refundRateWrap');
+
+            if (mode === 'amount') {
+                tabAmountBtn.classList.add('active');
+                tabRateBtn.classList.remove('active');
+                wrapAmount.style.display = 'flex';
+                wrapRate.style.display = 'none';
+                onRateChanged();
+            } else {
+                tabRateBtn.classList.add('active');
+                tabAmountBtn.classList.remove('active');
+                wrapAmount.style.display = 'none';
+                wrapRate.style.display = 'flex';
+                onAmountChanged();
+            }
+            calculateAllRates();
+        }
+
+        function onAmountChanged() {
+            const P = getNumberOnly(document.getElementById('monthlyPay').value);
+            const payY = parseInt(document.getElementById('payYears').value) || 0;
+            const totalMonths = payY * 12;
+            const totalPrincipal = P * totalMonths;
+            const refundAmt = getNumberOnly(document.getElementById('refundAmount').value);
+
+            if (totalPrincipal > 0) {
+                const rate = (refundAmt / totalPrincipal) * 100;
+                document.getElementById('refundRate').value = rate.toFixed(2);
+            }
+        }
+
+        function onRateChanged() {
+            const P = getNumberOnly(document.getElementById('monthlyPay').value);
+            const payY = parseInt(document.getElementById('payYears').value) || 0;
+            const totalMonths = payY * 12;
+            const totalPrincipal = P * totalMonths;
+            const refundRate = parseFloat(document.getElementById('refundRate').value) || 0;
+
+            const refundAmt = Math.round(totalPrincipal * (refundRate / 100));
+            document.getElementById('refundAmount').value = refundAmt.toLocaleString('ko-KR');
+        }
+
+        // =========================================================================
+        // 정밀 이자율 및 세전 환산 실질금리 역산 엔진
+        // =========================================================================
+        function calculateAllRates() {
+            const monthlyPay = getNumberOnly(document.getElementById('monthlyPay').value);
+            const payYears = parseInt(document.getElementById('payYears').value) || 0;
+            const deferYears = parseInt(document.getElementById('deferYears').value) || 0;
+
+            if (monthlyPay <= 0 || payYears <= 0) {
+                alert("매월 적립금액과 적립기간을 올바르게 입력해 주세요.");
+                return;
+            }
+
+            const n = payYears * 12;               
+            const m = deferYears * 12;             
+            const totalMonths = n + m;             
+            const totalPrincipal = monthlyPay * n; 
+
+            let refundAmount = 0;
+            if (currentRefundMode === 'amount') {
+                refundAmount = getNumberOnly(document.getElementById('refundAmount').value);
+            } else {
+                const rate = parseFloat(document.getElementById('refundRate').value) || 0;
+                refundAmount = Math.round(totalPrincipal * (rate / 100));
+                document.getElementById('refundAmount').value = refundAmount.toLocaleString('ko-KR');
+            }
+
+            const netProfit = refundAmount - totalPrincipal;
+            const returnRate = totalPrincipal > 0 ? (refundAmount / totalPrincipal) * 100 : 0;
+
+            const monthWeightSum = (n * m) + (n * (n + 1) / 2);
+            let r_monthly_simple = 0;
+            if (monthWeightSum > 0) {
+                r_monthly_simple = netProfit / (monthlyPay * monthWeightSum);
+            }
+            const yearSimpleRate = (r_monthly_simple * 12) * 100;
+            const monthSimpleRate = (r_monthly_simple * 12) * 100;
+
+            const preTaxSimpleRate = yearSimpleRate / (1 - 0.154);
+            const taxAmount = Math.round(netProfit * 0.154);
+            const netReceiveGeneral = refundAmount - taxAmount;
+
+            const rm = solveMonthlyCompoundRate(monthlyPay, n, m, refundAmount);
+            const monthCompoundRate = (rm * 12) * 100;
+
+            const ry = solveAnnualCompoundRate(monthlyPay, n, m, refundAmount);
+            const yearCompoundRate = ry * 100;
+
+            document.getElementById('valPreTaxRate').innerText = preTaxSimpleRate.toFixed(2);
+            document.getElementById('valYearSimple').innerText = yearSimpleRate.toFixed(2);
+
+            document.getElementById('txtTotalPrincipal').innerText = totalPrincipal.toLocaleString('ko-KR') + " 원";
+            document.getElementById('txtRefundAmount').innerText = refundAmount.toLocaleString('ko-KR') + " 원";
+            document.getElementById('txtNetProfit').innerText = (netProfit >= 0 ? "+" : "") + netProfit.toLocaleString('ko-KR') + "원 (" + returnRate.toFixed(1) + "%)";
+
+            document.getElementById('valMonthSimple').innerText = monthSimpleRate.toFixed(2) + "%";
+            document.getElementById('valYearCompound').innerText = yearCompoundRate.toFixed(2) + "%";
+            document.getElementById('valMonthCompound').innerText = monthCompoundRate.toFixed(2) + "%";
+            document.getElementById('valTotalRate').innerText = returnRate.toFixed(1) + "%";
+
+            document.getElementById('tblPrincipalGeneral').innerText = totalPrincipal.toLocaleString('ko-KR') + " 원";
+            document.getElementById('tblPrincipalPlan').innerText = totalPrincipal.toLocaleString('ko-KR') + " 원";
+            document.getElementById('tblGrossInterest').innerText = netProfit.toLocaleString('ko-KR') + " 원";
+            document.getElementById('tblPlanInterest').innerText = netProfit.toLocaleString('ko-KR') + " 원";
+            document.getElementById('tblTaxAmount').innerText = "-" + taxAmount.toLocaleString('ko-KR') + " 원";
+            document.getElementById('tblNetReceiveGeneral').innerText = netReceiveGeneral.toLocaleString('ko-KR') + " 원";
+            document.getElementById('tblNetReceivePlan').innerText = refundAmount.toLocaleString('ko-KR') + " 원";
+
+            const deferMsg = deferYears > 0 ? `<strong>${deferYears}년 거치</strong>` : '만기 시';
+            document.getElementById('txtClientSpeech').innerHTML = 
+                `고객님께서 <strong>${payYears}년 납입 + ${deferMsg}</strong> 플랜 완료 시, ` +
+                `총 원금 <strong>${totalPrincipal.toLocaleString('ko-KR')}원</strong> 대비 <strong style="color:#e11d48;">순수익금 ${netProfit.toLocaleString('ko-KR')}원 (환급률 ${returnRate.toFixed(1)}%)</strong>을 비과세로 전액 수령하십니다. ` +
+                `일반 은행 적금은 15.4% 세금으로 ${taxAmount.toLocaleString('ko-KR')}원이 차감되므로, 동일한 수령액을 받으시려면 은행에서 무려 <strong style="color:#e11d48; font-size:16px;">세전 연단리 ${preTaxSimpleRate.toFixed(2)}%</strong>짜리 특판에 가입하셔야 합니다.`;
+        }
+
+        function solveMonthlyCompoundRate(P, n, m, targetFV) {
+            if (targetFV <= P * n) return 0;
+            let rm = 0.05 / 12;
+            for (let iter = 0; iter < 100; iter++) {
+                let f = 0, df = 0;
+                for (let k = 1; k <= n; k++) {
+                    const power = k + m;
+                    f += P * Math.pow(1 + rm, power);
+                    df += P * power * Math.pow(1 + rm, power - 1);
+                }
+                const diff = f - targetFV;
+                if (Math.abs(diff) < 1e-4) break;
+                if (df === 0) break;
+                rm = rm - diff / df;
+                if (rm < -0.05) rm = 0.0001;
+            }
+            return rm;
+        }
+
+        function solveAnnualCompoundRate(P, n, m, targetFV) {
+            if (targetFV <= P * n) return 0;
+            let ry = 0.05;
+            for (let iter = 0; iter < 100; iter++) {
+                let f = 0, df = 0;
+                for (let k = 1; k <= n; k++) {
+                    const years = (k + m) / 12;
+                    f += P * Math.pow(1 + ry, years);
+                    df += P * years * Math.pow(1 + ry, years - 1);
+                }
+                const diff = f - targetFV;
+                if (Math.abs(diff) < 1e-4) break;
+                if (df === 0) break;
+                ry = ry - diff / df;
+                if (ry < -0.5) ry = 0.001;
+            }
+            return ry;
+        }
+
+        // -------------------------------------------------------------------------
+        // [썸네일 업로드 및 카카오톡 공유 스크립트]
+        // -------------------------------------------------------------------------
+        var btnUploadThumb = document.getElementById('btn-upload-title-thumb');
+        var thumbFileInput = document.getElementById('title-thumb-input');
+        var imgTitleThumb = document.getElementById('img-title-thumb');
+        var iconTitleThumb = document.getElementById('icon-title-thumb');
+
+        if (btnUploadThumb && thumbFileInput) {
+            btnUploadThumb.addEventListener('click', function() {
+                thumbFileInput.click();
+            });
+
+            thumbFileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    var formData = new FormData();
+                    formData.append('title_thumb', this.files[0]);
+
+                    fetch('interest.php?action=upload_title_thumb', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        if (data.success) {
+                            if (imgTitleThumb) {
+                                imgTitleThumb.src = data.url;
+                                imgTitleThumb.style.display = 'block';
+                            }
+                            if (iconTitleThumb) {
+                                iconTitleThumb.style.display = 'none';
+                            }
+                            alert('제안서 대표 썸네일이 성공적으로 등록되었습니다.\n(이제 좌우 잘림 없이 원본 비율 그대로 출력됩니다.)');
+                            location.reload();
+                        } else {
+                            alert('업로드 실패: ' + data.message);
+                        }
+                    })
+                    .catch(function(err) {
+                        alert('통신 오류: ' + err);
+                    });
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.Kakao && !Kakao.isInitialized()) {
+                Kakao.init('8185d4df87316ddd8d930243d002100c');
+            }
+
+            var thumbImageUrl = 'https://iga.pe.kr/assets/title_news_thumb.png?v=1792127877';
+
+            // 1. [🌐 사이트 공유]
+            var btnShareSite = document.getElementById("btnKakaoShareSite");
+            if (btnShareSite) {
+                btnShareSite.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    if (!window.Kakao) return alert("카카오톡 SDK 로드 실패");
+
+                    var siteUrl = window.location.protocol + '//' + window.location.host + window.location.pathname;
+
+                    try {
+                        Kakao.Share.sendDefault({
+                            objectType: 'feed',
+                            content: {
+                                title: '📑 비과세 금융 자산 제안서 & 실질금리 계산기',
+                                description: '일반은행 세전 환산 단리 및 연복리 수익률을 실시간으로 정밀 비교 분석해 보세요!',
+                                imageUrl: thumbImageUrl,
+                                imageWidth: 800,
+                                imageHeight: 420,
+                                link: { mobileWebUrl: siteUrl, webUrl: siteUrl }
+                            },
+                            buttons: [{
+                                title: '계산기 바로가기',
+                                link: { mobileWebUrl: siteUrl, webUrl: siteUrl }
+                            }]
+                        });
+                    } catch (err) {
+                        alert("카카오톡 전송 오류: " + err.message);
+                    }
+                });
+            }
+
+            // 2. [💬 결과 공유] (로그인 전용)
+            var btnShareResult = document.getElementById("btnKakaoShareResult");
+            if (btnShareResult) {
+                btnShareResult.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    if (!window.Kakao) return alert("카카오톡 SDK 로드 실패");
+
+                    var mPay = document.getElementById('monthlyPay').value;
+                    var pYears = document.getElementById('payYears').value;
+                    var dYears = document.getElementById('deferYears').value;
+                    var rAmt = document.getElementById('refundAmount').value;
+
+                    $.ajax({
+                        url: 'interest.php?action=save_share',
+                        type: 'POST',
+                        data: {
+                            monthly_pay: mPay,
+                            pay_years: pYears,
+                            defer_years: dYears,
+                            refund_amount: rAmt
+                        },
+                        dataType: 'json',
+                        success: function(res) {
+                            if (res.need_login) {
+                                alert("⚠️ 맞춤 견적결과 카카오톡 공유는 회원가입 및 로그인 후 이용 가능합니다.");
+                                location.href = '/member/login.php';
+                                return;
+                            }
+                            if (res.success) {
+                                var shareUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '?share=' + res.share_code;
+                                var preTaxRate = document.getElementById('valPreTaxRate').innerText;
+
+                                try {
+                                    Kakao.Share.sendDefault({
+                                        objectType: 'feed',
+                                        content: {
+                                            title: '📑 [고객 맞춤 비과세 금융 제안서]',
+                                            description: `매월 ${mPay}원 (${pYears}년 납입 + ${dYears}년 거치)\n만기 수령액: ${rAmt}원\n👉 일반은행 세전 환산금리: 연단리 ${preTaxRate}% 효과!`,
+                                            imageUrl: thumbImageUrl,
+                                            imageWidth: 800,
+                                            imageHeight: 420,
+                                            link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
+                                        },
+                                        buttons: [{
+                                            title: '확정된 제안서 확인하기',
+                                            link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
+                                        }]
+                                    });
+                                } catch (err) {
+                                    alert("카카오톡 전송 오류: " + err.message);
+                                }
+                            } else {
+                                alert("공유 기록 생성 실패: " + res.message);
+                            }
+                        },
+                        error: function() {
+                            alert("서버 통신 중 오류가 발생했습니다.");
+                        }
+                    });
+                });
+            }
+
+            calculateAllRates();
+        });
+    </script>
+
+</body></html>
