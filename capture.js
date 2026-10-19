@@ -1,30 +1,78 @@
 const { chromium } = require('playwright');
-const fs=require('fs'),path=require('path'),crypto=require('crypto');
-const BASE='https://iga.pe.kr/',OUT='captured-templates',MAX=350;
-const save=(n,v)=>fs.writeFileSync(path.join(OUT,n),JSON.stringify(v,null,2));
-const normalize=u=>{try{const x=new URL(u,BASE);x.hash='';return x.origin===new URL(BASE).origin?x.href:null}catch{return null}};
-(async()=>{
-fs.mkdirSync(path.join(OUT,'pages'),{recursive:true});fs.mkdirSync(path.join(OUT,'screenshots'),{recursive:true});
-const browser=await chromium.launch({headless:process.env.HEADLESS!=='false'});
-const context=await browser.newContext({viewport:{width:1440,height:900}});
-await context.route('**/*',r=>/^(font|media)$/.test(r.request().resourceType())?r.abort():r.continue());
-const page=await context.newPage(),queue=[{url:BASE,label:'홈',depth:0}],seen=new Set(),menus=[],pages=[],errors=[];
-const start=Date.now();
-while(queue.length&&seen.size<MAX&&Date.now()-start<900000){
-const m=queue.shift(),url=normalize(m.url);if(!url||seen.has(url)||m.depth>7||/(login|signin|signup|member|mypage|admin|logout)/i.test(url))continue;seen.add(url);
-try{const r=await page.goto(url,{waitUntil:'domcontentloaded',timeout:20000});if(r.status()>=400)throw Error('HTTP '+r.status());
-if(await page.locator('input[type=password]').count())continue;
-const triggers=await page.locator('nav a,header a,[class*=menu] a,[class*=gnb] a,[class*=submenu] a').all();
-for(const el of triggers.slice(0,160)){try{await el.hover({timeout:500});await page.waitForTimeout(80)}catch{}}
-const links=await page.locator('a[href]').evaluateAll(as=>as.map(a=>({url:a.href,label:(a.innerText||a.title||'').trim().slice(0,80),nav:!!a.closest('nav,header,[class*=menu],[class*=gnb],[class*=submenu]')})));
-for(const l of links){const next=normalize(l.url);if(next&&l.nav&&l.label&&!seen.has(next))queue.push({url:next,label:l.label,depth:m.depth+1,parent:url})}
-const id=crypto.createHash('sha1').update(url).digest('hex').slice(0,12);
-await page.screenshot({path:path.join(OUT,'screenshots',id+'.png'),fullPage:true,timeout:20000});
-fs.writeFileSync(path.join(OUT,'pages',id+'.html'),await page.content());
-menus.push(m);pages.push({...m,id,title:await page.title(),screenshot:'screenshots/'+id+'.png',html:'pages/'+id+'.html'});
-if(/(board|bbs|list|gallery)/i.test(url)){const detail=links.find(l=>!l.nav&&/(view|detail|read|idx=|no=)/i.test(l.url));if(detail)queue.push({url:detail.url,label:'대표 상세: '+detail.label,depth:m.depth+1,parent:url})}
-}catch(e){errors.push({url,error:e.message})}
-save('menus.json',menus);save('templates.json',pages);save('errors.json',errors);
-}
-await browser.close();console.log('saved',pages.length,'errors',errors.length);
-})().catch(console.error);
+const fs = require('fs'), path = require('path'), crypto = require('crypto');
+const BASE = 'https://iga.pe.kr/';
+const OUT = path.resolve('captured-templates');
+const MAX_PAGES = 80, MAX_BYTES = 100 * 1024 * 1024, MAX_MS = 12 * 60 * 1000;
+const baseOrigin = new URL(BASE).origin;
+const normalize = input => {
+  try {
+    const u = new URL(input, BASE); u.hash = '';
+    if (u.origin !== baseOrigin || !/^https?:$/.test(u.protocol)) return null;
+    if (/\.(pdf|zip|jpg|jpeg|png|gif|webp|svg|mp4|xlsx?|docx?|hwp)(\?|$)/i.test(u.pathname)) return null;
+    if (/(login|signin|signup|member|mypage|admin|logout|join|register)/i.test(u.pathname + u.search)) return null;
+    return u.href;
+  } catch { return null; }
+};
+const output = (name, data) => fs.writeFileSync(path.join(OUT, name), JSON.stringify(data, null, 2));
+(async () => {
+  fs.mkdirSync(path.join(OUT, 'pages'), {recursive:true});
+  fs.mkdirSync(path.join(OUT, 'screenshots'), {recursive:true});
+  const browser = await chromium.launch({headless:process.env.HEADLESS !== 'false'});
+  const context = await browser.newContext({viewport:{width:1440,height:900}, serviceWorkers:'block'});
+  await context.route('**/*', route => {
+    const req = route.request(), type = req.resourceType();
+    if (['image','font','media'].includes(type)) return route.abort();
+    return route.continue();
+  });
+  const page = await context.newPage();
+  const queue = [{url:BASE,label:'홈',depth:0,kind:'menu'}], seen = new Set();
+  const pages = [], menus = [], errors = [], started = Date.now();
+  let bytes = 0;
+  try {
+    while (queue.length && pages.length < MAX_PAGES && bytes < MAX_BYTES && Date.now()-started < MAX_MS) {
+      const item = queue.shift(), url = normalize(item.url);
+      if (!url || seen.has(url) || item.depth > 7) continue;
+      seen.add(url);
+      try {
+        const response = await page.goto(url,{waitUntil:'domcontentloaded',timeout:18000});
+        if (!response || response.status() >= 400) throw Error('HTTP ' + (response?.status() ?? 'no response'));
+        if (await page.locator('input[type=password]').count()) continue;
+        const nav = page.locator('nav a, header a, [class*=gnb] a, [class*=menu] a, [class*=submenu] a');
+        const n = Math.min(await nav.count(),120);
+        for (let i=0;i<n;i++) {
+          try { await nav.nth(i).hover({timeout:500}); } catch {}
+        }
+        const links = await page.locator('a[href]').evaluateAll(as => as.map(a=>({
+          url:a.href, label:(a.innerText||a.title||'').trim().slice(0,80),
+          nav:!!a.closest('nav,header,[class*=gnb],[class*=menu],[class*=submenu]')
+        })));
+        for (const link of links) {
+          const next = normalize(link.url);
+          if (next && link.nav && link.label && !seen.has(next) && !queue.some(q=>q.url===next))
+            queue.push({url:next,label:link.label,depth:item.depth+1,parent:url,kind:'menu'});
+        }
+        // Only one representative detail link per menu page; never follow pagination.
+        if (item.kind==='menu') {
+          const detail = links.find(l=>!l.nav && /(view|detail|read|idx=|no=)/i.test(l.url));
+          const next = detail && normalize(detail.url);
+          if (next && !seen.has(next) && !queue.some(q=>q.url===next))
+            queue.push({url:next,label:'대표 상세',depth:item.depth+1,parent:url,kind:'detail'});
+        }
+        const id = crypto.createHash('sha1').update(url).digest('hex').slice(0,12);
+        const html = await page.content();
+        const htmlBytes = Buffer.byteLength(html);
+        if (htmlBytes > 2*1024*1024 || bytes + htmlBytes > MAX_BYTES) { errors.push({url,error:'HTML size limit'}); continue; }
+        const shot = await page.screenshot({type:'jpeg',quality:65,fullPage:false,timeout:10000});
+        if (bytes + htmlBytes + shot.length > MAX_BYTES) break;
+        fs.writeFileSync(path.join(OUT,'pages',id+'.html'),html);
+        fs.writeFileSync(path.join(OUT,'screenshots',id+'.jpg'),shot);
+        bytes += htmlBytes + shot.length;
+        pages.push({...item,url,id,title:await page.title(),html:'pages/'+id+'.html',screenshot:'screenshots/'+id+'.jpg'});
+        if (item.kind==='menu') menus.push({url,label:item.label,parent:item.parent||null});
+        console.log('['+pages.length+'/'+MAX_PAGES+'] '+url+' ('+(bytes/1048576).toFixed(1)+' MB)');
+      } catch(e) { errors.push({url,error:String(e.message).slice(0,200)}); }
+      output('menus.json',menus);output('templates.json',pages);output('errors.json',errors);
+    }
+  } finally { await browser.close(); }
+  console.log('Finished: '+pages.length+' pages, '+(bytes/1048576).toFixed(1)+' MB, '+errors.length+' errors');
+})().catch(e=>{console.error(e);process.exitCode=1;});
