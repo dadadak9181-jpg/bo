@@ -1,0 +1,11 @@
+const fs=require('fs'),path=require('path');
+const dir=path.resolve('captured-templates-v3');
+const pages=JSON.parse(fs.readFileSync(path.join(dir,'templates.json'),'utf8'));
+const home=pages.find(p=>new URL(p.url).pathname==='/' )||pages.find(p=>new URL(p.url).pathname==='/index.php');
+if(!home)throw Error('홈페이지 수집 파일을 찾을 수 없습니다.');
+const src=path.join(dir,home.html);
+if(!fs.existsSync(src))throw Error('홈페이지 HTML 파일이 없습니다: '+src);
+const html=fs.readFileSync(src,'utf8');
+fs.writeFileSync(path.join(dir,'index.html'),html,'utf8');
+console.log('Root index replaced with collected homepage:',home.html);
+console.log('Pages preserved:',pages.length);
