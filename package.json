@@ -1,0 +1,1 @@
+{"name":"iga-structure-crawler","version":"1.0.0","type":"commonjs","scripts":{"capture":"node capture.js"},"dependencies":{"playwright":"^1.56.0"}}
