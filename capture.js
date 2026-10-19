@@ -52,7 +52,7 @@ const output = (name, data) => fs.writeFileSync(path.join(OUT, name), JSON.strin
             queue.push({url:next,label:link.label || new URL(next).pathname,depth:item.depth+1,parent:url,kind:'menu'});
         }
         // Only one representative detail link per menu page; never follow pagination.
-        if (item.kind==='menu' && /board\\.php|\\/board\\/news\\//i.test(new URL(url).pathname)) {
+        if (item.kind === 'menu' && (new URL(url).pathname.endsWith('/board.php') || new URL(url).pathname.startsWith('/board/news/'))) {
           const detail = links.find(l=>!l.nav && /(view|detail|read|idx=|no=)/i.test(l.url));
           const next = detail && normalize(detail.url);
           if (next && !seen.has(next) && !queue.some(q=>q.url===next))
