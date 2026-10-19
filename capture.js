@@ -48,7 +48,7 @@ const output = (name, data) => fs.writeFileSync(path.join(OUT, name), JSON.strin
         })));
         for (const link of links) {
           const next = normalize(link.url);
-          if (next && (link.nav || /\\/board\\/|\\/index\\.php/i.test(new URL(next).pathname)) && !seen.has(next) && !queue.some(q=>q.url===next))
+          if (next && (link.nav || new URL(next).pathname.startsWith('/board/') || new URL(next).pathname === '/index.php') && !seen.has(next) && !queue.some(q=>q.url===next))
             queue.push({url:next,label:link.label || new URL(next).pathname,depth:item.depth+1,parent:url,kind:'menu'});
         }
         // Only one representative detail link per menu page; never follow pagination.
