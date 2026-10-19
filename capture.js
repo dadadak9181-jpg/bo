@@ -1,12 +1,12 @@
 const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const BASE = 'https://iga.pe.kr/';
-const OUT = path.resolve('captured-templates-v2');
+const OUT = path.resolve('captured-templates-v3');
 const MAX_PAGES = 80, MAX_BYTES = 100 * 1024 * 1024, MAX_MS = 12 * 60 * 1000;
 const baseOrigin = new URL(BASE).origin;
 const normalize = input => {
   try {
-    const u = new URL(input, BASE); u.hash = ''; u.search = '';
+    const u = new URL(input, BASE); u.hash = ''; const board = u.searchParams.get('bo_table'); u.search = ''; if (board && u.pathname.endsWith('/board.php')) u.searchParams.set('bo_table', board);
     if (u.origin !== baseOrigin || !/^https?:$/.test(u.protocol)) return null;
     if (/\.(pdf|zip|jpg|jpeg|png|gif|webp|svg|mp4|xlsx?|docx?|hwp)(\?|$)/i.test(u.pathname)) return null;
     if (/(login|signin|signup|member|mypage|admin|logout|join|register)/i.test(u.pathname + u.search)) return null;
@@ -55,7 +55,7 @@ const output = (name, data) => fs.writeFileSync(path.join(OUT, name), JSON.strin
         if (item.kind === 'menu' && (new URL(url).pathname.endsWith('/board.php') || new URL(url).pathname.startsWith('/board/news/'))) {
           const detail = links.find(l=>!l.nav && /(view|detail|read|idx=|no=)/i.test(l.url));
           const next = detail && normalize(detail.url);
-          if (next && !seen.has(next) && !queue.some(q=>q.url===next))
+          if (next && next !== url && !seen.has(next) && !queue.some(q=>q.url===next))
             queue.push({url:next,label:'대표 상세',depth:item.depth+1,parent:url,kind:'detail'});
         }
         const id = crypto.createHash('sha1').update(url).digest('hex').slice(0,12);
