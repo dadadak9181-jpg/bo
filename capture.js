@@ -4,9 +4,9 @@ const BASE = 'https://iga.pe.kr/';
 const OUT = path.resolve('captured-templates-v3');
 const MAX_PAGES = 80, MAX_BYTES = 100 * 1024 * 1024, MAX_MS = 12 * 60 * 1000;
 const baseOrigin = new URL(BASE).origin;
-const normalize = input => {
+const normalize = (input, keepDetail = false) => {
   try {
-    const u = new URL(input, BASE); u.hash = ''; const board = u.searchParams.get('bo_table'); u.search = ''; if (board && u.pathname.endsWith('/board.php')) u.searchParams.set('bo_table', board);
+    const u = new URL(input, BASE); u.hash = ''; const board = u.searchParams.get('bo_table'); const wrId = u.searchParams.get('wr_id'); u.search = ''; if (board && u.pathname.endsWith('/board.php')) u.searchParams.set('bo_table', board); if (keepDetail && wrId && u.pathname.endsWith('/board.php')) u.searchParams.set('wr_id', wrId);
     if (u.origin !== baseOrigin || !/^https?:$/.test(u.protocol)) return null;
     if (/\.(pdf|zip|jpg|jpeg|png|gif|webp|svg|mp4|xlsx?|docx?|hwp)(\?|$)/i.test(u.pathname)) return null;
     if (/(login|signin|signup|member|mypage|admin|logout|join|register)/i.test(u.pathname + u.search)) return null;
@@ -30,7 +30,7 @@ const output = (name, data) => fs.writeFileSync(path.join(OUT, name), JSON.strin
   let bytes = 0;
   try {
     while (queue.length && pages.length < MAX_PAGES && bytes < MAX_BYTES && Date.now()-started < MAX_MS) {
-      const item = queue.shift(), url = normalize(item.url);
+      const item = queue.shift(), url = normalize(item.url, item.kind === 'detail');
       if (!url || seen.has(url) || item.depth > 7) continue;
       seen.add(url);
       try {
@@ -53,8 +53,8 @@ const output = (name, data) => fs.writeFileSync(path.join(OUT, name), JSON.strin
         }
         // Only one representative detail link per menu page; never follow pagination.
         if (item.kind === 'menu' && (new URL(url).pathname.endsWith('/board.php') || new URL(url).pathname.startsWith('/board/news/'))) {
-          const detail = links.find(l=>!l.nav && /(view|detail|read|idx=|no=)/i.test(l.url));
-          const next = detail && normalize(detail.url);
+          const detail = links.find(l=>!l.nav && (l.url.includes('wr_id=') || l.url.includes('/view.php') || l.url.includes('/detail.php')));
+          const next = detail && normalize(detail.url, true);
           if (next && next !== url && !seen.has(next) && !queue.some(q=>q.url===next))
             queue.push({url:next,label:'대표 상세',depth:item.depth+1,parent:url,kind:'detail'});
         }
