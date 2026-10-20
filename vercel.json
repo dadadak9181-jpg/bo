@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "node make-preview.js",
-  "outputDirectory": "captured-templates-v3",
-  "framework": null
+  "framework": null,
+  "buildCommand": "echo Static site ready",
+  "outputDirectory": "."
 }
