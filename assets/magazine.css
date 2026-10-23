@@ -72,3 +72,14 @@
 .mag-native-year-wrap:hover{background:#e7f1ff}
 .mag-native-year-wrap select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:16px}
 .mag-native-year-wrap:focus-within{outline:2px solid #1766cf;outline-offset:2px}
+
+/* Compact year menu, no blue icon outline */
+.mag-year-control{position:relative;flex:none}
+.mag-year-icon{display:grid;place-items:center;width:30px;height:30px;padding:0;border:0!important;outline:none;background:transparent!important;box-shadow:none!important;color:#356a9d;cursor:pointer}
+.mag-year-icon:hover{color:#155bb2}
+.mag-year-icon:focus-visible{outline:2px solid #95b9e7!important;outline-offset:1px}
+.mag-year-menu[hidden]{display:none!important}
+.mag-year-menu{position:absolute;top:calc(100% + 5px);right:0;z-index:30;width:91px;max-height:216px;overflow-y:auto;background:#fff;border:1px solid #dce6f2;border-radius:8px;box-shadow:0 8px 24px rgba(18,47,78,.13);padding:4px}
+.mag-year-menu .mag-year-option{display:block;width:100%;padding:6px 7px;font-size:12px;line-height:1.4;text-align:center;border:0;border-radius:4px;background:#fff;color:#30485f;font-weight:500}
+.mag-year-menu .mag-year-option:hover{background:#f0f5fc}
+.mag-year-menu .mag-year-option.active{background:#e9f1fc;color:#165fbd;font-weight:700}
