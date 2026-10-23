@@ -1,0 +1,22 @@
+{
+  "name": "instory-content-api",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-10-01",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "instory-content"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "FILES",
+      "bucket_name": "instory-files"
+    }
+  ],
+  "vars": {
+    "ALLOWED_ORIGIN": "https://bo-swart-eight.vercel.app",
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": ""
+  }
+}
