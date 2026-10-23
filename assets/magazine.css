@@ -83,3 +83,10 @@
 .mag-year-menu .mag-year-option{display:block;width:100%;padding:6px 7px;font-size:12px;line-height:1.4;text-align:center;border:0;border-radius:4px;background:#fff;color:#30485f;font-weight:500}
 .mag-year-menu .mag-year-option:hover{background:#f0f5fc}
 .mag-year-menu .mag-year-option.active{background:#e9f1fc;color:#165fbd;font-weight:700}
+
+/* Minimal inline year navigator: < 2026 > */
+.mag-year-heading{display:flex;align-items:center;justify-content:space-between;padding:10px 12px}
+.mag-year-stepper{display:flex;align-items:center;gap:4px}
+.mag-year-stepper strong{min-width:42px;text-align:center;font-size:14px;font-weight:750;color:#17334d}
+.mag-year-stepper button{border:0;background:transparent;color:#355b81;font-size:16px;font-weight:600;width:23px;height:30px;padding:0;cursor:pointer;border-radius:4px}
+.mag-year-stepper button:hover{background:#e7f1ff}
