@@ -576,9 +576,7 @@ const systemAccessPanel=(group='손해보험')=>{
  '<td><a class="sys-official-link" href="'+esc(ins.url)+'" target="_blank" rel="noopener noreferrer" title="'+esc(ins.name)+' 공식 웹사이트, GA전산 주소는 미확인">공식 사이트 ↗</a>'+(c.browser?'<small class="sys-browser">'+esc(c.browser)+'</small>':'')+'</td>'+
  '<td>'+systemMatrixCell('전용전산')+'</td><td>'+systemMatrixCell('Android',!!c.android)+'</td><td>'+systemMatrixCell('iOS',!!c.ios)+'</td>'+
  '<td>'+systemMatrixCell('태블릿')+'</td><td>'+systemMatrixCell('아이패드')+'</td><td>'+systemMatrixCell('m_WEB')+'</td></tr>'
- }).join('')+'</tbody></table></div>'+
- '<p class="sys-disclaimer">GA전산·전용전산·앱의 실제 접속 주소는 아직 확보되지 않았습니다. ‘공식 사이트’ 버튼은 해당 보험사의 일반 홈페이지로 이동하며 GA전산 로그인을 보장하지 않습니다. Android·iOS 표시는 제공된 캡처에서 확인된 일부 회사의 참고 정보이며 앱 링크는 아닙니다.</p>'+
- '<a class="sys-original-link" href="https://iga.pe.kr/board/system_links.php" target="_blank" rel="noopener noreferrer">원본 보험전산 자료 확인 ↗</a>';
+ }).join('')+'</tbody></table></div>';
 };
 
 const instoryModuleRows=[];
