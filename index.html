@@ -195,6 +195,53 @@ body{background:#fff;color:#192a3a}
 .interest-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:32px}
 .interest-layout>.interest-form,.interest-layout>.interest-results{min-width:0}
 @media(max-width:800px){.interest-layout{grid-template-columns:minmax(0,1fr);gap:18px}}
+
+/* Expanded interest calculator */
+.interest-page{padding-top:50px}
+.calc-tabs{display:flex;gap:10px;margin-bottom:20px}
+.calc-tabs button{flex:1;text-align:left;background:#fff;border:1px solid #dfe7f0;border-radius:7px;padding:17px 24px;color:#283b4e;font-weight:750;font-size:16px;cursor:pointer}
+.calc-tabs button small{display:block;margin-top:5px;color:#8292a5;font-size:12px;font-weight:400}
+.calc-tabs button.active{border-color:#3475cd;background:#f5f9ff;color:#1453ad;box-shadow:inset 0 2px 0 #3475cd}
+.interest-page .interest-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:stretch}
+.interest-page .interest-form,.interest-page .interest-results{border:1px solid #e1e8f1;border-radius:8px;background:#fff;padding:30px;box-shadow:none;min-width:0}
+.interest-page .calc-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:23px}
+.interest-page .calc-heading h2{margin:0;font-size:20px;color:#203246}
+.interest-page .calc-heading button{border:0;background:transparent;color:#7d8b9a;font-size:12px}
+.interest-page .interest-form label,.interest-page .calc-field-grid label{display:block;margin:17px 0 8px;color:#425367;font-size:13px;font-weight:680}
+.interest-page .interest-form input,.interest-page .interest-form select{height:44px;width:100%;padding:9px 13px;border:1px solid #dce4ee;border-radius:4px;background:#fff;color:#26384b;font-size:14px}
+.interest-page .calc-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 17px}
+.interest-page .calc-quick{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.interest-page .calc-quick button{background:#f7f9fc;border:1px solid #e2e8f0;border-radius:4px;padding:7px 10px;color:#657386;font-size:11px}
+.interest-page .calc-months{margin-top:19px}
+.interest-page .interest-submit{width:100%;margin-top:20px;height:46px;background:#1761d2;border-radius:4px;color:#fff;font-weight:750}
+.interest-page .interest-results{background:#fbfcfe}
+.calc-main-result{padding:16px 0 27px;border-bottom:1px solid #e3eaf2}
+.calc-main-result span,.calc-main-result small{display:block;color:#6e7f94;font-size:13px}
+.calc-main-result strong{display:block;color:#1456b8;font-size:clamp(29px,3vw,39px);font-weight:800;letter-spacing:-.055em;margin:10px 0}
+.calc-summary{margin:15px 0}
+.calc-summary>div{display:flex;justify-content:space-between;gap:15px;border-bottom:1px solid #e6ebf2;padding:17px 0}
+.calc-summary dt{color:#65778a;font-size:14px}
+.calc-summary dd{margin:0;color:#2d3e50;font-size:16px;font-weight:720}
+.calc-summary .calc-emphasis dd{color:#1659bd}
+.calc-barchart{display:flex;height:10px;border-radius:6px;overflow:hidden;background:#e9eef4;margin-top:32px}
+#calc-bar-a{background:#2468bf}#calc-bar-b{background:#abcdf4}
+#calc-bar-caption{color:#687e94;font-size:12px;margin-top:11px}
+.calc-comment{color:#5a6f85;font-size:13px;line-height:1.8;margin-top:26px}
+.calc-schedule{border:1px solid #e2e8f0;border-radius:8px;margin-top:34px;overflow:hidden}
+.calc-schedule-head{display:flex;align-items:center;justify-content:space-between;padding:25px 27px}
+.calc-schedule-head h2{font-size:20px;margin:0 0 5px}
+.calc-schedule-head p{font-size:12px;color:#78879a;margin:0}
+.calc-schedule-head button{font-size:12px;color:#52647b;border:1px solid #dfe5ed;border-radius:4px;background:white;padding:10px 15px}
+.calc-table-scroll{width:100%;max-height:510px;overflow:auto}
+.calc-table-scroll table{border-collapse:collapse;width:100%;min-width:610px;font-size:13px}
+.calc-table-scroll th{position:sticky;top:0;background:#f3f6fa;color:#576b80;text-align:right;font-weight:650}
+.calc-table-scroll th:first-child,.calc-table-scroll td:first-child{text-align:left}
+.calc-table-scroll td,.calc-table-scroll th{padding:14px 20px;border-bottom:1px solid #e7ecf2;white-space:nowrap;text-align:right}
+.calc-table-scroll tr:hover td{background:#f8fbff}
+.calc-footnote{background:#f8fafc;border:1px solid #e8edf3;border-radius:6px;padding:22px 27px;margin-top:24px;font-size:12px;color:#6c7b8d;line-height:1.8}
+.calc-footnote p{margin:7px 0 0}
+#calc-error{color:#c33;font-size:12px}
+@media(max-width:800px){.interest-page .interest-layout{grid-template-columns:1fr}.calc-tabs button{font-size:14px;padding:12px}.interest-page .interest-form,.interest-page .interest-results{padding:22px}}
 </style></head><body><div class="utility"><div class="shell"><span class="utility-brand">INSTORY <span class="utility-caption">INSURANCE WORK COMMUNITY</span></span><nav class="utility-links" aria-label="업무 편의 바로가기"><a href="#/bookmark" class="utility-shortcut"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>보험북마크</span></a><a href="#/interest" class="utility-shortcut"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h2m4 0h2M8 15h2m4 0h2M8 19h2m4 0h2"/></svg><span>이자 계산기</span></a><a href="#/qa" class="utility-shortcut"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5z"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 4"/><path d="M12 16h.01"/></svg><span>질문과 답변</span></a></nav></div></div><header class="shell mast"><a href="#/" class="brand" aria-label="INSTORY 홈"><img class="instory-logo-img" src="assets/instory.webp" alt="INSTORY"><small>INSURANCE WORK COMMUNITY</small></a><nav class="nav" id="nav" aria-label="주 메뉴"><a href="#/resources">자료실</a><a href="#/insurance-news">오늘의 보험소식</a><a href="#/finance">오늘의 재테크상식</a><a href="#/current">오늘의 시사상식</a></nav><button class="menu" id="menu" aria-label="메뉴 열기" aria-expanded="false">☰</button></header><div id="app"></div><footer class="site-footer" id="site-footer"><div class="shell"><div class="footer-main"><div class="footer-intro"><a href="#/" class="footer-wordmark" aria-label="INSTORY 홈">INSTORY<span class="footer-dot">.</span></a><div class="footer-eyebrow">INSURANCE WORK COMMUNITY</div><p>보험 실무에 필요한 정보를<br>더 쉽고 체계적으로 연결합니다.</p><span class="footer-note">보험 전문가를 위한 정보 아카이브</span></div><div class="footer-navigation"><div class="footer-nav-col"><h3>INSURANCE</h3><a href="#/products">상품정보 <span aria-hidden="true">↗</span></a><a href="#/needs">보험니즈자료 <span aria-hidden="true">↗</span></a><a href="#/bookmark">보험북마크 <span aria-hidden="true">↗</span></a></div><div class="footer-nav-col"><h3>INSIGHTS</h3><a href="#/insurance-news">오늘의 보험소식 <span aria-hidden="true">↗</span></a><a href="#/finance">오늘의 재테크상식 <span aria-hidden="true">↗</span></a><a href="#/current">오늘의 시사상식 <span aria-hidden="true">↗</span></a></div></div><a href="#/" class="footer-top" aria-label="페이지 상단으로 이동"><span aria-hidden="true">↑</span><span>TOP</span></a></div><div class="footer-bottom"><p>© 2026 INSTORY. All rights reserved.</p><p>본 사이트의 자료는 정보 제공을 목적으로 하며, 개별 보험 상품의 가입 권유 또는 보장 확약을 의미하지 않습니다.</p></div></div></footer>
 <script src="assets/magazine.js"></script><script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script src="https://uicdn.toast.com/editor/latest/i18n/ko-kr.min.js"></script>
@@ -217,9 +264,87 @@ const resourceTabs=(active)=>'<nav class="resource-tabs" aria-label="자료실 �
 const page=(key)=>{const inResources=['products','needs'].includes(key);return '<div class="page-head" data-hero="'+esc(key)+'"><div class="shell"><div class="crumb">HOME / '+(inResources?'자료실 / ':'')+esc(sections[key].title)+'</div><h1>'+(inResources?'자료실':esc(sections[key].title))+'</h1><p>'+(inResources?'보험 업무에 필요한 상품정보, 상담 자료, 보험사 바로가기를 확인하세요.':esc(sections[key].desc))+'</p></div></div><main class="shell content">'+(inResources?resourceTabs(key):'')+(key==='bookmark'?bookmark():'<div class="listing-tools"><span class="count" id="count"></span><div class="listing-search"><input id="filter" placeholder="게시물 검색" aria-label="게시물 검색"><div class="list-view-switch" role="group" aria-label="게시물 보기 방식"><button type="button" data-view="grid" aria-label="썸네일형 보기" title="썸네일형" aria-pressed="true"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button><button type="button" data-view="list" aria-label="리스트형 보기" title="리스트형" aria-pressed="false"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><path d="M3 6h2M3 12h2M3 18h2"/></svg></button></div></div></div><div id="results" class="article-list"></div><div class="write-action"><a class="write-link" href="#/write"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 5 3 3M4 20l4.5-1 11-11a2.12 2.12 0 0 0-3-3l-11 11L4 20Z"/></svg><span>글쓰기</span></a></div>')+'</main>'};
 const resourceLanding=()=>page('products');
 
-const interestPage=()=>'<div class="page-head" data-hero="interest"><div class="shell"><div class="crumb">HOME / 이자 계산기</div><h1>이자 계산기</h1><p>예금과 적금의 예상 이자·만기금액을 계산할 수 있습니다.</p></div></div><main class="shell content"><div class="interest-layout"><form id="interest-form" class="interest-form"><div class="interest-types"><label><input type="radio" name="kind" value="deposit" checked> 정기예금</label><label><input type="radio" name="kind" value="saving"> 정기적금</label></div><label id="amount-label" for="interest-amount">예치 금액 (원)</label><input type="number" id="interest-amount" min="0" step="10000" value="10000000" required><label for="interest-rate">연 이자율 (%)</label><input type="number" id="interest-rate" min="0" max="100" step="0.01" value="3.5" required><label for="interest-months">기간 (개월)</label><input type="number" id="interest-months" min="1" max="600" step="1" value="12" required><label for="interest-method">이자 계산 방식</label><select id="interest-method"><option value="simple">단리</option><option value="compound">월 복리</option></select><label for="interest-tax">이자 과세</label><select id="interest-tax"><option value="15.4">일반과세 (15.4%)</option><option value="9.5">세금우대 (9.5%)</option><option value="0">비과세 (0%)</option></select><button class="interest-submit" type="submit">예상 이자 계산하기</button></form><section id="interest-results" class="interest-results" aria-live="polite"><h2>만기 예상 금액</h2><strong id="interest-total">—</strong><dl><div><dt>납입 원금</dt><dd id="interest-principal">—</dd></div><div><dt>세전 이자</dt><dd id="interest-gross">—</dd></div><div><dt>예상 이자 세금</dt><dd id="interest-tax-result">—</dd></div><div><dt>세후 이자</dt><dd id="interest-net">—</dd></div></dl><p>이 계산은 월 단위의 단순 추정이며, 실제 상품별 이자 계산·일수·과세 방식에 따라 결과가 다를 수 있습니다.</p></section></div></main>';
-function setupInterest(){const form=document.getElementById('interest-form');const won=n=>Math.round(n).toLocaleString('ko-KR')+'원';const calc=()=>{const kind=form.elements.kind.value;const amount=Number(document.getElementById('interest-amount').value),rate=Number(document.getElementById('interest-rate').value)/100,months=Number(document.getElementById('interest-months').value),tax=Number(document.getElementById('interest-tax').value)/100,compound=document.getElementById('interest-method').value==='compound';if(!Number.isFinite(amount)||amount<0||!Number.isFinite(rate)||rate<0||months<1||months>600)return;let principal=kind==='deposit'?amount:amount*months;let gross=0;if(kind==='deposit'){gross=compound?amount*(Math.pow(1+rate/12,months)-1):amount*rate*months/12}else{for(let i=0;i<months;i++){const duration=months-i;gross+=compound?amount*(Math.pow(1+rate/12,duration)-1):amount*rate*duration/12}}const dueTax=Math.floor(gross*tax),net=gross-dueTax;document.getElementById('interest-total').textContent=won(principal+net);document.getElementById('interest-principal').textContent=won(principal);document.getElementById('interest-gross').textContent=won(gross);document.getElementById('interest-tax-result').textContent=won(dueTax);document.getElementById('interest-net').textContent=won(net)};form.addEventListener('submit',e=>{e.preventDefault();calc()});form.addEventListener('change',e=>{if(e.target.name==='kind')document.getElementById('amount-label').textContent=e.target.value==='saving'?'월 납입액 (원)':'예치 금액 (원)';calc()});calc()}
 
+const interestPage=()=>'<div class="page-head" data-hero="interest"><div class="shell"><div class="crumb">HOME / 이자 계산기</div><h1>이자 계산기</h1><p>예금·적금의 세후 수익과 대출 상환 계획을 비교하세요.</p></div></div><main class="shell content interest-page"><div class="calc-tabs" role="tablist" aria-label="계산 종류"><button data-calc-tab="deposit" type="button" class="active">정기예금 <small>목돈 운용</small></button><button data-calc-tab="saving" type="button">정기적금 <small>매월 저축</small></button><button data-calc-tab="loan" type="button">대출이자 <small>상환 계획</small></button></div><div class="interest-layout"><form id="interest-form" class="interest-form"><div class="calc-heading"><h2>계산 조건</h2><button type="button" id="calc-reset">초기화 ↺</button></div><label id="amount-label" for="interest-amount">예치 금액 (원)</label><input id="interest-amount" type="number" min="1" max="10000000000000" step="10000" value="10000000" required><div class="calc-quick"><button type="button" data-add="1000000">+100만</button><button type="button" data-add="5000000">+500만</button><button type="button" data-add="10000000">+1,000만</button><button type="button" data-add="100000000">+1억</button></div><div class="calc-field-grid"><div><label for="interest-rate">연 이자율 (%)</label><input id="interest-rate" type="number" min="0" max="100" step=".01" value="3.5" required></div><div><label for="interest-months">기간 (개월)</label><input id="interest-months" type="number" min="1" max="600" step="1" value="12" required></div><div><label for="interest-method" id="method-label">이자 계산 방식</label><select id="interest-method"><option value="simple">단리</option><option value="compound">월복리</option></select></div><div id="tax-wrap"><label for="interest-tax">이자소득세</label><select id="interest-tax"><option value="15.4">일반과세 15.4%</option><option value="9.5">우대세율 예시 9.5%</option><option value="0">비과세</option></select></div></div><div class="calc-quick calc-months"><button type="button" data-months="6">6개월</button><button type="button" data-months="12">1년</button><button type="button" data-months="24">2년</button><button type="button" data-months="36">3년</button><button type="button" data-months="60">5년</button></div><button type="submit" class="interest-submit">다시 계산하기 →</button><p id="calc-error" role="alert" hidden></p></form><section id="interest-results" class="interest-results" aria-live="polite"><div class="calc-heading"><h2>계산 결과</h2><small>자동 계산</small></div><div class="calc-main-result"><span id="result-title">세후 만기 예상 금액</span><strong id="interest-total">—</strong><small id="result-note">설정한 조건을 기준으로 계산합니다.</small></div><dl class="calc-summary"><div><dt id="principal-title">납입 원금</dt><dd id="interest-principal">—</dd></div><div><dt id="gross-title">세전 이자</dt><dd id="interest-gross">—</dd></div><div id="tax-row"><dt>예상 이자 세금</dt><dd id="interest-tax-result">—</dd></div><div class="calc-emphasis"><dt id="net-title">세후 이자</dt><dd id="interest-net">—</dd></div></dl><div class="calc-barchart"><span id="calc-bar-a"></span><span id="calc-bar-b"></span></div><p id="calc-bar-caption"></p><div id="calc-comment" class="calc-comment"></div></section></div><section class="calc-schedule"><div class="calc-schedule-head"><div><h2>월별 상세 계산표</h2><p>기간별 원금과 이자 추이를 확인하세요.</p></div><button type="button" id="calc-download">CSV 저장 ↓</button></div><div class="calc-table-scroll"><table><thead id="calc-table-head"></thead><tbody id="calc-table-body"></tbody></table></div></section><div class="calc-footnote"><b>계산 안내</b><p>월 단위 추정 계산입니다. 적금은 매월 초 납입, 예금은 최초 일시 예치를 가정합니다. 실제 상품의 일수 계산·우대금리·세제 등에 따라 달라질 수 있습니다. 대출에는 수수료·변동금리·거치기간 등이 반영되지 않습니다.</p></div></main>';
+function setupInterest(){
+const $=id=>document.getElementById(id),form=$('interest-form'),amount=$('interest-amount'),rate=$('interest-rate'),months=$('interest-months'),method=$('interest-method'),tax=$('interest-tax');
+const won=x=>Math.round(x).toLocaleString('ko-KR')+'원';
+let kind='deposit',rows=[];
+const val=(id,x)=>{$(id).textContent=x};
+function update(){
+const P=Number(amount.value),r=Number(rate.value)/1200,N=Number(months.value),t=Number(tax.value)/100;
+if(!Number.isFinite(P)||P<=0||P>1e13||!Number.isFinite(r)||r<0||r>1/12||!Number.isInteger(N)||N<1||N>600){$('calc-error').hidden=false;$('calc-error').textContent='금액·금리·기간을 올바르게 입력하세요. (기간 1~600개월)';return}
+$('calc-error').hidden=true;
+let principal=kind==='saving'?P*N:P,gross=0,net=0,total=0, taxValue=0;
+rows=[];
+if(kind==='loan'){
+let balance=P;
+const v=method.value,monthly=r?P*r*Math.pow(1+r,N)/(Math.pow(1+r,N)-1):P/N;
+for(let k=1;k<=N;k++){
+const interest=balance*r;
+const paidPrincipal=v==='equal'?(k===N?balance:Math.min(balance,monthly-interest)):v==='principal'?(k===N?balance:P/N):(k===N?balance:0);
+const payment=interest+paidPrincipal;
+balance=Math.max(0,balance-paidPrincipal);
+gross+=interest;
+rows.push([k,payment,P-balance,gross,balance]);
+}
+total=P+gross;
+val('result-title','총 예상 상환 금액');val('result-note','대출 원금과 총 이자의 합계');
+val('principal-title','대출 원금');val('gross-title','총 대출 이자');val('net-title','첫 달 상환액');
+val('interest-net',won(rows[0][1]));
+$('tax-row').hidden=true;
+val('calc-comment',v==='equal'?'원리금균등: 매월 납입액이 거의 일정합니다.':v==='principal'?'원금균등: 상환 원금은 일정하고 이자는 점차 감소합니다.':'만기일시: 매월 이자만 내고 만기에 원금을 상환합니다.');
+}else{
+for(let k=1;k<=N;k++){
+let bal;
+if(kind==='deposit'){bal=method.value==='compound'?P*Math.pow(1+r,k):P*(1+r*k)}
+else{bal=method.value==='compound'?(r===0?P*k:P*(Math.pow(1+r,k)-1)/r*(1+r)):P*k+P*r*k*(k+1)/2}
+const paid=kind==='deposit'?P:P*k;
+rows.push([k,kind==='deposit'?(k===1?P:0):P,paid,Math.max(0,bal-paid),bal]);
+}
+gross=rows[rows.length-1][3];taxValue=Math.floor(gross*t);net=gross-taxValue;total=principal+net;
+val('result-title','세후 만기 예상 금액');val('result-note',N+'개월 동안 '+(kind==='deposit'?'목돈 예치':'매월 납입')+' 기준');
+val('principal-title','납입 원금');val('gross-title','세전 이자');val('net-title','세후 이자');
+val('interest-net',won(net));$('tax-row').hidden=false;val('interest-tax-result',won(taxValue));
+val('calc-comment',kind==='deposit'?'최초 예치한 목돈에 적용하는 이자를 계산합니다.':'매월 초 납입하는 정기적금의 누적 이자를 계산합니다.');
+}
+val('interest-total',won(total));val('interest-principal',won(principal));val('interest-gross',won(gross));
+const ratio=total?Math.max(0,Math.min(100,principal/total*100)):100;
+$('calc-bar-a').style.width=ratio+'%';$('calc-bar-b').style.width=(100-ratio)+'%';
+val('calc-bar-caption','원금 '+ratio.toFixed(1)+'% · 이자 '+(100-ratio).toFixed(1)+'%');
+const cols=kind==='loan'?['개월','월 상환액','상환 원금 누계','누적 이자','남은 대출 원금']:['개월','월 납입액','납입 원금 누계','누적 세전 이자','예상 잔액'];
+$('calc-table-head').innerHTML='<tr>'+cols.map(x=>'<th>'+x+'</th>').join('')+'</tr>';
+$('calc-table-body').innerHTML=rows.map(row=>'<tr>'+row.map((x,i)=>'<td>'+(i===0?x+'개월':won(x))+'</td>').join('')+'</tr>').join('');
+}
+function choose(next){
+kind=next;
+document.querySelectorAll('[data-calc-tab]').forEach(b=>b.classList.toggle('active',b.dataset.calcTab===next));
+if(next==='loan'){
+val('amount-label','대출 원금 (원)');val('method-label','상환 방식');
+method.innerHTML='<option value="equal">원리금균등상환</option><option value="principal">원금균등상환</option><option value="balloon">만기일시상환</option>';
+$('tax-wrap').hidden=true;amount.value=100000000;rate.value=4.5;months.value=120;
+}else{
+val('amount-label',next==='saving'?'월 납입액 (원)':'예치 금액 (원)');val('method-label','이자 계산 방식');
+method.innerHTML='<option value="simple">단리</option><option value="compound">월복리</option>';
+$('tax-wrap').hidden=false;amount.value=next==='saving'?300000:10000000;rate.value=3.5;months.value=12;
+}
+update();
+}
+form.addEventListener('submit',e=>{e.preventDefault();update()});
+[amount,rate,months,method,tax].forEach(el=>{el.addEventListener('input',update);el.addEventListener('change',update)});
+document.querySelectorAll('[data-calc-tab]').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.calcTab)));
+document.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>{amount.value=Math.min(1e13,(Number(amount.value)||0)+Number(b.dataset.add));update()}));
+document.querySelectorAll('[data-months]').forEach(b=>b.addEventListener('click',()=>{months.value=b.dataset.months;update()}));
+$('calc-reset').addEventListener('click',()=>choose(kind));
+$('calc-download').addEventListener('click',()=>{
+if(!rows.length)return;
+const headings=[...$('calc-table-head').querySelectorAll('th')].map(x=>x.textContent);
+const csv=[headings.join(','),...rows.map(r=>r.map(x=>Math.round(x)).join(','))].join('\r\n');
+const url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
+const a=document.createElement('a');a.href=url;a.download='INSTORY-interest-'+kind+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+choose('deposit');
+}
 
 const writePage=()=>window.instoryMinimalWritePage(sections);
 
