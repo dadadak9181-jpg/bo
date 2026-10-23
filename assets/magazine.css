@@ -102,3 +102,11 @@
 .mag-year-stepper strong{justify-self:center;text-align:center}
 .mag-year-stepper button:first-child{justify-self:start}
 .mag-year-stepper button:last-child{justify-self:end}
+
+/* Archive layout: year navigator above a compact archive title */
+.mag-year-heading{padding:0 0 10px!important;background:transparent!important;border:0!important}
+.mag-year-stepper{width:100%;display:grid!important;grid-template-columns:28px 1fr 28px;align-items:center}
+.mag-archive-heading{display:flex;align-items:center;gap:8px;min-height:38px;padding:7px 12px;background:#f8fbff;border:1px solid #e2eaf4;border-radius:7px}
+.mag-archive-heading strong{font-size:13px;font-weight:700;color:#17334d}
+.mag-folder-icon{font-size:14px;line-height:1}
+.mag-month-detail{padding-top:12px}
