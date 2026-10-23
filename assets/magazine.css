@@ -96,3 +96,9 @@
 .mag-year-stepper{display:flex;justify-content:center;align-items:center;gap:10px}
 .mag-year-stepper strong{font-size:14px;font-weight:750;min-width:40px}
 .mag-year-stepper button{width:22px;height:28px;color:#245d95;background:transparent;border:0;font-size:17px}
+
+/* Place year navigation arrows at both ends, year centered */
+.mag-year-stepper{display:grid!important;grid-template-columns:28px 1fr 28px;align-items:center;width:100%;gap:0!important}
+.mag-year-stepper strong{justify-self:center;text-align:center}
+.mag-year-stepper button:first-child{justify-self:start}
+.mag-year-stepper button:last-child{justify-self:end}
