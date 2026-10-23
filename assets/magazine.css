@@ -147,3 +147,23 @@
 .mag-insurer-chips button{border:1px solid #cbd8e8;border-radius:4px;background:#fff;color:#254160;font-size:11px;font-weight:650;line-height:1.3;padding:4px 6px;cursor:pointer;white-space:nowrap}
 .mag-insurer-chips button:hover{border-color:#2976dc;color:#1760c7}
 .mag-insurer-chips button.selected{background:#246be3;border-color:#246be3;color:#fff}
+
+/* Full magazine article view, replacing the cover lightbox interaction */
+.mag-card-title.mag-open{display:block;text-align:left;text-decoration:none;cursor:pointer}
+.mag-card-title.mag-open:hover{color:#2367bf}
+.mag-cover a.mag-open{display:block;width:100%;height:100%;position:relative}
+.mag-detail{padding-top:45px;padding-bottom:100px;max-width:1060px}
+.mag-detail-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e5eaf0;padding-bottom:20px;margin-bottom:28px}
+.mag-detail-back{font-size:13px;color:#526981;text-decoration:none}
+.mag-detail-month{font-size:12px;color:#7a8899}
+.mag-detail h2{font-size:27px;line-height:1.4;color:#152e46;margin:0 0 10px;font-weight:750}
+.mag-detail-company{color:#536d86;font-size:14px;margin:0 0 30px}
+.mag-detail-body{border-top:1px solid #eef1f5;padding:34px 8px 45px;min-height:380px;text-align:center}
+.mag-detail-cover{max-width:100%;width:auto;max-height:680px;object-fit:contain;margin:0 auto 24px}
+.mag-detail-note,.mag-detail-loading{font-size:13px;color:#8392a3;margin:18px auto}
+.mag-detail-article{display:block;min-height:440px;width:100%;border:0;background:white;margin:20px auto}
+.mag-detail-pdf{display:block;width:100%;min-height:680px;border:1px solid #dee5ef;margin:20px auto}
+.mag-detail-actions{display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #e4ebf2;padding-top:24px}
+.mag-detail-actions a{display:inline-flex;align-items:center;justify-content:center;padding:9px 16px;background:#fff;border:1px solid #ccd9e7;color:#1d4266;border-radius:5px;font-weight:650;font-size:13px;text-decoration:none}
+.mag-detail-actions a:first-child{background:#205d8c;color:white;border-color:#205d8c}
+@media(max-width:650px){.mag-detail{padding-top:25px}.mag-detail h2{font-size:21px}.mag-detail-body{padding:22px 0}.mag-detail-pdf{min-height:450px}}
