@@ -127,3 +127,7 @@
 /* Smaller, balanced magazine card action buttons */
 .mag-card-foot{gap:6px;padding:8px 10px}
 .mag-card-foot button{font-size:10px!important;padding:7px 4px!important;min-height:30px;border-radius:5px;font-weight:650}
+
+/* Compact magazine action buttons: 24px height and narrower horizontal padding */
+.mag-card-foot{gap:4px;padding:6px 8px}
+.mag-card-foot button{height:24px!important;min-height:24px!important;max-height:24px!important;padding:0 3px!important;font-size:10px!important;line-height:1!important;border-radius:4px}
