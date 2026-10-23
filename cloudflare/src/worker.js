@@ -41,12 +41,15 @@ export default {async fetch(request,env){
   if(request.method==='OPTIONS')return new Response(null,{status:204,headers:h});
   const reply=(body,status=200)=>json(body,status,h);
   if(url.pathname==='/admin'||url.pathname==='/admin/'){
-    return new Response(ADMIN_PAGE,{headers:{'content-type':'text/html; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer','content-security-policy':"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; form-action 'self'; base-uri 'none'"}});
+    return Response.redirect(url.origin+'/api/admin/editor'+url.search,302);
   }
   if(parts[0]!=='api')return reply({error:'Not found'},404);
   try{
     const admin=parts[1]==='admin';const resource=admin?parts[2]:parts[1];const itemId=admin?parts[3]:parts[2];
     if(admin)await requireAdmin(request,env);
+    if(admin&&resource==='editor'&&request.method==='GET'){
+      return new Response(ADMIN_PAGE,{headers:{'content-type':'text/html; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer','content-security-policy':"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; form-action 'self'; base-uri 'none'"}});
+    }
     if(resource==='posts'){
       const id=itemId;
       if(!admin&&!['GET','OPTIONS'].includes(request.method))return reply({error:'Not found'},404);
