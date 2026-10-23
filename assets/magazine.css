@@ -11,3 +11,13 @@
 .mag-share{background:#fee500;color:#191919;border:1px solid #fee500}
 .mag-share:hover{background:#f7d900}
 .mag-select-row,.mag-check{display:none!important}
+
+/* Match standard INSTORY subpage hero */
+.page-head.mag-hero{display:flex;align-items:center;min-height:264px;padding:48px 0!important;background:#f6faff;color:var(--ink,#162a39);border-bottom:1px solid #e3edf8}
+.page-head.mag-hero:before{inset:0 0 0 40%;background-image:linear-gradient(90deg,#f6faff 0%,rgba(246,250,255,.36) 35%,rgba(246,250,255,0) 90%),var(--subhero-image,none)}
+.page-head.mag-hero .shell{width:100%}
+.page-head.mag-hero .crumb{color:#79909c;font-size:12px;letter-spacing:normal;font-weight:400}
+.page-head.mag-hero h1{font-size:42px;color:#162a39;margin:14px 0 15px}
+.page-head.mag-hero p{color:#71818b;font-size:14px}
+.mag-kicker{display:none}
+@media(max-width:650px){.page-head.mag-hero{min-height:200px;padding:35px 0!important}.page-head.mag-hero h1{font-size:32px}}
