@@ -167,3 +167,7 @@
 .mag-detail-actions a{display:inline-flex;align-items:center;justify-content:center;padding:9px 16px;background:#fff;border:1px solid #ccd9e7;color:#1d4266;border-radius:5px;font-weight:650;font-size:13px;text-decoration:none}
 .mag-detail-actions a:first-child{background:#205d8c;color:white;border-color:#205d8c}
 @media(max-width:650px){.mag-detail{padding-top:25px}.mag-detail h2{font-size:21px}.mag-detail-body{padding:22px 0}.mag-detail-pdf{min-height:450px}}
+
+/* Month selector: 3 columns × 4 rows */
+.mag-month-list{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+.mag-month-item{min-width:0;padding-left:6px!important;padding-right:6px!important}
