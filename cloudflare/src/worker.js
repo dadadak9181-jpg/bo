@@ -57,7 +57,7 @@ export default {async fetch(request,env){
         const conditions=admin?[]:["status='published'"];const values=[];
         if(cat){conditions.push('category=?');values.push(cat)}
         if(month){conditions.push('issue_month=?');values.push(month)}
-        const results=await env.DB.prepare('SELECT id,category,title,insurer,issue_month,cover_key,pdf_key,created_at,updated_at FROM posts WHERE '+conditions.join(' AND ')+' ORDER BY created_at DESC LIMIT ? OFFSET ?').bind(...values,limit,(page-1)*limit).all();
+        const results=await env.DB.prepare('SELECT id,category,title,insurer,issue_month,cover_key,pdf_key,created_at,updated_at FROM posts '+(conditions.length?'WHERE '+conditions.join(' AND ')+' ':'')+'ORDER BY created_at DESC LIMIT ? OFFSET ?').bind(...values,limit,(page-1)*limit).all();
         return reply({items:results.results,page,limit});
       }
       if(request.method==='GET'&&id){
