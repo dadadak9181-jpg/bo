@@ -61,3 +61,8 @@
 .mag-year-picker[hidden]{display:none}
 .mag-year-picker{margin-top:8px;padding:12px;background:#fff;border:1px solid #dce6f2;border-radius:9px;box-shadow:0 10px 20px #173b6010}
 .mag-year-apply{width:100%;padding:9px;border:0;border-radius:6px;background:#1766cf;color:#fff;font-size:12px;font-weight:700;cursor:pointer}
+
+/* Compact direct year selector */
+.mag-year-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.mag-year-option{padding:9px 3px;border:1px solid #dce6f2;background:#fff;border-radius:6px;color:#315270;font-size:12px;cursor:pointer}
+.mag-year-option:hover,.mag-year-option.active{background:#eaf3ff;border-color:#1766cf;color:#1455a4;font-weight:700}
