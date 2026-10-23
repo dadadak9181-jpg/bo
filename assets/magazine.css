@@ -131,3 +131,7 @@
 /* Compact magazine action buttons: 24px height and narrower horizontal padding */
 .mag-card-foot{gap:4px;padding:6px 8px}
 .mag-card-foot button{height:24px!important;min-height:24px!important;max-height:24px!important;padding:0 3px!important;font-size:10px!important;line-height:1!important;border-radius:4px}
+
+/* Match compact action layout shown in reference */
+.mag-card-foot{display:flex!important;align-items:center;justify-content:space-between;gap:8px;padding:8px 9px}
+.mag-card-foot button{flex:0 0 auto!important;width:auto!important;height:24px!important;min-height:24px!important;padding:0 10px!important;font-size:10px!important;white-space:nowrap}
