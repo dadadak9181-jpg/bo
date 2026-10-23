@@ -4,7 +4,7 @@ const escapeHTML=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 const DRAFT_KEY='instory-editorjs-draft-v1';
 window.instoryMinimalWritePage=function(sections){
 const options=Object.entries(sections).filter(([k])=>k!=='bookmark').map(([key,section])=>'<option value="'+escapeHTML(key)+'">'+escapeHTML(section.title)+'</option>').join('');
-return '<main class="shell content instory-write-page"><form id="instory-write-form" class="instory-write-layout"><div class="instory-write-header"><div class="instory-write-context"><label for="instory-board">게시판</label><select id="instory-board">'+options+'</select></div><span id="instory-save-status" class="instory-save-status" role="status" aria-live="polite">새 문서</span></div><input id="instory-doc-title" maxlength="150" required placeholder="제목을 입력하세요" aria-label="문서 제목" autocomplete="off"><div class="instory-editor-surface"><div id="instory-editorjs" aria-label="본문 편집기"></div></div><div class="instory-write-bottom"><span class="instory-write-footnote">작성 내용은 현재 브라우저에 저장됩니다.</span><div class="instory-write-buttons"><button type="button" id="instory-save">임시저장</button><button type="button" id="instory-preview-btn">미리보기</button><button type="submit" class="instory-submit">게시하기</button></div></div><div id="instory-write-error" role="alert"></div><section id="instory-preview" class="instory-preview" hidden aria-label="문서 미리보기"></section></form></main>'};
+return '<main class="shell content instory-write-page"><form id="instory-write-form" class="instory-write-layout"><div class="instory-write-header"><div class="instory-write-context"><label for="instory-board">게시판</label><select id="instory-board">'+options+'</select></div><span id="instory-save-status" class="instory-save-status" role="status" aria-live="polite">새 문서</span></div><input id="instory-doc-title" maxlength="150" required placeholder="제목을 입력하세요" aria-label="문서 제목" autocomplete="off"><div class="instory-format-toolbar" role="toolbar" aria-label="본문 편집 도구"><button type="button" data-block="paragraph" title="본문">본문</button><button type="button" data-block="header" title="제목">H2</button><span class="instory-toolbar-divider"></span><button type="button" data-format="bold" title="굵게"><b>B</b></button><button type="button" data-format="italic" title="기울임"><i>I</i></button><button type="button" data-format="underline" title="밑줄"><u>U</u></button><button type="button" data-format="link" title="링크">↗</button><span class="instory-toolbar-divider"></span><button type="button" data-block="list" data-style="unordered" title="글머리 목록">☷</button><button type="button" data-block="list" data-style="ordered" title="번호 목록">1.</button><button type="button" data-block="quote" title="인용문">❝</button><button type="button" data-block="delimiter" title="구분선">—</button><button type="button" data-block="image" title="이미지 넣기">▧ 이미지</button><input id="instory-toolbar-image" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden></div><div class="instory-editor-surface"><div id="instory-editorjs" aria-label="본문 편집기"></div></div><div class="instory-write-bottom"><span class="instory-write-footnote">작성 내용은 현재 브라우저에 저장됩니다.</span><div class="instory-write-buttons"><button type="button" id="instory-save">임시저장</button><button type="button" id="instory-preview-btn">미리보기</button><button type="submit" class="instory-submit">게시하기</button></div></div><div id="instory-write-error" role="alert"></div><section id="instory-preview" class="instory-preview" hidden aria-label="문서 미리보기"></section></form></main>'};
 window.instoryInitMinimalWrite=function(){
 const $=id=>document.getElementById(id);
 const holder=$('instory-editorjs'),title=$('instory-doc-title'),board=$('instory-board'),status=$('instory-save-status'),error=$('instory-write-error'),preview=$('instory-preview'),form=$('instory-write-form');
@@ -35,6 +35,24 @@ if(typeof EditorJS==='function'){
  try{editor=new EditorJS({holder:'instory-editorjs',autofocus:false,minHeight:250,placeholder:'내용을 입력하세요',inlineToolbar:true,tools,data:draft?.data?.blocks?.length?draft.data:undefined,onChange:schedule,onReady(){status.textContent=draft?'이전 문서 복원됨':'작성 준비'}})}catch(e){editor=null}
 }
 if(!editor){holder.innerHTML='<textarea class="instory-fallback-editor" aria-label="본문" placeholder="내용을 입력하세요"></textarea>';fallback=holder.querySelector('textarea');fallback.addEventListener('input',schedule);error.textContent='편집기 라이브러리를 불러오지 못해 기본 입력 모드로 전환했습니다.'}
+
+const toolbar=form.querySelector('.instory-format-toolbar'),imageInput=$('instory-toolbar-image');
+toolbar.addEventListener('mousedown',e=>{if(e.target.closest('button'))e.preventDefault()});
+toolbar.addEventListener('click',async e=>{
+ const btn=e.target.closest('button');if(!btn)return;
+ const cmd=btn.dataset.format;
+ if(cmd){if(cmd==='link'){const url=prompt('링크 주소 (https://)');if(url&&/^https:\/\/\S+/i.test(url))document.execCommand('createLink',false,url)}else document.execCommand(cmd,false,null);schedule();return}
+ const type=btn.dataset.block;if(!type)return;
+ if(type==='image'){imageInput.click();return}
+ if(!editor){fallback.value+=' '+(type==='header'?'## ':type==='quote'?'> ':type==='list'?'• ':'');fallback.focus();schedule();return}
+ try{await editor.isReady;const pos=Math.max(0,editor.blocks.getCurrentBlockIndex()+1);const data=type==='header'?{text:'',level:2}:type==='list'?{style:btn.dataset.style==='ordered'?'ordered':'unordered',items:[]}:type==='quote'?{text:'',caption:''}:type==='paragraph'?{text:''}:{};editor.blocks.insert(type,data,{},pos,true);schedule()}catch(err){error.textContent='서식 도구를 불러오지 못했습니다.'}
+});
+imageInput.addEventListener('change',()=>{
+ const f=imageInput.files?.[0];if(!f)return;
+ if(f.size>1500000||!/^image\/(jpeg|png|webp|gif)$/.test(f.type)){error.textContent='이미지는 JPG·PNG·WebP·GIF 형식의 1.5MB 이하만 첨부할 수 있습니다.';imageInput.value='';return}
+ const fr=new FileReader();fr.onload=async()=>{if(!editor){error.textContent='이미지 첨부를 위해 편집기가 필요합니다.';return}try{await editor.isReady;editor.blocks.insert('image',{file:{url:fr.result},caption:''},{},Math.max(0,editor.blocks.getCurrentBlockIndex()+1),true);schedule()}catch(e){error.textContent='이미지 블록을 추가하지 못했습니다.'}};fr.readAsDataURL(f);imageInput.value='';
+});
+
 title.addEventListener('input',schedule);board.addEventListener('change',schedule);
 $('instory-save').onclick=async()=>{const data=await saveDraft();if(data)status.textContent='임시저장 완료'};
 $('instory-preview-btn').onclick=async()=>{error.textContent='';const data=await getData();preview.innerHTML='<h2>'+escapeHTML(title.value||'제목 없음')+'</h2>'+blocksToHTML(data);preview.hidden=false;preview.scrollIntoView({behavior:'smooth',block:'start'})};
