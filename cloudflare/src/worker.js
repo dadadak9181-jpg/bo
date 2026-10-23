@@ -41,8 +41,11 @@ export default {async fetch(request,env){
   const reply=(body,status=200)=>json(body,status,h);
   if(parts[0]!=='api')return reply({error:'Not found'},404);
   try{
-    if(parts[1]==='posts'){
-      const id=parts[2];
+    const admin=parts[1]==='admin';const resource=admin?parts[2]:parts[1];const itemId=admin?parts[3]:parts[2];
+    if(admin)await requireAdmin(request,env);
+    if(resource==='posts'){
+      const id=itemId;
+      if(!admin&&!['GET','OPTIONS'].includes(request.method))return reply({error:'Not found'},404);
       if(request.method==='GET'&&!id){
         const limit=Math.min(50,Math.max(1,Number(url.searchParams.get('limit'))||20));
         const page=Math.max(1,Number(url.searchParams.get('page'))||1);
@@ -56,26 +59,25 @@ export default {async fetch(request,env){
       if(request.method==='GET'&&id){
         const row=await env.DB.prepare("SELECT * FROM posts WHERE id=? AND status='published'").bind(id).first();return row?reply(row):reply({error:'Not found'},404);
       }
-      await requireAdmin(request,env);
-      if(request.method==='POST'&&!id){
+      if(request.method==='POST'&&!id&&admin){
         const p=normalize(await request.json());const uuid=crypto.randomUUID();
         await env.DB.prepare('INSERT INTO posts(id,category,title,content_html,insurer,issue_month,cover_key,pdf_key,status) VALUES(?,?,?,?,?,?,?,?,?)').bind(uuid,p.category,p.title,p.content_html,p.insurer,p.issue_month,p.cover_key,p.pdf_key,p.status).run();
         return reply({id:uuid},201);
       }
-      if(request.method==='PUT'&&id){
+      if(request.method==='PUT'&&id&&admin){
         const p=normalize(await request.json());
         const res=await env.DB.prepare("UPDATE posts SET category=?,title=?,content_html=?,insurer=?,issue_month=?,cover_key=?,pdf_key=?,status=?,updated_at=datetime('now') WHERE id=?").bind(p.category,p.title,p.content_html,p.insurer,p.issue_month,p.cover_key,p.pdf_key,p.status,id).run();
         return res.meta.changes?reply({id}):reply({error:'Not found'},404);
       }
-      if(request.method==='DELETE'&&id){
+      if(request.method==='DELETE'&&id&&admin){
         const res=await env.DB.prepare('DELETE FROM posts WHERE id=?').bind(id).run();
         return res.meta.changes?reply({deleted:true}):reply({error:'Not found'},404);
       }
     }
-    if(parts[1]==='files'){
-      const key=parts.slice(2).join('/');
-      if(request.method==='POST'&&parts.length===2){
-        await requireAdmin(request,env);
+    if(resource==='files'){
+      if(!admin&&!['GET','OPTIONS'].includes(request.method))return reply({error:'Not found'},404);
+      const key=parts.slice(admin?3:2).join('/');
+      if(request.method==='POST'&&admin&&parts.length===3){
         const fd=await request.formData();const file=fd.get('file');
         if(!(file instanceof File))return reply({error:'Missing file'},400);
         const types={'application/pdf':'pdf','image/jpeg':'jpg','image/png':'png','image/webp':'webp'};
