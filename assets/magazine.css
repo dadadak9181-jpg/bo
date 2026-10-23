@@ -171,3 +171,6 @@
 /* Month selector: 3 columns × 4 rows */
 .mag-month-list{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
 .mag-month-item{min-width:0;padding-left:6px!important;padding-right:6px!important}
+
+/* Remove decorative vertical line beside the expanded monthly insurer list */
+.mag-insurer-tree{border-left:0!important;padding-left:0!important}
