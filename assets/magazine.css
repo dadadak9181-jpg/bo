@@ -37,3 +37,8 @@
 .mag-results-head{margin:0 0 20px}
 .mag-results-head h2{font-size:25px;line-height:1.3;margin:0;font-weight:740}
 @media(max-width:650px){.mag-main{padding-top:32px}}
+
+/* Explicit space between subpage hero and magazine content */
+.page-head.mag-hero + .mag-main{padding-top:64px!important}
+.page-head.mag-hero + .mag-main .mag-layout{margin-top:0}
+@media(max-width:650px){.page-head.mag-hero + .mag-main{padding-top:36px!important}}
