@@ -90,3 +90,9 @@
 .mag-year-stepper strong{min-width:42px;text-align:center;font-size:14px;font-weight:750;color:#17334d}
 .mag-year-stepper button{border:0;background:transparent;color:#355b81;font-size:16px;font-weight:600;width:23px;height:30px;padding:0;cursor:pointer;border-radius:4px}
 .mag-year-stepper button:hover{background:#e7f1ff}
+
+/* Year selector only, without surrounding box */
+.mag-year-heading{display:flex;align-items:center;justify-content:center;background:transparent!important;border:0!important;border-radius:0!important;padding:4px 0 10px!important}
+.mag-year-stepper{display:flex;justify-content:center;align-items:center;gap:10px}
+.mag-year-stepper strong{font-size:14px;font-weight:750;min-width:40px}
+.mag-year-stepper button{width:22px;height:28px;color:#245d95;background:transparent;border:0;font-size:17px}
