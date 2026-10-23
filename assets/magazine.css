@@ -21,3 +21,12 @@
 .page-head.mag-hero p{color:#71818b;font-size:14px}
 .mag-kicker{display:none}
 @media(max-width:650px){.page-head.mag-hero{min-height:200px;padding:35px 0!important}.page-head.mag-hero h1{font-size:32px}}
+
+/* Interactive month archive, replaces company-name tags */
+.mag-month-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.mag-month-item{display:flex;align-items:center;justify-content:space-between;gap:5px;min-width:0;border:1px solid #dce6f2;background:#fff;color:#405c73;border-radius:7px;padding:10px 9px;font-size:12px;font-weight:600;cursor:pointer}
+.mag-month-item.active{border-color:#2166bb;color:#1455a4;background:#eef5ff}
+.mag-month-item:hover{border-color:#2166bb}
+.mag-month-count{font-size:10px;color:#7d90a6;font-weight:500}
+.mag-month-item.active .mag-month-count{color:#1455a4}
+.mag-month-detail[hidden]{display:none}
