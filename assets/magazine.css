@@ -42,3 +42,13 @@
 .page-head.mag-hero + .mag-main{padding-top:60px!important}
 .page-head.mag-hero + .mag-main .mag-layout{margin-top:0}
 @media(max-width:650px){.page-head.mag-hero + .mag-main{padding-top:36px!important}}
+
+/* Year/month calendar picker */
+.mag-calendar-year{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px;gap:8px}
+.mag-calendar-year strong{font-size:14px;color:#17334d}
+.mag-calendar-year button{width:34px;height:32px;border:1px solid #dce6f2;background:#fff;border-radius:7px;font-size:22px;line-height:1;color:#285e92;cursor:pointer}
+.mag-calendar-year button:hover{background:#eef5ff}
+.mag-month-detail{padding:12px 0 0}
+.mag-main{padding-bottom:100px!important}
+.page-head.mag-hero + .mag-main{padding-bottom:100px!important}
+@media(max-width:650px){.mag-main,.page-head.mag-hero + .mag-main{padding-bottom:64px!important}}
