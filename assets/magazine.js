@@ -9,7 +9,7 @@ const capturedMagazines = [
   {id:'fubon',company:'푸본현대생명',title:'Hyundai Life 2026년 10월호',month:'2026.10',date:'2026-10',group:'생명보험',file:'fubon.jpg',complete:false}
 ];
 const magazineEsc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const magazineImg=p=>'assets/magazines/'+p.file;
+const magazineImg=p=>p.coverUrl||'assets/magazines/'+p.file;
 function magazineHome(){return `<div class="page-head mag-hero"><div class="shell"><div class="crumb">INSTORY / INSURANCE LIBRARY</div><h1>보험 소식지 아카이브</h1></div></div>
 <div class="shell mag-main">
 <div class="mag-layout"><aside class="mag-sidebar" aria-label="소식지 분류"><section class="mag-side-group"><h2>분류별 필터</h2><div class="mag-side-chips" id="mag-groups"><button type="button" class="active" data-group="전체">전체</button><button type="button" data-group="생명보험">생명보험</button><button type="button" data-group="손해보험">손해보험</button></div></section><section class="mag-side-group"><h2>월별 소식지</h2><div class="mag-archive-heading mag-year-stepper"><button type="button" data-year-step="-1" aria-label="이전 연도"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><strong id="mag-archive-title">2026년 소식지</strong><button type="button" data-year-step="1" aria-label="다음 연도"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div><div class="mag-month-detail"><div class="mag-month-list" id="mag-month-list" aria-label="월별 소식지 선택"></div></div></section></aside>
@@ -19,6 +19,8 @@ function setupMagazine(){
   const grid=document.getElementById('mag-grid');if(!grid)return;
   const search=document.getElementById('mag-search'),groups=document.getElementById('mag-groups');
   const overlay=document.getElementById('mag-lightbox');
+  const fresh=window.instoryMagazineRecords||[];
+  for(const p of fresh){if(!capturedMagazines.some(x=>x.id===p.id))capturedMagazines.unshift(p)}
   let group='전체',selectedMonth='2026.10',calendarYear=2026,visible=capturedMagazines.slice(),current=0,lastFocused=null;
   function update(){const q=search.value.trim().toLowerCase();visible=capturedMagazines.filter(p=>p.month===selectedMonth&&(group==='전체'||p.group===group)&&[p.company,p.title,p.month].join(' ').toLowerCase().includes(q));
     grid.innerHTML=visible.map(p=>`<article class="mag-card"><div class="mag-cover"><button class="mag-open" data-mag="${p.id}" type="button" aria-label="${magazineEsc(p.title)} 이미지 보기"><img src="${magazineImg(p)}" alt="${magazineEsc(p.company)} ${magazineEsc(p.title)} 표지" loading="lazy"><span class="mag-zoom">확대 보기 ↗</span></button></div><div class="mag-card-meta"><span class="mag-category">${magazineEsc(p.company)}</span><time>${magazineEsc(p.month)}</time></div><button class="mag-card-title mag-open" data-mag="${p.id}" type="button">${magazineEsc(p.title)}</button><div class="mag-card-foot"><button type="button" class="mag-pdf" data-pdf="${p.id}">PDF 다운로드</button><button type="button" class="mag-share" data-share="${p.id}">카카오톡 공유</button></div></article>`).join('');
