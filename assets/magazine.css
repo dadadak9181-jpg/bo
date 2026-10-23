@@ -52,3 +52,12 @@
 .mag-main{padding-bottom:100px!important}
 .page-head.mag-hero + .mag-main{padding-bottom:100px!important}
 @media(max-width:650px){.mag-main,.page-head.mag-hero + .mag-main{padding-bottom:64px!important}}
+
+/* Year selection via the calendar icon; default year 2026 */
+.mag-year-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px 11px 14px;background:#f8fbff;border:1px solid #e2eaf4;border-radius:8px}
+.mag-year-heading strong{font-size:14px;font-weight:700}
+.mag-year-picker-toggle{display:grid;place-items:center;width:34px;height:34px;flex:none;border:1px solid transparent;background:transparent;color:#2466ae;border-radius:6px;cursor:pointer}
+.mag-year-picker-toggle:hover,.mag-year-picker-toggle[aria-expanded="true"]{background:#e7f1ff;border-color:#c8dffb}
+.mag-year-picker[hidden]{display:none}
+.mag-year-picker{margin-top:8px;padding:12px;background:#fff;border:1px solid #dce6f2;border-radius:9px;box-shadow:0 10px 20px #173b6010}
+.mag-year-apply{width:100%;padding:9px;border:0;border-radius:6px;background:#1766cf;color:#fff;font-size:12px;font-weight:700;cursor:pointer}
