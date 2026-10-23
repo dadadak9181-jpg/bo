@@ -118,3 +118,8 @@
 .mag-archive-heading.mag-year-stepper button:first-child{justify-self:start}
 .mag-archive-heading.mag-year-stepper button:last-child{justify-self:end}
 .mag-archive-heading.mag-year-stepper button:hover{background:#e7f1ff}
+
+/* Reference: understated small chevrons without button decoration */
+.mag-archive-heading.mag-year-stepper button{display:grid;place-items:center;width:22px;height:26px;padding:0;border:0!important;background:transparent!important;box-shadow:none!important;color:#285b85;font-size:0}
+.mag-archive-heading.mag-year-stepper button svg{width:13px;height:13px;stroke-width:1.7}
+.mag-archive-heading.mag-year-stepper button:hover{color:#1266b2}
