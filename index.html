@@ -426,6 +426,36 @@ h1,h2,h3,h4,h5,h6,.page-head h1,.hero h1,.section h2,.section-heading h2,.detail
 .main-module-grid .main-module-button small{font-size:10px!important;line-height:1.5}
 .main-module-grid .main-module-arrow{display:none!important}
 @media(max-width:600px){.main-module-grid .main-module-button{min-height:133px!important}}
+
+/* Insurance-system table replicates the captured information architecture */
+.main-module-detail:has(.sys-intro){border:0!important;background:transparent;padding:0!important}
+.sys-intro{display:flex;align-items:center;gap:18px;padding:24px 28px;margin:23px 0 16px;border:1px solid #ddd;background:#fff;border-radius:5px}
+.sys-intro-icon{display:flex;align-items:center;justify-content:center;flex:0 0 40px;height:40px;border-radius:5px;background:#f4f4f4;color:#555;font-size:23px}
+.sys-intro h3{font-size:22px;color:#222;margin:0 0 7px;font-weight:750}
+.sys-intro p{font-size:13px;color:#777;margin:0;line-height:1.55}
+.sys-type-tabs{display:flex;gap:8px;margin:20px 0 16px}
+.sys-type-tabs button{background:#fff;border:1px solid #ddd;border-radius:4px;padding:13px 19px;font-size:13px;font-weight:680;color:#555;cursor:pointer}
+.sys-type-tabs button.active{background:#333;color:#fff;border-color:#333}
+.sys-type-tabs button:hover:not(.active){border-color:#999}
+.sys-table-scroll{width:100%;overflow:auto;border:1px solid #dedede;border-radius:5px}
+.sys-table{border-collapse:collapse;width:100%;min-width:1000px;background:#fff}
+.sys-table thead{background:#333}
+.sys-table th,.sys-table td{border-right:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;padding:17px 12px;text-align:center;vertical-align:middle;font-size:12px}
+.sys-table thead th{background:#333;color:#fff;font-size:13px;font-weight:700;border-color:#555;padding:15px 9px}
+.sys-table tr:last-child th,.sys-table tr:last-child td{border-bottom:0}
+.sys-table th:last-child,.sys-table td:last-child{border-right:0}
+.sys-table tbody tr:hover{background:#fafafa}
+.sys-insurer{display:flex;align-items:center;justify-content:center;min-height:41px}
+.sys-insurer img{display:block;max-width:135px;max-height:42px;width:auto;height:auto;object-fit:contain}
+.sys-logo-fallback{font-size:15px;font-weight:700;color:#333}
+.sys-official-link{display:inline-block;border:1px solid #ccc;border-radius:4px;padding:8px 11px;font-size:11px;color:#333;background:#fff;white-space:nowrap}
+.sys-official-link:hover{border-color:#999}
+.sys-browser{display:block;color:#777;font-size:10px;margin-top:7px}
+.sys-indicator{display:inline-block;color:#777;border:1px solid #dedede;background:#f8f8f8;border-radius:4px;padding:6px 10px;white-space:nowrap;font-size:11px}
+.sys-unavailable{color:#bbb;font-size:16px}
+.sys-disclaimer{color:#777;font-size:12px;line-height:1.8;margin:19px 0 10px}
+.sys-original-link{display:inline-block;color:#555;font-size:12px;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:700px){.sys-intro{padding:18px}.sys-intro h3{font-size:18px}.sys-type-tabs button{padding:11px 13px}}
 </style></head><body><div class="utility"><div class="shell"><span class="utility-brand">보험 전문가를 위한 정보 아카이브</span><nav class="utility-links" aria-label="업무 편의 바로가기"><a href="#/bookmark" class="utility-shortcut"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span>보험북마크</span></a><a href="#/interest" class="utility-shortcut"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h2m4 0h2M8 15h2m4 0h2M8 19h2m4 0h2"/></svg><span>이자 계산기</span></a><a href="#/qa" class="utility-shortcut"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-11.8 7.8L3 21l1.7-6.2A8.5 8.5 0 1 1 21 11.5z"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 4"/><path d="M12 16h.01"/></svg><span>질문과 답변</span></a></nav></div></div><header class="shell mast"><a href="#/" class="brand" aria-label="INSTORY 홈"><img class="instory-logo-img" src="assets/instory.webp" alt="INSTORY"><small>INSURANCE WORK COMMUNITY</small></a><nav class="nav" id="nav" aria-label="주 메뉴"><a href="#/magazines">월별 소식지</a><a href="#/insurance-news">오늘의 보험소식</a><a href="#/finance">오늘의 재테크상식</a><a href="#/current">오늘의 시사상식</a><div class="nav-dropdown"><button type="button" class="nav-dropdown-toggle" id="library-menu-button" aria-expanded="false" aria-controls="library-submenu" aria-haspopup="true">자료실<svg class="nav-chevron" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3.5 6 4.5 4 4.5-4"/></svg></button><div class="nav-dropdown-menu" id="library-submenu" aria-label="자료실 하위 메뉴"><a href="#/products">상품정보</a><a href="#/needs">보험니즈자료</a><a href="#/main-links">메인모듬링크</a></div></div></nav><button class="menu" id="menu" aria-label="메뉴 열기" aria-expanded="false">☰</button></header><div id="app"></div><footer class="site-footer" id="site-footer"><div class="shell"><div class="footer-main"><div class="footer-intro"><a href="#/" class="footer-wordmark" aria-label="INSTORY 홈">INSTORY<span class="footer-dot">.</span></a><div class="footer-eyebrow">INSURANCE WORK COMMUNITY</div><p>보험 실무에 필요한 정보를<br>더 쉽고 체계적으로 연결합니다.</p></div><div class="footer-navigation"><div class="footer-nav-col"><h3>INSURANCE</h3><a href="#/products">상품정보 <span aria-hidden="true">↗</span></a><a href="#/needs">보험니즈자료 <span aria-hidden="true">↗</span></a><a href="#/bookmark">보험북마크 <span aria-hidden="true">↗</span></a></div><div class="footer-nav-col"><h3>INSIGHTS</h3><a href="#/insurance-news">오늘의 보험소식 <span aria-hidden="true">↗</span></a><a href="#/finance">오늘의 재테크상식 <span aria-hidden="true">↗</span></a><a href="#/current">오늘의 시사상식 <span aria-hidden="true">↗</span></a></div></div><a href="#/" class="footer-top" aria-label="페이지 상단으로 이동"><span aria-hidden="true">↑</span><span>TOP</span></a></div><div class="footer-bottom"></div></div></footer>
 <script src="assets/magazine.js"></script><script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script src="https://uicdn.toast.com/editor/latest/i18n/ko-kr.min.js"></script>
@@ -480,7 +510,43 @@ const moduleData=[
 {summary:'보험료 정기수납 및 자동이체 일정을 검토할 때 필요한 안내입니다.',work:['보험료 납입일·청구일 확인','자동이체 계좌·출금 수단 확인','미납 시 재청구 일정 확인','납입 완료 여부 및 영수증 확인'],columns:['회사','수납 확인 항목','바로가기'],label:'수납일·자동이체',tip:'수납·재청구일은 계약 내용과 납입 방법에 따라 다를 수 있습니다.'},
 {summary:'보험료의 카드 납입 가능 여부와 변경 절차를 확인합니다.',work:['카드 납입 가능 상품 확인','대상 카드·결제 방식 확인','카드 변경·갱신 절차 확인','승인 실패·납입 확인 경로'],columns:['회사','카드 납입 업무','바로가기'],label:'카드 결제·변경',tip:'카드 납입 가능 여부는 보험사·계약·카드사별로 다릅니다.'}
 ];
+
+/* Insurance IT access matrix. Only confirmed general insurer sites are linked;
+   private GA portals, mobile apps and browser-specific destinations are not guessed. */
+const systemMatrixSupport={
+ '메리츠화재':{browser:'Edge',android:true},
+ '삼성화재':{browser:'Edge · Chrome',android:true,ios:true},
+ 'KB손해보험':{browser:'Edge · Chrome',android:true},
+ '현대해상':{browser:'Edge · Chrome',android:true,ios:true},
+ 'DB손해보험':{browser:'Chrome',android:true,ios:true},
+ '한화손보':{browser:'Edge',android:true,ios:true},
+ 'NH농협손해보험':{browser:'Chrome'}
+};
+const systemInsurerRows=()=>{
+ const preferred=['메리츠화재','삼성화재','KB손해보험','현대해상','DB손해보험','롯데손해보험','AIG손해보험','AXA손해보험','한화생명','삼성생명','교보생명'];
+ return insurers.filter(i=>i.group==='손해보험'||i.group==='생명보험')
+ .sort((a,b)=>{let ai=preferred.indexOf(a.name),bi=preferred.indexOf(b.name);return (ai<0?999:ai)-(bi<0?999:bi)});
+};
+const systemMatrixCell=(text,available=false)=>available?'<span class="sys-indicator">'+esc(text)+'</span>':'<span class="sys-unavailable" aria-label="링크 미확인">—</span>';
+const systemAccessPanel=(group='손해보험')=>{
+ const companies=systemInsurerRows().filter(i=>i.group===group);
+ const columns=['보험사','GA전산','전용전산','Android','iOS','태블릿(A)','아이패드','m_WEB'];
+ return '<div class="sys-intro"><span class="sys-intro-icon" aria-hidden="true">▣</span><div><h3>보험사별 전산 주소 퀵뷰</h3><p>GA전산, 전용전산, 모바일 앱 및 태블릿 전산의 접속 정보를 보험사별로 확인합니다.</p></div></div>'+
+ '<div class="sys-type-tabs" role="group" aria-label="보험전산 분류"><button type="button" data-system-group="손해보험" class="'+(group==='손해보험'?'active':'')+'">손해보험 전산</button><button type="button" data-system-group="생명보험" class="'+(group==='생명보험'?'active':'')+'">생명보험 전산</button></div>'+
+ '<div class="sys-table-scroll"><table class="sys-table"><thead><tr>'+columns.map(h=>'<th scope="col">'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+
+ companies.map(ins=>{
+  const c=systemMatrixSupport[ins.name]||{},src=insurerLogoMap[ins.name],logo=src?'<img src="assets/'+src+'" alt="'+esc(ins.name)+' 로고" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><strong class="sys-logo-fallback" hidden>'+esc(ins.name)+'</strong>':'<strong class="sys-logo-fallback">'+esc(ins.name)+'</strong>';
+  return '<tr><th scope="row"><div class="sys-insurer">'+logo+'</div></th>'+
+ '<td><a class="sys-official-link" href="'+esc(ins.url)+'" target="_blank" rel="noopener noreferrer" title="'+esc(ins.name)+' 공식 웹사이트, GA전산 주소는 미확인">공식 사이트 ↗</a>'+(c.browser?'<small class="sys-browser">'+esc(c.browser)+'</small>':'')+'</td>'+
+ '<td>'+systemMatrixCell('전용전산')+'</td><td>'+systemMatrixCell('Android',!!c.android)+'</td><td>'+systemMatrixCell('iOS',!!c.ios)+'</td>'+
+ '<td>'+systemMatrixCell('태블릿')+'</td><td>'+systemMatrixCell('아이패드')+'</td><td>'+systemMatrixCell('m_WEB')+'</td></tr>'
+ }).join('')+'</tbody></table></div>'+
+ '<p class="sys-disclaimer">GA전산·전용전산·앱의 실제 접속 주소는 아직 확보되지 않았습니다. ‘공식 사이트’ 버튼은 해당 보험사의 일반 홈페이지로 이동하며 GA전산 로그인을 보장하지 않습니다. Android·iOS 표시는 제공된 캡처에서 확인된 일부 회사의 참고 정보이며 앱 링크는 아닙니다.</p>'+
+ '<a class="sys-original-link" href="https://iga.pe.kr/board/system_links.php" target="_blank" rel="noopener noreferrer">원본 보험전산 자료 확인 ↗</a>';
+};
+
 const mainModulePanel=(index,group='전체')=>{
+ if(index===0)return systemAccessPanel(group==='생명보험'?'생명보험':'손해보험');
  const [,path]=mainModuleLinks[index],d=moduleData[index],groups=moduleInsurerGroups[index];
  const providers=insurers.filter(x=>group==='전체'||x.group===group);
  return '<div class="main-module-detail-heading"><div><span class="main-module-index">'+String(index+1).padStart(2,'0')+' / 08</span><h3>'+esc(mainModuleLinks[index][0])+'</h3><p>'+esc(d.summary)+'</p></div><a href="https://iga.pe.kr'+path+'" target="_blank" rel="noopener noreferrer" class="main-module-original">수집 원본 자료 열기 ↗</a></div>'+
@@ -494,7 +560,7 @@ const mainModulePanel=(index,group='전체')=>{
 const mainModuleIcons=["<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M8 21h8M12 18v3M7 9h10M7 13h6\"/></svg>","<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 3h10v18H7zM10 7h4M10 11h4M10 15h2\"/><path d=\"M4 8v10M20 8v10\"/></svg>","<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"m4 7 8 6 8-6M7 16h4\"/></svg>","<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M9 8h6M9 12h6M9 16h3\"/><path d=\"m14 16 2 2 3-3\"/></svg>","<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"6\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"m3 8 9 7 9-7\"/></svg>","<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 3h9l4 4v14H7zM16 3v5h4M10 12h7M10 16h7\"/></svg>","<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M7 3v4M17 3v4M3 10h18M7 14h4M7 18h4\"/></svg>","<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"2\" y=\"5\" width=\"20\" height=\"14\" rx=\"2\"/><path d=\"M2 10h20M6 15h5\"/></svg>"];
 const mainModulePage=()=>'<section class="main-module"><div class="main-module-heading"><h2>메인모듬링크</h2><p>업무별 항목을 선택하면 바로 아래에 관련 자료와 보험사 링크가 표시됩니다.</p></div><div class="main-module-grid" role="tablist" aria-label="메인모듬링크 분류">'+mainModuleLinks.map(([name,path,desc],i)=>'<button type="button" class="main-module-button '+(i===0?'active':'')+'" data-main-module="'+i+'" role="tab" aria-controls="main-module-detail" aria-selected="'+(i===0)+'"><span class="main-module-icon">'+mainModuleIcons[i]+'</span><span class="main-module-copy"><strong>'+esc(name)+'</strong><small>'+esc(desc)+'</small></span></button>').join('')+'</div><div id="main-module-detail" class="main-module-detail" role="tabpanel" aria-live="polite">'+mainModulePanel(0)+'</div></section>';
 function setupMainModule(){const container=document.querySelector('.main-module');if(!container)return;let active=0;const detail=container.querySelector('#main-module-detail');
-container.addEventListener('click',e=>{const tab=e.target.closest('[data-main-module]');if(tab){active=Number(tab.dataset.mainModule);container.querySelectorAll('[data-main-module]').forEach(b=>{const on=Number(b.dataset.mainModule)===active;b.classList.toggle('active',on);b.setAttribute('aria-selected',String(on))});detail.innerHTML=mainModulePanel(active);return}const filter=e.target.closest('[data-module-group]');if(filter){detail.innerHTML=mainModulePanel(active,filter.dataset.moduleGroup)}});
+container.addEventListener('click',e=>{const tab=e.target.closest('[data-main-module]');if(tab){active=Number(tab.dataset.mainModule);container.querySelectorAll('[data-main-module]').forEach(b=>{const on=Number(b.dataset.mainModule)===active;b.classList.toggle('active',on);b.setAttribute('aria-selected',String(on))});detail.innerHTML=mainModulePanel(active);return}const filter=e.target.closest('[data-module-group]');if(filter){detail.innerHTML=mainModulePanel(active,filter.dataset.moduleGroup)}const sys=e.target.closest('[data-system-group]');if(sys){detail.innerHTML=mainModulePanel(0,sys.dataset.systemGroup)}});
 }
 
 
