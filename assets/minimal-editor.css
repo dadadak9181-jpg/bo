@@ -37,3 +37,13 @@
 .instory-preview[hidden]{display:none!important}
 .instory-preview h2{font-size:26px;margin-top:0}
 @media(max-width:800px){.instory-write-page{padding-top:25px!important}.instory-write-layout #instory-doc-title{padding-top:22px}.instory-write-bottom{flex-wrap:wrap}.instory-write-footnote{width:100%}.instory-editor-surface .ce-block__content,.instory-editor-surface .ce-toolbar__content{padding-left:36px}.instory-write-buttons{margin-left:auto}}
+
+/* Always-visible, quiet writing toolbar */
+.instory-format-toolbar{display:flex;align-items:center;gap:3px;flex-wrap:wrap;min-height:46px;padding:6px 7px;border:1px solid #e0e6ee;border-radius:5px;background:#fff;margin:10px 0 14px;position:sticky;top:0;z-index:15}
+.instory-format-toolbar button{display:inline-flex;justify-content:center;align-items:center;min-width:34px;height:33px;padding:0 10px;border:0;background:transparent;border-radius:4px;color:#44546a;font-size:13px;font-weight:550;white-space:nowrap;cursor:pointer}
+.instory-format-toolbar button:hover,.instory-format-toolbar button:focus-visible{background:#eef3f8;color:#1458ba}
+.instory-format-toolbar .instory-toolbar-divider{height:20px;width:1px;background:#e0e6ec;margin:0 6px}
+.instory-editor-surface{border:1px solid #e5eaf0;border-radius:5px;padding:15px 12px 40px;min-height:360px}
+.instory-editor-surface .codex-editor{min-height:270px}
+.instory-write-layout #instory-doc-title{padding-bottom:13px}
+@media(max-width:600px){.instory-format-toolbar{gap:1px;padding:5px 3px}.instory-format-toolbar button{padding:0 7px;min-width:30px}.instory-format-toolbar .instory-toolbar-divider{margin:0 2px}}
