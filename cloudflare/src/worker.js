@@ -93,7 +93,7 @@ export default {async fetch(request,env){
     const admin=parts[1]==='admin';const consoleAdminRoute=parts[1]==='console';const resource=(admin||consoleAdminRoute)?parts[2]:parts[1];const itemId=(admin||consoleAdminRoute)?parts[3]:parts[2];
     const consoleAdmin=parts[1]==='console';
     let consoleSession;
-    if(consoleAdmin){consoleSession=await sessionAccount(request,env)}
+    if(consoleAdmin){consoleSession=await sessionAccount(request,env);h['set-cookie']=authCookie(consoleSession.token,AUTH_MAX_AGE)}
     if(admin)await requireAdmin(request,env);
     if(admin&&resource==='manager-setup'&&request.method==='GET'){
       await ensureManagerTables(env);const existing=await env.DB.prepare('SELECT id FROM manager_accounts WHERE id=1').first();
