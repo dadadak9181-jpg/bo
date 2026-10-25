@@ -146,7 +146,7 @@ export default {async fetch(request,env){
     if(resource==='files'){
       if(!(admin||consoleAdminRoute)&&!['GET','OPTIONS'].includes(request.method))return reply({error:'Not found'},404);
       const key=parts.slice((admin||consoleAdminRoute)?3:2).join('/');
-      if(request.method==='POST'&&admin&&parts.length===3){
+      if(request.method==='POST'&&(admin||consoleAdminRoute)&&parts.length===3){
         const fd=await request.formData();const file=fd.get('file');
         if(!(file instanceof File))return reply({error:'Missing file'},400);
         const types={'application/pdf':'pdf','image/jpeg':'jpg','image/png':'png','image/webp':'webp'};
