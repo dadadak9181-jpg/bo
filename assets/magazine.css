@@ -174,3 +174,5 @@
 
 /* Remove decorative vertical line beside the expanded monthly insurer list */
 .mag-insurer-tree{border-left:0!important;padding-left:0!important}
+
+.mag-pagination{display:flex;justify-content:center;gap:8px;margin:26px 0}.mag-pagination button{border:1px solid #dbe1e8;background:#fff;color:#444;border-radius:5px;padding:9px 13px;cursor:pointer}.mag-pagination button.active{background:#343a43;color:#fff;border-color:#343a43}
