@@ -997,6 +997,20 @@ if(window.instoryInsurerDetails){
  entries.forEach(([name,d])=>{if(d.logo&&!insurerLogoMap[name])insurerLogoMap[name]=d.logo});
 }
 
+
+// Prefer the original insurer logo files once cached in this site's own assets.
+fetch('assets/insurer-logo-map.json').then(r=>r.ok?r.json():null).then(map=>{
+ if(!map)return;
+ Object.assign(insurerLogoMap,map);
+ const cards=document.querySelectorAll('[data-insurer-detail] img');
+ cards.forEach(img=>{
+  const name=img.closest('[data-insurer-detail]')?.dataset.insurerDetail;
+  if(!map[name])return;
+  img.src='assets/'+map[name];
+  img.hidden=false;
+  const fallback=img.nextElementSibling;if(fallback)fallback.hidden=true;
+ });
+}).catch(()=>{});
 const insurerTabs=['바로가기','연락처','보험금청구','매뉴얼','모바일청약','수납(은행/카드)'];
 const logoGrid=(group='전체')=>'<div class="logo-grid">'+insurers.filter(i=>group==='전체'||i.group===group).map(i=>{const filename=insurerLogoMap[i.name];const src=filename?(/^https?:\/\//.test(filename)?filename:'assets/'+filename):'';return '<button type="button" class="logo-item" data-insurer-detail="'+esc(i.name)+'" aria-label="'+esc(i.name)+' 상세보기">'+(src?'<img src="'+src+'" alt="'+esc(i.name)+' 로고" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><strong class="logo-fallback" hidden>'+esc(i.name)+'</strong>':'<strong class="logo-fallback">'+esc(i.name)+'</strong>')+'</button>'}).join('')+'</div>';
 function closeInsurerDetail(){document.querySelector('.insurer-dialog-overlay')?.remove();document.body.style.overflow=''}
