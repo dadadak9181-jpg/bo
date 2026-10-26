@@ -3,7 +3,7 @@ $repo = 'https://github.com/gotbaragi77-dot/bo.git'
 $work = Join-Path $env:TEMP ('instory-logos-' + [guid]::NewGuid().ToString('N').Substring(0,10))
 git clone --depth 1 $repo $work
 if($LASTEXITCODE -ne 0){throw 'Git clone failed'}
-$manifest = @(Get-Content (Join-Path $work 'assets\insurer-logo-sources.json') -Raw -Encoding UTF8 | ConvertFrom-Json)
+$manifest = @(ConvertFrom-Json -InputObject (Get-Content (Join-Path $work 'assets\insurer-logo-sources.json') -Raw -Encoding UTF8) | ForEach-Object { $_ })
 if($manifest.Count -ne 44){throw "Expected 44 images, got $($manifest.Count)"}
 $target = Join-Path $work 'assets\insurers-original'
 New-Item -ItemType Directory -Path $target -Force | Out-Null
