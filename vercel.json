@@ -2,11 +2,5 @@
   "version": 2,
   "framework": null,
   "buildCommand": "echo Static site ready",
-  "outputDirectory": ".",
-  "rewrites": [
-    {
-      "source": "/((?!assets/|favicon.ico$|robots.txt$|sitemap.xml$).*)",
-      "destination": "/index.html"
-    }
-  ]
+  "outputDirectory": "."
 }
