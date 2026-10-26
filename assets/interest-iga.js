@@ -42,7 +42,7 @@ function calc(){
 }
 window.instoryInterestPage=()=>`<div class="page-head" data-hero="interest"><div class="shell"><div class="crumb">HOME / 이자 계산기</div><h1>이자 계산기</h1><p>월납 비과세 금융 플랜의 만기 환급액과 일반과세 이자 수익을 비교하세요.</p></div></div>
 <main class="shell content iga-proposal" id="instory-proposal">
-<div class="iga-header"><div><span class="iga-eyebrow">FINANCIAL COMPARISON</span><h2>고객 맞춤 비과세 금융 제안서</h2><p>이자소득세(15.4%) 전액 면제 혜택에 따른 실질 체감 세전 환산 수익률 정밀 리포트</p></div><button class="iga-print" type="button" id="iga-print">인쇄 / PDF 저장 <span aria-hidden="true">↗</span></button></div>
+<div class="iga-header"><div><h2>고객 맞춤 비과세 금융 제안서</h2><p style="color:#777">이자소득세(15.4%) 전액 면제 혜택에 따른 실질 체감 세전 환산 수익률 정밀 리포트</p></div><button class="iga-print" type="button" id="iga-print">인쇄 / PDF 저장 <span aria-hidden="true">↗</span></button></div>
 <div class="iga-layout"><section class="iga-input-panel"><h3>계산 조건 <small>필수 입력</small></h3>
 <label for="iga-monthly">매월 납입액</label><div class="iga-control"><input id="iga-monthly" type="text" inputmode="numeric" value="500,000"><span>원</span></div>
 <div class="iga-fields"><div><label for="iga-pay-years">납입 기간</label><div class="iga-control"><input id="iga-pay-years" type="number" min="1" max="50" step="1" value="5"><span>년</span></div></div><div><label for="iga-defer-years">거치 기간</label><div class="iga-control"><input id="iga-defer-years" type="number" min="0" max="50" step="1" value="5"><span>년</span></div></div></div>
