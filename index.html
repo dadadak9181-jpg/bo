@@ -917,21 +917,21 @@ background-repeat:no-repeat!important;
 .logo-grid button.logo-item{appearance:none;font:inherit;cursor:pointer;width:100%;background:#fff}
 .insurer-dialog-overlay{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.48);display:flex;justify-content:center;align-items:center;padding:25px}
 .insurer-dialog{width:min(930px,100%);max-height:min(90vh,900px);background:#fff;display:flex;flex-direction:column;border-radius:8px;box-shadow:0 18px 70px rgba(0,0,0,.15);overflow:hidden;color:#333;font-family:Pretendard,"Pretendard Variable",sans-serif}
-.insurer-dialog-header{position:relative;display:flex;align-items:center;justify-content:space-between;gap:25px;padding:27px 34px 22px;border-bottom:1px solid #e8e8e8}
+.insurer-dialog-header{position:relative;display:flex;align-items:center;justify-content:space-between;gap:25px;padding:27px 34px 22px;border-bottom:0}
 .insurer-dialog-kicker{font-size:11px;color:#888;letter-spacing:.04em}
 .insurer-dialog-header h2{font-size:23px;margin:5px 0 0;font-weight:700;color:#222}
-.insurer-dialog-header>img{max-height:35px;max-width:160px;object-fit:contain;margin-left:auto;margin-right:44px}
+
 .insurer-dialog-close{position:absolute;right:27px;top:22px;border:0;background:transparent;color:#777;font-size:26px;font-weight:300;cursor:pointer}
-.insurer-dialog-tabs{display:flex;overflow-x:auto;flex:none;border-bottom:1px solid #ddd;padding:0 26px;gap:7px}
+.insurer-dialog-tabs{display:flex;overflow-x:auto;flex:none;border-top:1px solid #e8e8e8;border-bottom:1px solid #ddd;margin:0 34px;padding:0;gap:7px}
 .insurer-dialog-tabs button{border:0;background:transparent;color:#777;white-space:nowrap;padding:16px 11px 14px;border-bottom:2px solid transparent;cursor:pointer;font:inherit;font-size:13px;font-weight:500}
 .insurer-dialog-tabs button.active{color:#222;font-weight:700;border-bottom-color:#333}
 .insurer-dialog-body{padding:30px 34px;overflow:auto;flex:1;min-height:180px}
 .insurer-dialog-note{color:#888;font-size:13px;line-height:1.8}
-.insurer-dialog-footer{border-top:1px solid #ececec;display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:16px 34px}
+.insurer-dialog-footer{border-top:1px solid #ececec;display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:16px 0;margin:0 34px}
 .insurer-dialog-footer a,.insurer-dialog-footer button{border:1px solid #ddd;border-radius:4px;background:#fff;color:#555;padding:9px 14px;font-size:12px;text-decoration:none;cursor:pointer}
 .insurer-dialog-footer a{margin-right:auto}
 .insurer-dialog-footer button:last-child{background:#333;border-color:#333;color:#fff}
-@media(max-width:600px){.insurer-dialog-overlay{padding:10px}.insurer-dialog-header{padding:22px 20px}.insurer-dialog-header h2{font-size:20px}.insurer-dialog-tabs{padding:0 10px}.insurer-dialog-body{padding:20px}.insurer-dialog-footer{padding:12px 18px}}
+@media(max-width:600px){.insurer-dialog-overlay{padding:10px}.insurer-dialog-header{padding:22px 20px}.insurer-dialog-header h2{font-size:20px}.insurer-dialog-tabs{margin:0 20px;padding:0}.insurer-dialog-body{padding:20px}.insurer-dialog-footer{margin:0 20px;padding:12px 0}}
 
 /* Insurance-detail content: understated editorial cards with neutral borders */
 .insurer-dialog-body .tab-pane{display:block!important}
@@ -980,7 +980,7 @@ function showInsurerDetail(name,tab=0){
  const ins=insurers.find(x=>x.name===name);if(!ins)return;
  let overlay=document.querySelector('.insurer-dialog-overlay');
  if(!overlay){overlay=document.createElement('div');overlay.className='insurer-dialog-overlay';document.body.appendChild(overlay)}
- const src=insurerLogoMap[name],logo=src?'<img src="'+esc(/^https?:\/\//.test(src)?src:'assets/'+src)+'" alt="'+esc(name)+' 로고">':'';
+ const logo='';
  const source=window.instoryInsurerDetails&&window.instoryInsurerDetails[name];
  const detail=source&&source.tabs&&source.tabs[insurerTabs[tab]];
  const content=detail?detail:'<p class="insurer-dialog-note">해당 항목의 원본 상세정보를 준비 중입니다. 확인된 공식 사이트를 이용해 주세요.</p>';
