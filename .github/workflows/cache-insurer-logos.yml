@@ -1,0 +1,27 @@
+name: Cache insurer logos
+on:
+  push:
+    paths:
+      - .github/workflows/cache-insurer-logos.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  logos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download insurer logo files
+        run: python scripts/cache-insurer-logos.py || true
+      - name: Commit downloaded logo assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/insurers/captured assets/insurer-logo-map.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Cache locally hosted insurer logos"
+            git push
+          fi
