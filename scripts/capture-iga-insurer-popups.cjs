@@ -1,68 +1,81 @@
-// Run locally: node scripts/capture-iga-insurer-popups.cjs
-// Requires: npm install playwright && npx playwright install chromium
+// Crawl IGA insurance cards, detailed modals, tab contents and Kakao share controls.
 const { chromium } = require('playwright');
-const fs=require('fs'),path=require('path');
-const root=path.resolve(process.cwd(),'analysis','iga-insurer-popups');
+const fs = require('fs'), path = require('path');
+const root = path.resolve('analysis','iga-insurer-popups');
 fs.mkdirSync(root,{recursive:true});
-const out={source:'https://iga.pe.kr/index.php',capturedAt:new Date().toISOString(),companies:[],errors:[]};
-const tabs=['바로가기','연락처','보험금청구','매뉴얼','모바일청약','수납'];
-function safe(s){return String(s).replace(/[\\/:*?"<>|]/g,'_').slice(0,75)}
-async function save(){fs.writeFileSync(path.join(root,'insurer-popups.json'),JSON.stringify(out,null,2),'utf8')}
+const result = {source:'https://iga.pe.kr/index.php',capturedAt:new Date().toISOString(),companies:[],errors:[]};
+const save = () => fs.writeFileSync(path.join(root,'insurer-popups.json'),JSON.stringify(result,null,2),'utf8');
+const safe = s => String(s||'unknown').replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,70);
+const tabs = ['바로가기','연락처','보험금청구','매뉴얼','모바일청약','수납(은행/카드)'];
+async function snapshot(page,folder,name) {
+ const data=await page.evaluate(()=>{
+  const nodes=[...document.querySelectorAll('[role="dialog"],.modal,[class*="modal"],[class*="popup"],[id*="modal"],[id*="popup"]')].filter(x=>{const r=x.getBoundingClientRect(),s=getComputedStyle(x);return r.width>400&&r.height>180&&s.display!=='none'&&s.visibility!=='hidden'});
+  const el=nodes.sort((a,b)=>a.getBoundingClientRect().width*a.getBoundingClientRect().height-b.getBoundingClientRect().width*b.getBoundingClientRect().height)[0]||document.body;
+  return {text:el.innerText,html:el.outerHTML,links:[...el.querySelectorAll('a[href]')].map(x=>({text:x.innerText,url:x.href})),images:[...el.querySelectorAll('img')].map(x=>({alt:x.alt,url:x.src})),tables:[...el.querySelectorAll('table')].map(t=>[...t.rows].map(r=>[...r.cells].map(c=>c.innerText))),buttons:[...el.querySelectorAll('button,[role="tab"],[onclick]')].map(x=>({text:x.innerText.trim(),html:x.outerHTML.slice(0,450)})),kakao:[...el.querySelectorAll('button,a,[onclick]')].filter(x=>/kakao|카카오|카톡/i.test(x.innerText+' '+x.outerHTML.slice(0,350))).map(x=>({text:x.innerText,html:x.outerHTML.slice(0,700)}))};
+ });
+ const prefix=path.join(folder,safe(name));
+ fs.writeFileSync(prefix+'.json',JSON.stringify(data,null,2),'utf8');
+ fs.writeFileSync(prefix+'.html',data.html,'utf8');
+ await page.screenshot({path:prefix+'.png'}).catch(()=>{});
+ return data;
+}
 (async()=>{
  const browser=await chromium.launch({headless:false});
- const page=await browser.newPage({viewport:{width:1440,height:1000},acceptDownloads:true});
- try{
-  await page.goto(out.source,{waitUntil:'domcontentloaded',timeout:60000});
-  await page.waitForTimeout(2000);
-  // Save a complete DOM snapshot to identify the site's real insurance-card markup.
-  fs.writeFileSync(path.join(root,'homepage.html'),await page.content(),'utf8');
-  await page.screenshot({path:path.join(root,'homepage.png'),fullPage:true}).catch(()=>{});
-  const candidates=await page.locator('img').evaluateAll(imgs=>imgs.map((img,i)=>{
-    const parent=img.closest('a,button,[onclick],[data-bs-toggle],[data-toggle]')||img.parentElement;
-    const box=img.getBoundingClientRect();
-    return {i,alt:img.alt||'',src:img.currentSrc||img.src||'',text:(parent?.textContent||'').trim().slice(0,100),
-      parentHTML:parent?.outerHTML.slice(0,1000)||'',clickable:!!img.closest('a,button,[onclick],[data-bs-toggle],[data-toggle]'),
-      w:box.width,h:box.height};
-  }).filter(x=>x.w>35&&x.w<320&&x.h>12&&x.h<160&&x.clickable&&!(/^(로고|logo)$/i.test(x.alt.trim()))));
-  fs.writeFileSync(path.join(root,'image-candidates.json'),JSON.stringify(candidates,null,2));
-  const seen=new Set();
-  for(const candidate of candidates){
-    const key=candidate.alt||candidate.src;if(seen.has(key))continue;seen.add(key);
-    try{
-      const img=page.locator('img').nth(candidate.i);if(!await img.isVisible())continue;
-      await img.scrollIntoViewIfNeeded();
-      const clicker=img.locator('xpath=ancestor::*[self::a or self::button or @onclick or @data-bs-toggle or @data-toggle][1]');
-      if(await clicker.count())await clicker.click({timeout:5000});
-      else continue;
-      await page.waitForTimeout(500);
-      const dialog=page.locator('[role="dialog"]:visible,.modal:visible,[class*="modal"]:visible,[class*="popup"]:visible,[id*="popup"]:visible,[id*="modal"]:visible').last();
-      if(!await dialog.isVisible().catch(()=>false)){out.errors.push({candidate: candidate.alt||candidate.src,notice:'Clicked but no recognized dialog',url:page.url()});continue;}
-      const name=(await dialog.locator('h1,h2,h3').first().innerText().catch(()=>''))||candidate.alt||'company-'+candidate.i;
-      const entry={name,logoCandidate:candidate,tabs:{}};
-      const folder=path.join(root,safe(name));fs.mkdirSync(folder,{recursive:true});
-      for(const label of tabs){
-        const button=dialog.getByText(label,{exact:true}).first();
-        if(!await button.isVisible().catch(()=>false))continue;
-        await button.click().catch(()=>{});
-        await page.waitForTimeout(300);
-        entry.tabs[label]=await dialog.evaluate(el=>({
-          text:el.innerText,
-          html:el.outerHTML,
-          links:Array.from(el.querySelectorAll('a[href]')).map(a=>({text:a.innerText,href:a.href})),
-          images:Array.from(el.querySelectorAll('img')).map(a=>({alt:a.alt,src:a.currentSrc||a.src})),
-          tables:Array.from(el.querySelectorAll('table')).map(t=>Array.from(t.rows).map(r=>Array.from(r.cells).map(c=>c.innerText)))
-        }));
-        await dialog.screenshot({path:path.join(folder,safe(label)+'.png')}).catch(()=>{});
-        fs.writeFileSync(path.join(folder,safe(label)+'.html'),entry.tabs[label].html,'utf8');
+ const page=await browser.newPage({viewport:{width:1450,height:980},acceptDownloads:true});
+ try {
+  await page.goto(result.source,{waitUntil:'domcontentloaded',timeout:60000});
+  await page.waitForTimeout(1200);
+  fs.writeFileSync(path.join(root,'homepage.html'),await page.content());
+  const buttons=page.getByText('상세보기',{exact:true});
+  const count=await buttons.count();
+  console.log('Found insurer detail buttons:',count);
+  for(let i=0;i<count;i++){
+   const company={index:i,name:'',tabs:{},errors:[]};
+   try{
+    const btn=page.getByText('상세보기',{exact:true}).nth(i);
+    const card=await btn.evaluate(e=>{const c=e.closest('article,li,[class*="card"],[class*="item"]')||e.parentElement?.parentElement;return {text:c?.innerText||'',images:[...(c?.querySelectorAll('img')||[])].map(x=>({alt:x.alt,src:x.src}))}});
+    company.name=card.text.replace(/상세보기/g,'').trim().slice(0,75)||'company-'+i;
+    company.card=card;
+    const folder=path.join(root,String(i+1).padStart(2,'0')+'-'+safe(company.name));
+    fs.mkdirSync(folder,{recursive:true});
+    await btn.scrollIntoViewIfNeeded();await btn.click({timeout:6500});await page.waitForTimeout(350);
+    company.initial=await snapshot(page,folder,'opened');
+    for(let t=0;t<tabs.length;t++){
+     const label=tabs[t],main=page.getByText(label,{exact:true}).filter({visible:true}).last();
+     try{
+      if(!(await main.count()))continue;
+      await main.click({timeout:3000});await page.waitForTimeout(180);
+      const tabFolder=path.join(folder,'tab-'+(t+1));fs.mkdirSync(tabFolder,{recursive:true});
+      const parent=await snapshot(page,tabFolder,'main');
+      company.tabs[label]={main:parent,nested:{}};
+      // Record all tab-like controls and click previously unseen secondary labels.
+      const subtabs=parent.buttons.filter(x=>x.text&&x.text.length<48&&!tabs.includes(x.text)&&!/^(닫기|×|카톡 공유|상세보기)$/i.test(x.text));
+      const seen=new Set();
+      for(const sub of subtabs.slice(0,25)){
+       if(seen.has(sub.text))continue;seen.add(sub.text);
+       const control=page.getByText(sub.text,{exact:true}).filter({visible:true}).last();
+       try{
+        if(!(await control.count()))continue;
+        const tag=await control.evaluate(el=>el.tagName.toLowerCase());
+        if(!['button','a'].includes(tag))continue;
+        // Do not follow external links or activate destructive operations.
+        const href=await control.getAttribute('href');
+        if(href&&/^https?:/i.test(href))continue;
+        if(/삭제|등록|저장|다운로드|공유|복사|출력|인쇄/.test(sub.text))continue;
+        await control.click({timeout:1200});await page.waitForTimeout(120);
+        company.tabs[label].nested[sub.text]=await snapshot(page,tabFolder,'sub-'+sub.text);
+       }catch(e){company.errors.push({tab:label,sub:sub.text,error:String(e).slice(0,180)})}
       }
-      if(Object.keys(entry.tabs).length)out.companies.push(entry);
-      const close=dialog.locator('button[aria-label*=닫],button:has-text("닫기"),button:has-text("×")').first();
-      if(await close.count())await close.click().catch(()=>page.keyboard.press('Escape'));
-      else await page.keyboard.press('Escape');
-      await page.waitForTimeout(150);
-      await save();
-    }catch(e){out.errors.push({candidate,error:String(e).slice(0,400)});await page.keyboard.press('Escape').catch(()=>{})}
+     }catch(e){company.errors.push({tab:label,error:String(e).slice(0,250)})}
+    }
+    result.companies.push(company);
+    await page.keyboard.press('Escape').catch(()=>{});
+    const close=page.getByText('닫기',{exact:true}).filter({visible:true}).last();
+    if(await close.count())await close.click({timeout:1200}).catch(()=>{});
+    save();console.log(i+1+'/'+count,company.name,Object.keys(company.tabs).length,'tabs');
+   }catch(e){result.errors.push({index:i,error:String(e).slice(0,500)});await page.keyboard.press('Escape').catch(()=>{});save()}
   }
- }catch(e){out.errors.push({fatal:String(e)})}finally{await save();await browser.close()}
- console.log('Captured',out.companies.length,'insurer dialogs;',out.errors.length,'errors; output:',root);console.log('Diagnostics: homepage.html, homepage.png, image-candidates.json')
+ }catch(e){result.errors.push({fatal:String(e)})}
+ finally{save();await browser.close()}
+ console.log('Captured',result.companies.length,'companies,',result.errors.length,'errors. Saved to:',root);
 })().catch(e=>{console.error(e);process.exitCode=1});
