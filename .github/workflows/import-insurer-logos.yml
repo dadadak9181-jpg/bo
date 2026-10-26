@@ -1,0 +1,29 @@
+name: Import original insurer logos
+on:
+  push:
+    paths:
+      - 'assets/insurer-logo-sources.json'
+      - 'scripts/download-insurer-originals.cjs'
+      - '.github/workflows/import-insurer-logos.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Download originals
+        run: node scripts/download-insurer-originals.cjs
+      - name: Commit downloaded originals
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/insurers-original
+          git diff --cached --quiet || (git commit -m "Import 44 original insurer logo files" && git push)
