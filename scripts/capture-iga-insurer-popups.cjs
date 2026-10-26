@@ -26,9 +26,11 @@ async function snapshot(page,folder,name) {
   await page.goto(result.source,{waitUntil:'domcontentloaded',timeout:60000});
   await page.waitForTimeout(1200);
   fs.writeFileSync(path.join(root,'homepage.html'),await page.content());
+  await page.screenshot({path:path.join(root,'before-detail-click.png'),fullPage:true}).catch(()=>{});
   const buttons=page.getByText('상세보기',{exact:true});
   const count=await buttons.count();
   console.log('Found insurer detail buttons:',count);
+  fs.writeFileSync(path.join(root,'detail-buttons.json'),JSON.stringify(await buttons.evaluateAll(els=>els.slice(0,50).map(e=>({html:e.outerHTML.slice(0,1000),parent:e.parentElement?.outerHTML.slice(0,1300)}))),null,2),'utf8');
   for(let i=0;i<count;i++){
    const company={index:i,name:'',tabs:{},errors:[]};
    try{
@@ -38,7 +40,27 @@ async function snapshot(page,folder,name) {
     company.card=card;
     const folder=path.join(root,String(i+1).padStart(2,'0')+'-'+safe(company.name));
     fs.mkdirSync(folder,{recursive:true});
-    await btn.scrollIntoViewIfNeeded();await btn.click({timeout:6500});await page.waitForTimeout(350);
+    // IGA uses nested text and delegated click handlers. Trigger the nearest actionable ancestor
+    // directly in the page to avoid Playwright repeatedly scrolling the document.
+    await btn.evaluate(el=>{
+      const target=el.closest('button,a,[role="button"],[onclick]')||
+                   el.parentElement?.closest('button,a,[role="button"],[onclick]')||
+                   el;
+      target.click();
+    });
+    await page.waitForTimeout(650);
+    const isOpen=await page.evaluate(()=>{
+      const share=[...document.querySelectorAll('button,a,[role="button"]')].some(x=>/카톡\\s*공유/.test(x.innerText||'')&&x.getBoundingClientRect().width>0);
+      const tabs=[...document.querySelectorAll('button,[role="tab"]')].filter(x=>/^(바로가기|연락처|보험금청구|매뉴얼|모바일청약)/.test((x.innerText||'').trim())&&x.getBoundingClientRect().width>0);
+      return share&&tabs.length>=3;
+    });
+    if(!isOpen){
+      await page.screenshot({path:path.join(root,'failed-detail-click.png'),fullPage:true}).catch(()=>{});
+      result.errors.push({index:i,reason:'Detail button did not open insurer modal',buttonHTML:await btn.evaluate(e=>e.outerHTML.slice(0,1100)),url:page.url()});
+      save();
+      console.log('STOP: detail click did not open modal; saved failed-detail-click.png');
+      break;
+    }
     company.initial=await snapshot(page,folder,'opened');
     for(let t=0;t<tabs.length;t++){
      const label=tabs[t],main=page.getByText(label,{exact:true}).filter({visible:true}).last();
