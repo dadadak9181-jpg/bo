@@ -997,23 +997,8 @@ if(window.instoryInsurerDetails){
  entries.forEach(([name,d])=>{if(d.logo&&!insurerLogoMap[name])insurerLogoMap[name]=d.logo});
 }
 
-
-// Prefer the original insurer logo files once cached in this site's own assets.
-fetch('assets/insurer-logo-map.json').then(r=>r.ok?r.json():null).then(map=>{
- if(!map)return;
- Object.assign(insurerLogoMap,map);
- const cards=document.querySelectorAll('[data-insurer-detail] img');
- cards.forEach(img=>{
-  const name=img.closest('[data-insurer-detail]')?.dataset.insurerDetail;
-  if(!map[name])return;
-  img.src='assets/'+map[name];
-  img.hidden=false;
-  const fallback=img.nextElementSibling;if(fallback)fallback.hidden=true;
- });
-}).catch(()=>{});
-const insurerOriginalLogoMap={"메리츠화재":"insurers-original/01.jpg","삼성화재":"insurers-original/02.png","KB손해보험":"insurers-original/03.png","현대해상":"insurers-original/04.png","DB손해보험":"insurers-original/05.png","한화손해보험":"insurers-original/06.jpg","NH농협손해보험":"insurers-original/07.png","흥국화재":"insurers-original/08.png","하나손해보험":"insurers-original/09.png","롯데손해보험":"insurers-original/10.png","AIG손해보험":"insurers-original/11.jpg","라이나손해보험":"insurers-original/12.png","신한EZ손해보험":"insurers-original/13.jpg","YBI예별손해보험":"insurers-original/14.jpg","카카오페이손해보험":"insurers-original/15.png","AXA손해보험":"insurers-original/16.png","마이브라운":"insurers-original/17.jpg","삼성생명":"insurers-original/18.png","동양생명":"insurers-original/19.png","한화생명":"insurers-original/20.jpg","DB생명":"insurers-original/21.png","흥국생명":"insurers-original/22.png","NH농협생명":"insurers-original/23.png","KB라이프생명":"insurers-original/24.png","하나생명":"insurers-original/25.png","라이나생명":"insurers-original/26.jpg","미래에셋생명":"insurers-original/27.png","처브라이프생명":"insurers-original/28.jpg","메트라이프생명":"insurers-original/29.png","신한라이프생명":"insurers-original/30.jpg","ABL생명":"insurers-original/31.png","교보생명":"insurers-original/32.png","iM라이프생명":"insurers-original/33.jpg","푸본현대생명":"insurers-original/34.png","KDB생명":"insurers-original/35.png","BNP파리바카디프생명":"insurers-original/36.png","IBK연금보험":"insurers-original/37.png","AIA생명":"insurers-original/38.png","교보라이프플래닛생명":"insurers-original/39.png","우체국공제보험":"insurers-original/40.svg","SH수협공제보험":"insurers-original/41.png","신협공제보험":"insurers-original/42.png","MG새마을금고공제보험":"insurers-original/43.png","한국교직원공제회":"insurers-original/44.png"};
 const insurerTabs=['바로가기','연락처','보험금청구','매뉴얼','모바일청약','수납(은행/카드)'];
-const logoGrid=(group='전체')=>'<div class="logo-grid">'+insurers.filter(i=>group==='전체'||i.group===group).map(i=>{const file=insurerLogoMap[i.name];const original=insurerOriginalLogoMap[i.name];const src=original?'assets/'+original:(file?(/^https?:\\/\\//.test(file)?file:'assets/'+file):'');const backup=window.instoryInsurerDetails?.[i.name]?.logo||'';return '<button type="button" class="logo-item" data-insurer-detail="'+esc(i.name)+'" aria-label="'+esc(i.name)+' 상세보기">'+(src?'<img src="'+esc(src)+'" data-backup="'+esc(backup)+'" alt="'+esc(i.name)+' 로고" loading="lazy" onerror="if(this.dataset.backup&&this.src!==this.dataset.backup){this.src=this.dataset.backup;this.dataset.backup=\'\'}else{this.hidden=true;this.nextElementSibling.hidden=false}"><strong class="logo-fallback" hidden>'+esc(i.name)+'</strong>':'<strong class="logo-fallback">'+esc(i.name)+'</strong>')+'</button>'}).join('')+'</div>';
+const logoGrid=(group='전체')=>'<div class="logo-grid">'+insurers.filter(i=>group==='전체'||i.group===group).map(i=>{const filename=insurerLogoMap[i.name];const src=filename?(/^https?:\/\//.test(filename)?filename:'assets/'+filename):'';return '<button type="button" class="logo-item" data-insurer-detail="'+esc(i.name)+'" aria-label="'+esc(i.name)+' 상세보기">'+(src?'<img src="'+src+'" alt="'+esc(i.name)+' 로고" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><strong class="logo-fallback" hidden>'+esc(i.name)+'</strong>':'<strong class="logo-fallback">'+esc(i.name)+'</strong>')+'</button>'}).join('')+'</div>';
 function closeInsurerDetail(){document.querySelector('.insurer-dialog-overlay')?.remove();document.body.style.overflow=''}
 function showInsurerDetail(name,tab=0){
  const ins=insurers.find(x=>x.name===name);if(!ins)return;
