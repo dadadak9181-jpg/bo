@@ -49,18 +49,15 @@ async function snapshot(page,folder,name) {
       target.click();
     });
     await page.waitForTimeout(650);
-    const isOpen=await page.evaluate(()=>{
-      const share=[...document.querySelectorAll('button,a,[role="button"]')].some(x=>/카톡\\s*공유/.test(x.innerText||'')&&x.getBoundingClientRect().width>0);
-      const tabs=[...document.querySelectorAll('button,[role="tab"]')].filter(x=>/^(바로가기|연락처|보험금청구|매뉴얼|모바일청약)/.test((x.innerText||'').trim())&&x.getBoundingClientRect().width>0);
-      return share&&tabs.length>=3;
-    });
-    if(!isOpen){
-      await page.screenshot({path:path.join(root,'failed-detail-click.png'),fullPage:true}).catch(()=>{});
-      result.errors.push({index:i,reason:'Detail button did not open insurer modal',buttonHTML:await btn.evaluate(e=>e.outerHTML.slice(0,1100)),url:page.url()});
-      save();
-      console.log('STOP: detail click did not open modal; saved failed-detail-click.png');
-      break;
-    }
+    // Preserve the page after clicking. The original UI may use non-button tab elements,
+    // so missing a selector must not make us assume that the popup failed.
+    await page.screenshot({path:path.join(folder,'after-click.png'),fullPage:true}).catch(()=>{});
+    fs.writeFileSync(path.join(folder,'after-click.html'),await page.content(),'utf8');
+    const popupIndicators=await page.evaluate(()=>({
+      tabs:[...document.querySelectorAll('button,a,[role="tab"],div,span')].filter(x=>x.children.length===0&&/^(바로가기|연락처|보험금청구|매뉴얼|모바일청약|수납\(은행\/카드\))$/.test((x.textContent||'').trim())&&x.getBoundingClientRect().width>0).length,
+      close:[...document.querySelectorAll('button')].filter(x=>/닫기|×/.test((x.innerText||'').trim())&&x.getBoundingClientRect().width>0).length
+    }));
+    console.log('Detail click inspection:',company.name,JSON.stringify(popupIndicators));
     company.initial=await snapshot(page,folder,'opened');
     for(let t=0;t<tabs.length;t++){
      const label=tabs[t],main=page.getByText(label,{exact:true}).filter({visible:true}).last();
@@ -98,6 +95,6 @@ async function snapshot(page,folder,name) {
    }catch(e){result.errors.push({index:i,error:String(e).slice(0,500)});await page.keyboard.press('Escape').catch(()=>{});save()}
   }
  }catch(e){result.errors.push({fatal:String(e)})}
- finally{save();await browser.close()}
+ finally{save();await page.waitForTimeout(4000).catch(()=>{});await browser.close()}
  console.log('Captured',result.companies.length,'companies,',result.errors.length,'errors. Saved to:',root);
 })().catch(e=>{console.error(e);process.exitCode=1});
