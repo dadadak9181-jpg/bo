@@ -3,11 +3,10 @@ $repo = 'https://github.com/gotbaragi77-dot/bo.git'
 $work = Join-Path $env:TEMP ('instory-logos-' + [guid]::NewGuid().ToString('N').Substring(0,10))
 git clone --depth 1 $repo $work
 if($LASTEXITCODE -ne 0){throw 'Git clone failed'}
-$raw = Get-Content (Join-Path $work 'assets\insurer-logo-sources.json') -Raw -Encoding UTF8
-$manifest = ConvertFrom-Json -InputObject $raw
-while (@($manifest).Count -eq 1 -and $manifest[0] -is [array]) { $manifest = $manifest[0] }
-$items = @($manifest)
-if($items.Count -eq 1 -and $items[0] -is [array]) { $items = $items[0] }
+$manifestPath = Join-Path $work 'assets\insurer-logo-sources.json'
+$lines = & node -e "const d=require(process.argv[1]);for(const item of d)console.log(JSON.stringify(item))" $manifestPath
+if($LASTEXITCODE -ne 0){throw 'Node failed to parse logo manifest'}
+$items = @($lines | ForEach-Object { $_ | ConvertFrom-Json })
 Write-Host "Parsed logo entries: $($items.Count)"
 if($items.Count -ne 44){ throw "Expected 44 images, got $($items.Count)" }
 $target = Join-Path $work 'assets\insurers-original'
