@@ -14,17 +14,29 @@ async function save(){fs.writeFileSync(path.join(root,'insurer-popups.json'),JSO
  try{
   await page.goto(out.source,{waitUntil:'domcontentloaded',timeout:60000});
   await page.waitForTimeout(2000);
-  const candidates=await page.locator('img').evaluateAll(imgs=>imgs.map((img,i)=>({i,alt:img.alt||'',src:img.currentSrc||img.src||'',text:(img.closest('a,button')?.textContent||'').trim(),w:img.getBoundingClientRect().width,h:img.getBoundingClientRect().height})).filter(x=>x.w>35&&x.w<320&&x.h>12&&x.h<160));
+  // Save a complete DOM snapshot to identify the site's real insurance-card markup.
+  fs.writeFileSync(path.join(root,'homepage.html'),await page.content(),'utf8');
+  await page.screenshot({path:path.join(root,'homepage.png'),fullPage:true}).catch(()=>{});
+  const candidates=await page.locator('img').evaluateAll(imgs=>imgs.map((img,i)=>{
+    const parent=img.closest('a,button,[onclick],[data-bs-toggle],[data-toggle]')||img.parentElement;
+    const box=img.getBoundingClientRect();
+    return {i,alt:img.alt||'',src:img.currentSrc||img.src||'',text:(parent?.textContent||'').trim().slice(0,100),
+      parentHTML:parent?.outerHTML.slice(0,1000)||'',clickable:!!img.closest('a,button,[onclick],[data-bs-toggle],[data-toggle]'),
+      w:box.width,h:box.height};
+  }).filter(x=>x.w>35&&x.w<320&&x.h>12&&x.h<160&&x.clickable&&!(/^(로고|logo)$/i.test(x.alt.trim()))));
   fs.writeFileSync(path.join(root,'image-candidates.json'),JSON.stringify(candidates,null,2));
   const seen=new Set();
   for(const candidate of candidates){
     const key=candidate.alt||candidate.src;if(seen.has(key))continue;seen.add(key);
     try{
       const img=page.locator('img').nth(candidate.i);if(!await img.isVisible())continue;
-      await img.scrollIntoViewIfNeeded();await img.click({timeout:2500});
+      await img.scrollIntoViewIfNeeded();
+      const clicker=img.locator('xpath=ancestor::*[self::a or self::button or @onclick or @data-bs-toggle or @data-toggle][1]');
+      if(await clicker.count())await clicker.click({timeout:5000});
+      else continue;
       await page.waitForTimeout(500);
-      const dialog=page.locator('[role=dialog], [class*=modal]:visible, [class*=popup]:visible').last();
-      if(!await dialog.isVisible().catch(()=>false))continue;
+      const dialog=page.locator('[role="dialog"]:visible,.modal:visible,[class*="modal"]:visible,[class*="popup"]:visible,[id*="popup"]:visible,[id*="modal"]:visible').last();
+      if(!await dialog.isVisible().catch(()=>false)){out.errors.push({candidate: candidate.alt||candidate.src,notice:'Clicked but no recognized dialog',url:page.url()});continue;}
       const name=(await dialog.locator('h1,h2,h3').first().innerText().catch(()=>''))||candidate.alt||'company-'+candidate.i;
       const entry={name,logoCandidate:candidate,tabs:{}};
       const folder=path.join(root,safe(name));fs.mkdirSync(folder,{recursive:true});
@@ -52,5 +64,5 @@ async function save(){fs.writeFileSync(path.join(root,'insurer-popups.json'),JSO
     }catch(e){out.errors.push({candidate,error:String(e).slice(0,400)});await page.keyboard.press('Escape').catch(()=>{})}
   }
  }catch(e){out.errors.push({fatal:String(e)})}finally{await save();await browser.close()}
- console.log('Captured',out.companies.length,'insurer dialogs;',out.errors.length,'errors; output:',root)
+ console.log('Captured',out.companies.length,'insurer dialogs;',out.errors.length,'errors; output:',root);console.log('Diagnostics: homepage.html, homepage.png, image-candidates.json')
 })().catch(e=>{console.error(e);process.exitCode=1});
