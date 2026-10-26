@@ -3,14 +3,19 @@ $repo = 'https://github.com/gotbaragi77-dot/bo.git'
 $work = Join-Path $env:TEMP ('instory-logos-' + [guid]::NewGuid().ToString('N').Substring(0,10))
 git clone --depth 1 $repo $work
 if($LASTEXITCODE -ne 0){throw 'Git clone failed'}
-$manifest = ConvertFrom-Json -InputObject (Get-Content (Join-Path $work 'assets\insurer-logo-sources.json') -Raw -Encoding UTF8)
-if($manifest.Count -ne 44){throw "Expected 44 images, got $($manifest.Count)"}
+$raw = Get-Content (Join-Path $work 'assets\insurer-logo-sources.json') -Raw -Encoding UTF8
+$manifest = ConvertFrom-Json -InputObject $raw
+while (@($manifest).Count -eq 1 -and $manifest[0] -is [array]) { $manifest = $manifest[0] }
+$items = @($manifest)
+if($items.Count -eq 1 -and $items[0] -is [array]) { $items = $items[0] }
+Write-Host "Parsed logo entries: $($items.Count)"
+if($items.Count -ne 44){ throw "Expected 44 images, got $($items.Count)" }
 $target = Join-Path $work 'assets\insurers-original'
 New-Item -ItemType Directory -Path $target -Force | Out-Null
 $map = [ordered]@{}
 $failed = @()
 $i = 0
-foreach($entry in $manifest){
+foreach($entry in $items){
   $i++
   $uri = [uri]$entry.url
   $ext = [System.IO.Path]::GetExtension($uri.AbsolutePath).ToLowerInvariant()
