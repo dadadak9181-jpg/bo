@@ -964,7 +964,7 @@ const systemAccessPanel=(group='손해보험')=>{
  companies.map(ins=>{
   const c=systemMatrixSupport[ins.name]||{},src=insurerLogoMap[ins.name],logo=src?'<img src="assets/'+src+'" alt="'+esc(ins.name)+' 로고" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><strong class="sys-logo-fallback" hidden>'+esc(ins.name)+'</strong>':'<strong class="sys-logo-fallback">'+esc(ins.name)+'</strong>';
   return '<tr><th scope="row"><div class="sys-insurer">'+logo+'</div></th>'+
- '<td><a class="sys-official-link" href="'+esc(ins.url)+'" target="_blank" rel="noopener noreferrer" title="'+esc(ins.name)+' 공식 웹사이트, GA전산 주소는 미확인">공식 사이트 ↗</a>'+(c.browser?'<small class="sys-browser">'+esc(c.browser)+'</small>':'')+'</td>'+
+ '<td><a class="sys-official-link" href="'+esc(ins.url)+'" target="_blank" rel="noopener noreferrer" title="'+esc(ins.name)+' 공식 웹사이트, GA전산 주소는 미확인">공식 사이트 ↗</a>''</td>'+
  '<td>'+systemMatrixCell('전용전산')+'</td><td>'+systemMatrixCell('Android',!!c.android)+'</td><td>'+systemMatrixCell('iOS',!!c.ios)+'</td>'+
  '<td>'+systemMatrixCell('태블릿')+'</td><td>'+systemMatrixCell('아이패드')+'</td><td>'+systemMatrixCell('m_WEB')+'</td></tr>'
  }).join('')+'</tbody></table></div>';
