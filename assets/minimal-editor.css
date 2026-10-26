@@ -51,4 +51,4 @@
 /* Compact bordered title field */
 .instory-write-layout #instory-doc-title{box-sizing:border-box!important;display:block!important;width:100%!important;height:50px!important;min-height:50px!important;margin:18px 0 20px!important;padding:0 15px!important;border:1px solid #e1e1e1!important;border-radius:4px!important;background:#fff!important;box-shadow:none!important;font-size:16px!important;font-weight:500!important;line-height:48px!important;letter-spacing:-.025em!important;color:#263548!important}
 .instory-write-layout #instory-doc-title::placeholder{color:#ababab!important;font-weight:400!important;opacity:1}
-.instory-write-layout #instory-doc-title:focus{outline:none!important;border-color:#7ea8db!important;box-shadow:0 0 0 2px rgba(23,97,210,.08)!important}
+.instory-write-layout #instory-doc-title:focus{outline:none!important;border-color:#a2a2a2!important;box-shadow:0 0 0 2px rgba(23,97,210,.08)!important}
