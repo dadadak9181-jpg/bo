@@ -1061,6 +1061,17 @@ function showInsurerDetail(name,tab=0){
  const detail=source&&source.tabs&&source.tabs[insurerTabs[tab]];
  const content=detail?detail:'<p class="insurer-dialog-note">해당 항목의 원본 상세정보를 준비 중입니다. 확인된 공식 사이트를 이용해 주세요.</p>';
  overlay.innerHTML='<section class="insurer-dialog" role="dialog" aria-modal="true" aria-label="'+esc(name)+' 상세보기"><header class="insurer-dialog-header"><div><span class="insurer-dialog-kicker">보험사 업무정보</span><h2>'+esc(name)+'</h2><p class="insurer-dialog-description">보험사별 주요 업무정보를 한눈에 확인할 수 있습니다.</p></div>'+logo+'<button type="button" class="insurer-dialog-close" data-insurer-close aria-label="닫기">×</button></header><nav class="insurer-dialog-tabs" aria-label="상세 정보 탭">'+insurerTabs.map((t,i)=>'<button type="button" data-insurer-tab="'+i+'" aria-selected="'+(tab===i)+'" class="'+(tab===i?'active':'')+'">'+esc(t)+'</button>').join('')+'</nav><div class="insurer-dialog-body">'+content+'</div><footer class="insurer-dialog-footer"><a href="'+esc(ins.url)+'" target="_blank" rel="noopener noreferrer">공식 사이트 <span aria-hidden="true">↗</span></a><button type="button" class="insurer-kakao-share" data-insurer-share><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.48 3 2 6.56 2 10.95c0 2.85 1.9 5.36 4.75 6.76L5.9 21l4.18-2.63c.63.1 1.27.16 1.92.16 5.52 0 10-3.56 10-7.95S17.52 3 12 3Z"/></svg>카카오톡 공유</button><button type="button" data-insurer-close>닫기</button></footer></section>';
+ // Force identical column geometry in every stacked claim information table.
+ overlay.querySelectorAll('.insurer-dialog-body table.new-info-table').forEach(table=>{
+   const rows=[...table.querySelectorAll('tr')].filter(row=>row.querySelector('th')&&row.querySelector('td'));
+   if(!rows.length)return;
+   const existing=table.querySelector('colgroup');if(existing)existing.remove();
+   const cg=document.createElement('colgroup');
+   const labelCol=document.createElement('col');labelCol.style.width='30%';
+   const valueCol=document.createElement('col');valueCol.style.width='70%';
+   cg.append(labelCol,valueCol);table.prepend(cg);
+   table.style.tableLayout='fixed';
+ });
  overlay.dataset.name=name;document.body.style.overflow='hidden';
 }
 document.addEventListener('click',async e=>{
