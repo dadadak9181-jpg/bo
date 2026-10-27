@@ -54,7 +54,7 @@ function setupMagazine(){
     if (!p) return;
 
     const url =
-      'https://bo-swart-eight.vercel.app/#/magazine/' +
+      'https://bo-nu-sepia.vercel.app/#/magazine/' +
       encodeURIComponent(id);
 
     window.instoryShareKakao({
