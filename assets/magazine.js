@@ -45,7 +45,26 @@ function setupMagazine(){
 
   }
   async function downloadMagazine(id){const p=capturedMagazines.find(x=>x.id===id);if(!p)return;if(p.pdf){const link=document.createElement('a');link.href=p.pdf;link.download=p.company+'_'+p.month+'.pdf';document.body.append(link);link.click();link.remove();return}alert('이 소식지의 원본 PDF 파일은 아직 등록되지 않았습니다. 원본 PDF가 등록되면 여기에서 다운로드할 수 있습니다.');}
-  async function shareMagazine(id){const p=capturedMagazines.find(x=>x.id===id);if(!p)return;const url=location.origin+location.pathname+'#/magazines?mag='+encodeURIComponent(id);const title=p.company+' · '+p.title;try{if(window.Kakao?.isInitialized?.()){window.Kakao.Share.sendDefault({objectType:'feed',content:{title,description:'INSTORY 보험 소식지',imageUrl:new URL(magazineImg(p),location.href).href,link:{mobileWebUrl:url,webUrl:url}}});return}if(navigator.share){await navigator.share({title,text:title,url});return}await navigator.clipboard.writeText(url);alert('공유 링크가 복사되었습니다. 카카오톡에 붙여넣어 공유하세요.')}catch(e){if(e.name!=='AbortError')alert('공유에 실패했습니다. 다시 시도해 주세요.')}}
+  function shareMagazine(id){
+    const p = [
+      ...capturedMagazines,
+      ...(window.instoryMagazineRecords || [])
+    ].find(x => String(x.id) === String(id));
+
+    if (!p) return;
+
+    const url =
+      'https://bo-swart-eight.vercel.app/#/magazine/' +
+      encodeURIComponent(id);
+
+    window.instoryShareKakao({
+      title: p.company + ' · ' + p.title,
+      summary: [p.month, p.company, '보험 소식지']
+        .filter(Boolean).join(' · '),
+      url
+    });
+  }
+
   function show(index){if(!visible.length)return;current=(index+visible.length)%visible.length;const p=visible[current];document.getElementById('mag-large').src=magazineImg(p);document.getElementById('mag-large').alt=p.company+' '+p.title+' 표지';document.getElementById('mag-caption').textContent=p.company+' · '+p.title+(p.complete?'':' · 표지 일부만 확보');overlay.hidden=false;document.body.style.overflow='hidden';document.getElementById('mag-close').focus()}
   function close(){overlay.hidden=true;document.body.style.overflow='';if(lastFocused?.isConnected)lastFocused.focus()}
   document.getElementById('mag-pagination').addEventListener('click',e=>{const b=e.target.closest('[data-mag-page]');if(!b)return;magPage=Number(b.dataset.magPage);update()});search.addEventListener('input',()=>{magPage=1;update()});groups.addEventListener('click',e=>{const btn=e.target.closest('[data-group]');if(!btn)return;group=btn.dataset.group;magPage=1;groups.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===btn));update()});
