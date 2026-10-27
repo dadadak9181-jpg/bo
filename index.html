@@ -1568,43 +1568,62 @@ updateTopVisibility();
 
 window.instoryShareKakao = function(data) {
   const sdk = window.Kakao;
-  const key = String(window.INSTORY_KAKAO_JAVASCRIPT_KEY || '').trim();
+  const key = String(
+    window.INSTORY_KAKAO_JAVASCRIPT_KEY || ''
+  ).trim();
+
   if (!key) {
-    alert('移댁뭅??JavaScript ?ㅺ? HTML???ㅼ젙?섏? ?딆븯?듬땲??');
+    alert('Kakao JavaScript key is missing.');
     return;
   }
-  if (!sdk) {
-    const tag = document.getElementById('instory-kakao-sdk');
-    const state = tag ? 'SDK script ?쒓렇???덉쑝???ㅽ뻾?섏? ?딆븯?듬땲?? ?ㅽ듃?뚰겕 ?먮뒗 ?ㅽ겕由쏀듃 臾닿껐??SRI) 李⑤떒???뺤씤?댁빞 ?⑸땲??' : 'SDK script ?쒓렇媛 ?놁뒿?덈떎.';
-    alert('移댁뭅??SDK 濡쒕뵫 ?ㅻ쪟\n' + state);
+
+  if (!sdk || typeof sdk.init !== 'function') {
+    alert('Kakao SDK could not be loaded.');
     return;
   }
-  if (typeof sdk.init !== 'function') {
-    alert('window.Kakao 媛앹껜媛 ?뺤떇 移댁뭅??JavaScript SDK媛 ?꾨떃?덈떎. ?ㅻⅨ ?ㅽ겕由쏀듃? ?대쫫 異⑸룎???뺤씤?댁빞 ?⑸땲??');
-    return;
-  }
-  if (!sdk.Share || typeof sdk.Share.sendDefault !== 'function') {
-    const names = Object.keys(sdk).slice(0, 16).join(', ');
-    alert('移댁뭅??SDK??濡쒕뱶?섏뿀吏留?怨듭쑀 紐⑤뱢???놁뒿?덈떎.\nSDK 紐⑤뱢: ' + names + '\n?ㅻⅨ SDK ?먮뒗 踰꾩쟾 異⑸룎???뺤씤?댁빞 ?⑸땲??');
-    return;
-  }
+
   try {
-    if (!sdk.isInitialized()) sdk.init(key);
-    const title = String(data.title || '').trim();
-    const summary = String(data.summary || '').replace(/\s+/g, ' ').trim().slice(0, 300);
-    const url = String(data.url || location.href);
-    const result = sdk.Share.sendDefault({
-      objectType: 'text',
-      text: [title, summary].filter(Boolean).join('\n\n'),
-      link: { mobileWebUrl: url, webUrl: url },
-      buttonTitle: '?곸꽭蹂닿린'
-    });
-    if (result && typeof result.catch === 'function') {
-      result.catch(function(err) { console.error('Kakao share rejected', err); alert('移댁뭅??怨듭쑀 ?ㅻ쪟: ' + (err && (err.message || err.code) || String(err))); });
+    // Initialize the SDK before checking Share.
+    if (!sdk.isInitialized()) {
+      sdk.init(key);
     }
-  } catch (err) {
-    console.error('Kakao share exception', err);
-    alert('移댁뭅??怨듭쑀 ?ㅽ뻾 ?ㅻ쪟: ' + (err && (err.message || err.code) || String(err)));
+
+    if (!sdk.Share ||
+        typeof sdk.Share.sendDefault !== 'function') {
+      alert(
+        'Kakao Share module is unavailable after initialization.' +
+        '\nSDK version: ' + sdk.VERSION +
+        '\nInitialized: ' + sdk.isInitialized()
+      );
+      return;
+    }
+
+    const title = String(data.title || '').trim();
+    const summary = String(data.summary || '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 300);
+
+    const url = String(data.url || location.href);
+
+    sdk.Share.sendDefault({
+      objectType: 'text',
+      text: [title, summary]
+        .filter(Boolean)
+        .join('\n\n'),
+      link: {
+        mobileWebUrl: url,
+        webUrl: url
+      },
+      buttonTitle: '\uC0C1\uC138\uBCF4\uAE30'
+    });
+
+  } catch (error) {
+    console.error('Kakao Share error:', error);
+    alert(
+      'Kakao Share error: ' +
+      (error?.message || String(error))
+    );
   }
 };
 </script></body></html>
