@@ -1659,7 +1659,8 @@ window.instoryShareKakao = function(data) {
   if(!section)return;
   const a=document.createElement('a');
   a.id='instory-manager-write';a.className='write-link';
-  a.href=API+'/manager';a.textContent='✎ 글쓰기';
+  const boardCategory=path==='resources'?'products':path;
+  a.href=API+'/manager?category='+encodeURIComponent(boardCategory);a.textContent='✎ 글쓰기';
   a.style.cssText='display:inline-flex;align-items:center;justify-content:center;margin:12px 0;padding:12px 20px;border-radius:4px';
   section.appendChild(a);
  }
