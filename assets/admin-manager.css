@@ -1,0 +1,62 @@
+/* INSTORY administrator styles. Modify this file in GitHub; Worker handles API/auth only. */
+/* Original style block 1 */
+*{box-sizing:border-box}body{font-family:Pretendard,system-ui,sans-serif;color:#19354b;margin:0;background:#f5f7fa}main{max-width:980px;margin:50px auto;padding:0 20px}h1{font-size:28px}p{color:#678}form,.panel{background:white;border:1px solid #dde5ed;padding:25px;border-radius:12px;margin:20px 0}label{display:block;font-size:13px;font-weight:700;margin:14px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #ced9e3;border-radius:6px;font:inherit}textarea{min-height:220px;resize:vertical}#submit,#clear,#load{border:0;border-radius:6px;background:#215a84;color:white;padding:12px 18px;font-weight:700;cursor:pointer}button:disabled{opacity:.6}.row{display:grid;grid-template-columns:1fr 1fr;gap:15px}.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.muted{color:#748493;font-size:12px}#status{font-size:13px;white-space:pre-wrap}article{border-top:1px solid #e1e9ee;padding:15px 0;display:flex;justify-content:space-between;gap:16px}article button{font-size:12px;padding:6px 11px;background:#687d8b}@media(max-width:650px){.row{grid-template-columns:1fr}}.editor-toolbar{display:flex;gap:5px;align-items:center;padding:8px;border:1px solid #ccd8e4;border-bottom:0;border-radius:7px 7px 0 0;background:#f8fafc;flex-wrap:wrap}.editor-toolbar button{padding:6px 10px;background:#fff;color:#1c405c;border:1px solid #d8e1e9;border-radius:4px;font-size:13px}.rich-editor{min-height:320px;border:1px solid #ccd8e4;border-radius:0 0 7px 7px;padding:18px;outline:none;background:#fff;line-height:1.75;overflow-wrap:anywhere}.rich-editor:empty:before{content:'본문 내용을 입력하세요';color:#91a0ae}.rich-editor img{max-width:100%}.rich-editor:focus{border-color:#3d82cc}.mag-only{display:none}#form>label,#form>.row{margin-bottom:12px}.section-title{font-size:15px;font-weight:750;margin:10px 0 18px;color:#1e425e}.admin-board-nav{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}.admin-board-nav a{background:#fff;border:1px solid #d6e2ec;color:#2b4761;border-radius:7px;padding:10px 12px;font-size:13px;font-weight:700;text-decoration:none}.admin-board-nav a.active{background:#225d88;border-color:#225d88;color:#fff}.admin-head{margin-bottom:16px}.admin-head h1{margin-bottom:6px}.admin-status{font-size:13px;color:#60768a}.admin-board-nav a:hover{border-color:#3373a3}#api-panel{display:none}
+/* INSTORY admin: neutral light gray visual system, no blue lines */
+:root{color-scheme:light}body{background:#f6f6f6!important;color:#303030!important;letter-spacing:-.025em}main{max-width:1080px;margin:40px auto}
+h1,h2,h3{color:#292929!important}p,.muted,.admin-status{color:#777!important}
+form,.panel{background:#fff!important;border:1px solid #e5e5e5!important;box-shadow:none!important;border-radius:10px!important}
+input,select,textarea{color:#333!important;border:1px solid #ddd!important;background:white!important;border-radius:6px!important}
+input:focus,select:focus,textarea:focus,.rich-editor:focus{outline:0!important;border-color:#888!important;box-shadow:0 0 0 2px #eeeeee!important}
+#submit,#clear,#load{background:#555!important;color:#fff!important;border:1px solid #555!important;border-radius:5px!important}
+#submit:hover,#clear:hover,#load:hover{background:#3d3d3d!important}button:focus-visible,a:focus-visible{outline:2px solid #999!important}
+.admin-board-nav{border-bottom:1px solid #e6e6e6;gap:0;padding-bottom:0}
+.admin-board-nav a{color:#696969!important;background:transparent!important;border:0!important;border-radius:0!important;padding:12px 15px!important}
+.admin-board-nav a.active{color:#292929!important;border-bottom:2px solid #686868!important;font-weight:800}
+.admin-board-nav a:hover{color:#222!important}
+.editor-toolbar{background:#f7f7f7!important;border:1px solid #dedede!important;border-bottom:0!important;gap:4px}
+.editor-toolbar button{background:#fff!important;color:#555!important;border:1px solid #dedede!important;padding:6px 10px!important}
+.editor-toolbar button:hover{background:#e9e9e9!important}
+.rich-editor{background:#fff;border:1px solid #dedede!important;color:#333;font-size:15px;line-height:1.8;min-height:340px}
+.rich-editor blockquote{border-left:3px solid #ddd;padding:8px 15px;background:#fafafa;margin:12px 0}
+.rich-editor img{max-width:100%;height:auto}.rich-editor a{color:#555;text-decoration:underline}
+#status{color:#555!important}
+article{border-color:#ececec!important}
+article button{background:#696969!important;border-color:#696969!important}
+.form-hint{padding:12px 14px;background:#f8f8f8;border:1px solid #ededed;border-radius:6px;color:#777;font-size:13px;line-height:1.7}.optional-note{color:#888;font-size:12px;margin:8px 0}#extra-fields[hidden],#url-field[hidden],#source-field[hidden],#image-field[hidden],#pdf-field[hidden]{display:none!important}#module-fields[hidden],#standard-fields[hidden]{display:none!important}#module-fields textarea{resize:vertical}.ql-toolbar.ql-snow{border:1px solid #dedede!important;border-radius:6px 6px 0 0!important;background:#f7f7f7!important;font-family:inherit!important}.ql-container.ql-snow{border:1px solid #dedede!important;border-top:0!important;border-radius:0 0 6px 6px!important;font-family:inherit!important;font-size:15px!important}.ql-editor{min-height:330px;line-height:1.8;color:#333}.ql-editor.ql-blank::before{color:#999;font-style:normal}.ql-toolbar button:hover,.ql-toolbar button.ql-active{background:#e9e9e9!important}.ql-snow .ql-stroke{stroke:#555!important}.ql-snow .ql-fill{fill:#555!important}.ql-snow .ql-picker{color:#555!important}.ql-editor img{max-width:100%;height:auto}.ql-editor a{color:#555}.ql-editor blockquote{border-left:3px solid #d6d6d6;background:#fafafa;padding:8px 12px}.toastui-editor-defaultUI{border:1px solid #dedede!important;border-radius:6px!important;overflow:hidden}.toastui-editor-toolbar{background:#f7f7f7!important;border-bottom:1px solid #dedede!important}.toastui-editor-contents{font-family:Pretendard,system-ui,sans-serif!important;color:#333!important}.toastui-editor-mode-switch{background:#f7f7f7!important;border-top:1px solid #e5e5e5!important}.toastui-editor-md-tab-container{background:#f7f7f7!important}.toastui-editor-ww-container{background:#fff!important}
+
+/* Keep native TOAST UI sprite on its actual toolbar buttons. */
+
+
+
+#form .actions{display:flex!important;justify-content:flex-end!important;align-items:center!important}#form #clear{display:none!important}#form label{display:block!important;margin-bottom:10px!important}#form select{appearance:none!important;-webkit-appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;background-position:right 80px center!important;background-repeat:no-repeat!important;background-size:14px 14px!important;padding-right:104px!important}/* Consistent form spacing and right-aligned submit */
+#form label{display:block!important;margin-bottom:10px!important}
+#form label>input,#form label>select,#form label>textarea{display:block!important;margin-top:10px!important}
+#form select{appearance:none!important;-webkit-appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 8px center!important;padding-right:32px!important}
+#form .actions{display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:12px!important}
+#form #clear{display:none!important}
+#form .actions #status{margin-right:auto}
+
+/* Two-column professional administration layout */
+main{max-width:1440px!important;margin:0 auto!important;padding:32px 32px 90px!important}
+.admin-layout{display:grid;grid-template-columns:244px minmax(0,1fr);gap:34px;align-items:start;margin-top:26px}
+.admin-sidebar{position:sticky;top:24px;min-height:calc(100vh - 84px);background:#293548;border:1px solid #293548;border-radius:5px;padding:24px 14px;display:flex;flex-direction:column}
+.admin-sidebar-title{padding:0 14px 20px;font-size:15px;font-weight:750;color:#fff;letter-spacing:-.025em}
+.admin-board-nav{display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;gap:3px!important;border:0!important;margin:0!important;padding:0!important}
+.admin-board-nav a{display:block!important;padding:13px 14px!important;font-size:13px!important;font-weight:500!important;line-height:1.4!important;color:#b8c2d0!important;border:0!important;border-radius:4px!important;text-align:left;text-decoration:none;transition:background .15s ease,color .15s ease}
+.admin-board-nav a.active{background:#38485f!important;border:0!important;color:#fff!important;font-weight:700!important}
+.admin-board-nav a:hover{background:#34445b!important;color:#fff!important}
+.admin-sidebar-bottom{margin-top:auto;padding:24px 14px 0;border-top:1px solid #465366}
+.admin-sidebar-bottom a{font-size:12px;color:#b8c2d0;text-decoration:none}
+.admin-workspace{min-width:0}.admin-workspace form,.admin-workspace .panel{margin:0 0 24px}.admin-workspace form{padding:32px!important}.admin-workspace .panel{padding:26px!important}
+@media(max-width:900px){main{padding:24px 18px 70px!important}.admin-layout{grid-template-columns:190px minmax(0,1fr);gap:18px}.admin-sidebar{padding:18px 8px}.admin-workspace form{padding:22px!important}}
+@media(max-width:680px){.admin-layout{display:block}.admin-sidebar{position:static;min-height:0;margin-bottom:24px;padding:18px 12px}.admin-board-nav{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important}.admin-sidebar-bottom{margin-top:10px;padding-top:14px}.admin-workspace form{padding:18px!important}}
+
+/* Article-row actions: white buttons with understated grey borders */
+#list article button,#list article button:hover,#list article button:focus{background:#fff!important;color:#555!important;border:1px solid #d9d9d9!important;border-radius:3px!important;box-shadow:none!important;font-weight:400!important;padding:7px 13px!important;cursor:pointer}
+#list article button:hover{background:#f7f7f7!important;border-color:#bbb!important}
+
+#manager-view{background:#fff!important}#manager-view h2{font-size:18px;margin:0 0 16px}#manager-view h3{font-size:23px;color:#333;margin:0 0 10px}.preview-actions{display:flex;justify-content:flex-end;gap:8px;margin:20px 0}.preview-actions button{background:#fff!important;color:#555!important;border:1px solid #d9d9d9!important;padding:8px 14px!important;border-radius:3px!important}#list article button{background:#fff!important;color:#555!important;border:1px solid #d9d9d9!important;border-radius:3px!important}
+
+
+/* Original style block 2 */
+body{font:15px/1.85 Pretendard,Arial,sans-serif;color:#444;padding:22px}img{max-width:100%;height:auto}a{color:#555}
