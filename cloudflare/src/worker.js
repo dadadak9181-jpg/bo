@@ -39,7 +39,7 @@ const hex=b=>Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,'0')).joi
 const digest=async s=>hex(await crypto.subtle.digest('SHA-256',textBytes(s)));
 async function passwordHash(pass,salt){
  const material=await crypto.subtle.importKey('raw',textBytes(pass),'PBKDF2',false,['deriveBits']);
- return hex(await crypto.subtle.deriveBits({name:'PBKDF2',salt:textBytes(salt),iterations:240000,hash:'SHA-256'},material,256));
+ return hex(await crypto.subtle.deriveBits({name:'PBKDF2',salt:textBytes(salt),iterations:100000,hash:'SHA-256'},material,256));
 }
 function randomToken(){const b=crypto.getRandomValues(new Uint8Array(32));return Array.from(b,x=>x.toString(16).padStart(2,'0')).join('')}
 async function ensureManagerTables(env){
