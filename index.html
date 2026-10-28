@@ -1628,43 +1628,71 @@ window.instoryShareKakao = function(data) {
 };
 </script>
 <script>
-/* Manager UI access verified by Cloudflare. Server remains sole write authority. */
+/* Administrator controls are shown only after server-side ticket verification. */
 (function(){
  const API='https://instory-content-api.porom.workers.dev';
- const categories=new Set(['magazines','insurance-news','finance','current','products','needs','qa','resources','main-links']);
- let callId=0;
- async function updateWriteButton(){
-  const id=++callId,hash=location.hash||'#/';
-  const raw=hash.slice(2),question=raw.indexOf('?'),path=(question<0?raw:raw.slice(0,question));
-  const params=new URLSearchParams(question<0?'':raw.slice(question+1));
+ const boards=new Set(['magazines','insurance-news','finance','current','products','needs','qa','resources','main-links']);
+ let revision=0;
+ function context(){
+  const raw=(location.hash||'#/').slice(2);
+  const pos=raw.indexOf('?');
+  return {path:pos<0?raw:raw.slice(0,pos),params:new URLSearchParams(pos<0?'':raw.slice(pos+1))};
+ }
+ function adminLink(category,id,action){
+  const params=new URLSearchParams({category});
+  if(id)params.set(action||'edit',id);
+  return API+'/manager?'+params.toString();
+ }
+ function button(text,url){
+  const a=document.createElement('a');
+  a.href=url;a.textContent=text;a.className='instory-admin-control';
+  a.style.cssText='font:400 13px Pretendard,sans-serif;color:#444;text-decoration:none;border:1px solid #ddd;padding:9px 15px;display:inline-flex;align-items:center;justify-content:center;border-radius:3px;background:#fff';
+  return a;
+ }
+ async function update(){
+  const run=++revision;
+  document.querySelectorAll('.instory-admin-actions').forEach(e=>e.remove());
+  const {path,params}=context();
   const ticket=params.get('instory_admin');
   if(ticket&&/^[a-f0-9]{64}$/.test(ticket)){
-    sessionStorage.setItem('instory_manager_ticket',ticket);
-    params.delete('instory_admin');
-    const cleaned='#/'+path+(params.toString()?'?'+params.toString():'');
-    history.replaceState(null,'',location.pathname+location.search+cleaned);
+   sessionStorage.setItem('instory_manager_ticket',ticket);
+   params.delete('instory_admin');
+   history.replaceState(null,'',location.pathname+location.search+'#/'+path+(params.toString()?'?'+params:''));
   }
-  document.getElementById('instory-manager-write')?.remove();
-  if(!categories.has(path))return;
   const token=sessionStorage.getItem('instory_manager_ticket');
   if(!token)return;
   let ok=false;
   try{
-   const r=await fetch(API+'/manager/site-check',{method:'POST',headers:{'content-type':'application/json'},cache:'no-store',body:JSON.stringify({token})});
-   ok=r.ok&&(await r.json()).ok===true;
-  }catch(e){return}
+   const response=await fetch(API+'/manager/site-check',{method:'POST',headers:{'content-type':'application/json'},cache:'no-store',body:JSON.stringify({token})});
+   ok=response.ok&&(await response.json()).ok===true;
+  }catch{return}
   if(!ok){sessionStorage.removeItem('instory_manager_ticket');return}
-  if(id!==callId)return;
-  const section=document.querySelector('#app .listing-tools')||document.querySelector('#app main.shell.content')||document.querySelector('#app .shell.content');
-  if(!section)return;
-  const a=document.createElement('a');
-  a.id='instory-manager-write';a.className='write-link';
-  const boardCategory=path==='resources'?'products':path;
-  a.href=API+'/manager?category='+encodeURIComponent(boardCategory);a.textContent='✎ 글쓰기';
-  a.style.cssText='display:inline-flex;align-items:center;justify-content:center;margin:12px 0;padding:12px 20px;border-radius:4px';
-  section.appendChild(a);
+  if(run!==revision)return;
+  let category=path,id=null,host=null;
+  if(path.startsWith('post/')){
+   id=path.slice(5);
+   const post=typeof allPosts==='function'?allPosts().find(p=>String(p.id)===id):null;
+   if(!post||!post.html)return;
+   category=post.cat;host=document.querySelector('#app .detail');
+  }else if(path.startsWith('magazine/')){
+   id=path.slice(9);category='magazines';host=document.querySelector('#app main');
+  }else if(boards.has(path)){
+   if(path==='main-links')return;
+   category=path==='resources'?'products':path;
+   host=document.querySelector('#app .listing-tools')||document.querySelector('#app .qa-board')||document.querySelector('#app main.shell.content')||document.querySelector('#app main');
+  }else return;
+  if(!host)return;
+  const actions=document.createElement('div');
+  actions.className='instory-admin-actions';
+  actions.style.cssText='display:flex;justify-content:flex-end;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0';
+  if(id){
+   actions.append(button('수정',adminLink(category,id,'edit')),button('삭제',adminLink(category,id,'delete')));
+  }else{
+   actions.append(button('등록',adminLink(category)));
+  }
+  host.prepend(actions);
  }
- addEventListener('hashchange',()=>setTimeout(updateWriteButton,0));
- addEventListener('DOMContentLoaded',()=>setTimeout(updateWriteButton,0));
+ addEventListener('hashchange',()=>setTimeout(update,0));
+ addEventListener('DOMContentLoaded',()=>setTimeout(update,0));
 })();
 </script></body></html>
