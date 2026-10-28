@@ -129,9 +129,17 @@ export default {async fetch(request,env){
       if(existing)return reply({error:'Manager already registered'},409);
       const data=await request.json(),username=String(data.username||'').trim(),password=String(data.password||'');
       if(!/^(?=.{4,100}$)[a-zA-Z0-9._%+@-]+$/.test(username)||password.length<12||password.length>200)return reply({error:'아이디는 이메일 또는 영문·숫자로 4~100자, 비밀번호는 12자 이상 입력하세요'},400);
-      const salt=randomToken(),hash=await passwordHash(password,salt);
-      await env.DB.prepare('INSERT INTO manager_accounts(id,username,password_salt,password_hash) VALUES(1,?,?,?)').bind(username,salt,hash).run();
-      return reply({registered:true},201);
+      // Identify the failing step without logging credentials or password hashes.
+      let step='hash';
+      try{
+        const salt=randomToken(),hash=await passwordHash(password,salt);
+        step='insert';
+        await env.DB.prepare('INSERT INTO manager_accounts(id,username,password_salt,password_hash) VALUES(1,?,?,?)').bind(username,salt,hash).run();
+        return reply({registered:true},201);
+      }catch(error){
+        console.error('INSTORY_MANAGER_SETUP_FAILURE',JSON.stringify({step,name:error?.name||'Error',message:String(error?.message||'Unknown').slice(0,250)}));
+        return reply({error:'관리자 등록 처리 오류 ('+step+'). Worker 로그의 INSTORY_MANAGER_SETUP_FAILURE 항목을 확인해 주세요.'},500);
+      }
     }
     if(admin&&resource==='editor'&&request.method==='GET')return new Response(ADMIN_PAGE,{headers:{'content-type':'text/html; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer'}});
     if(admin&&resource==='editor'&&request.method==='GET'){
@@ -191,5 +199,5 @@ export default {async fetch(request,env){
       }
     }
     return reply({error:'Not found'},404);
-  }catch(e){const status=e.status||500;return reply({error:status===500?'Server error':e.message},status)}
+  }catch(e){const status=e.status||500;if(status>=500)console.error('INSTORY_WORKER_ERROR',JSON.stringify({route:url.pathname,name:e?.name||'Error',message:String(e?.message||'Unknown').slice(0,250)}));return reply({error:status===500?'Server error':e.message},status)}
 }};
