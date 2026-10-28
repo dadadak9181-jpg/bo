@@ -1641,7 +1641,7 @@ window.instoryShareKakao = function(data) {
  function adminLink(category,id,action){
   const params=new URLSearchParams({category});
   if(id)params.set(action||'edit',id);
-  return API+'/manager?'+params.toString();
+  return '/admin/'+encodeURIComponent(category)+(id?'/'+encodeURIComponent(id)+(action==='edit'?'/edit':''): '/new');
  }
  function button(text,url){
   const a=document.createElement('a');
@@ -1659,14 +1659,16 @@ window.instoryShareKakao = function(data) {
    params.delete('instory_admin');
    history.replaceState(null,'',location.pathname+location.search+'#/'+path+(params.toString()?'?'+params:''));
   }
-  const token=sessionStorage.getItem('instory_manager_ticket');
-  if(!token)return;
   let ok=false;
   try{
-   const response=await fetch(API+'/manager/site-check',{method:'POST',headers:{'content-type':'application/json'},cache:'no-store',body:JSON.stringify({token})});
-   ok=response.ok&&(await response.json()).ok===true;
-  }catch{return}
-  if(!ok){sessionStorage.removeItem('instory_manager_ticket');return}
+   const response=await fetch('/admin/api/posts?limit=1',{credentials:'same-origin',cache:'no-store'});
+   ok=response.ok;
+  }catch{}
+  if(!ok){
+   const token=sessionStorage.getItem('instory_manager_ticket');
+   if(token){try{const response=await fetch(API+'/manager/site-check',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({token})});ok=response.ok&&(await response.json()).ok===true}catch{}}
+  }
+  if(!ok)return;
   if(run!==revision)return;
   let category=path,id=null,host=null;
   if(path.startsWith('post/')){
