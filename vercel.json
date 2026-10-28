@@ -2,5 +2,47 @@
   "version": 2,
   "framework": null,
   "buildCommand": "echo Static site ready",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "rewrites": [
+    {
+      "source": "/admin/api/login",
+      "destination": "https://instory-content-api.porom.workers.dev/manager/login"
+    },
+    {
+      "source": "/admin/api/posts/:id",
+      "destination": "https://instory-content-api.porom.workers.dev/api/console/posts/:id"
+    },
+    {
+      "source": "/admin/api/posts",
+      "destination": "https://instory-content-api.porom.workers.dev/api/console/posts"
+    },
+    {
+      "source": "/admin/api/files",
+      "destination": "https://instory-content-api.porom.workers.dev/api/console/files"
+    },
+    {
+      "source": "/admin/login",
+      "destination": "/admin/login.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/admin/:category",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/admin/:category/new",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/admin/:category/:id",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/admin/:category/:id/edit",
+      "destination": "/admin/index.html"
+    }
+  ]
 }
