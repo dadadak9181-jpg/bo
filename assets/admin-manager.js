@@ -3,7 +3,7 @@ const $=id=>document.getElementById(id);let current=[];
 const routeParts=location.pathname.split('/').filter(Boolean);const requestedCategory=routeParts[1]||new URLSearchParams(location.search).get('category')||'insurance-news';
 const validCategories=[...$('category').options].map(x=>x.value);
 if(validCategories.includes(requestedCategory))$('category').value=requestedCategory;
-const boardNav=$('board-nav');boardNav.innerHTML=[...$('category').options].map(option=>'<a href="/manager?category='+encodeURIComponent(option.value)+'" class="'+(option.value===requestedCategory?'active':'')+'">'+option.textContent+'</a>').join('');
+const boardNav=$('board-nav');boardNav.innerHTML=[...$('category').options].map((option,i)=>'<a href="/admin/'+encodeURIComponent(option.value)+'" class="'+(option.value===requestedCategory&&routeParts[0]==='admin'?'active':'')+'"><span class="admin-nav-icon" aria-hidden="true">'+['▤','▣','◫','▥','▧','◩','◪','▦','⌁'][i]+'</span>'+option.textContent+'</a>').join('');
 const formTemplates={
  'magazines':{title:'소식지 제목',body:'소식지 소개 및 안내',hint:'보험사와 발행연월을 지정하고 표지 이미지·PDF 원본을 등록하세요.',image:'소식지 표지 이미지',pdf:'소식지 PDF 원본',mag:true},
  'insurance-news':{title:'기사 제목',body:'보험소식 본문',hint:'보험업계 소식을 작성합니다. 출처 및 원문 링크를 선택적으로 입력할 수 있습니다.',image:'기사 대표 이미지',pdf:'첨부 PDF (선택)',source:'언론사 / 출처',url:true},
@@ -38,7 +38,7 @@ function adjustFields(){
  document.querySelector('h1').textContent=$('category').selectedOptions[0].textContent+' 등록';
  document.title='INSTORY · '+$('category').selectedOptions[0].textContent+' 등록';
 }
-$('category').addEventListener('change',()=>{adjustFields();boardNav.querySelectorAll('a').forEach(a=>a.classList.toggle('active',new URL(a.href).searchParams.get('category')===$('category').value));load()});
+$('category').addEventListener('change',()=>{adjustFields();boardNav.querySelectorAll('a').forEach(a=>a.classList.toggle('active',new URL(a.href).pathname.split('/')[2]===$('category').value));load()});
 adjustFields();
 
 const editor=$('rich-editor');
@@ -73,7 +73,7 @@ $('form').onsubmit=async e=>{e.preventDefault();$('submit').disabled=true;msg('�
 /* Open the requested article from the site's administrator-only actions. */
 (async function(){
  const query=new URLSearchParams(location.search);
- const editId=query.get('edit'),deleteId=query.get('delete'),target=editId||deleteId;
+ const editId=query.get('edit')||(routeParts.length===4&&routeParts[3]==='edit'?routeParts[2]:null),deleteId=query.get('delete'),viewId=routeParts.length===3&&/^[0-9]+$/.test(routeParts[2])?routeParts[2]:null,target=editId||deleteId||viewId;
  await load();
  if(!target)return;
  const idx=current.findIndex(p=>String(p.id)===target);
@@ -81,7 +81,7 @@ $('form').onsubmit=async e=>{e.preventDefault();$('submit').disabled=true;msg('�
  const row=$('list').children[idx];
  const actions=row&&row.querySelectorAll('button');
  if(!actions||actions.length<3)return;
- if(deleteId){actions[2].click()}else{await actions[1].click()}
+ if(deleteId){actions[2].click()}else if(editId){await actions[1].click()}else{actions[0].click()}
 })();
 
 /* Authenticated article detail preview, with edit and delete actions. */
@@ -104,7 +104,45 @@ async function showManagerPreview(id){
   frame.srcdoc='<!doctype html><html lang="ko"><meta charset="utf-8"><body>'+content+'</body></html>';
   view.append(heading,title,meta,actions,frame);
   const attachments=document.createElement('div');attachments.className='preview-attachments';
-  for(const item of [['표지 이미지',post.cover_key],['첨부 PDF',post.pdf_key]]){if(item[1]){const link=document.createElement('a');link.textContent=item[0]+' 열기';link.href=base()+'/api/files/'+encodeURIComponent(item[1]);link.target='_blank';link.rel='noopener noreferrer';link.style.cssText='display:inline-block;margin:15px 16px 0 0;color:#555';attachments.append(link)}}
+  for(const item of [['표지 이미지',post.cover_key],['첨부 PDF',post.pdf_key]]){if(item[1]){const link=document.createElement('a');link.textContent=item[0]+' 열기';link.href='https://instory-content-api.porom.workers.dev/api/files/'+encodeURIComponent(item[1]);link.target='_blank';link.rel='noopener noreferrer';link.style.cssText='display:inline-block;margin:15px 16px 0 0;color:#555';attachments.append(link)}}
   view.append(attachments);$('form').hidden=true;$('form').style.display='none';view.scrollIntoView({behavior:'smooth',block:'start'});
  }catch(e){alert('상세보기 실패: '+e.message)}
 }
+
+/* Master administration: inventory and dashboard. Unconnected sections are explicitly marked, never presented as editable. */
+(function setupMasterNavigation(){
+ const route=location.pathname.split('/').filter(Boolean);
+ const isHome=route.length===1;
+ const isMaster=route[1]==='master';
+ if(!isHome&&!isMaster)return;
+ const workspace=document.querySelector('.admin-workspace');
+ const dashboard=document.getElementById('master-dashboard');
+ if(!workspace||!dashboard)return;
+ [...workspace.children].forEach(node=>{if(node!==dashboard)node.style.display='none'});
+ dashboard.hidden=false;
+ const heading=document.querySelector('main>h1');
+ if(heading)heading.textContent=isHome?'마스터 대시보드':'마스터 관리';
+ const subtitle=document.querySelector('main>.admin-status');if(subtitle)subtitle.textContent='INSTORY 운영 현황 및 관리 항목';
+ const masterSections={
+  insurers:{title:'보험사 정보',description:'보험사 44개 및 탭별 업무정보',status:'관리 API 연결 필요'},
+  bookmarks:{title:'보험 북마크',description:'보험사·업무별 공식 링크 관리',status:'전용 DB 관리 기능 준비 필요'},
+  site:{title:'사이트 구성',description:'메인 배너, 로고, 메뉴, 푸터',status:'사이트 설정 저장소 연결 필요'},
+  system:{title:'운영 및 권한',description:'계정·접근 권한·파일 관리',status:'인증 및 권한 API 확장 필요'}
+ };
+ const title=document.createElement('h2');title.textContent=isHome?'관리 항목':' '+(masterSections[route[2]]?.title||'마스터 관리');dashboard.append(title);
+ if(isMaster){
+  const current=masterSections[route[2]];
+  const info=document.createElement('div');info.className='master-info';
+  const desc=document.createElement('p');desc.textContent=current?.description||'관리 영역을 선택하세요.';
+  const state=document.createElement('p');state.textContent=current?.status||'현재 연결된 기능이 없습니다.';state.className='master-state';
+  const back=document.createElement('a');back.href='/admin';back.textContent='← 대시보드로';
+  info.append(desc,state,back);dashboard.append(info);
+  document.querySelectorAll('.master-nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')===location.pathname));
+ }else{
+  const area=document.createElement('div');area.className='master-card-grid';
+  const sections=[...document.querySelectorAll('#category option')].map(o=>({title:o.textContent,description:'게시글 등록 · 보기 · 수정 · 삭제',href:'/admin/'+o.value,ready:true}));
+  sections.push(...Object.entries(masterSections).map(([key,item])=>({title:item.title,description:item.description,href:'/admin/master/'+key,ready:false})));
+  for(const item of sections){const card=document.createElement('a');card.className='master-card';card.href=item.href;const h=document.createElement('strong');h.textContent=item.title;const p=document.createElement('p');p.textContent=item.description;const tag=document.createElement('small');tag.textContent=item.ready?'콘텐츠 관리':'확장 예정';card.append(h,p,tag);area.append(card)}
+  dashboard.append(area);
+ }
+})();
