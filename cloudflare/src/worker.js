@@ -58,7 +58,7 @@ async function sessionAccount(request,env){
  await env.DB.prepare('UPDATE manager_sessions SET expires_at=? WHERE token_hash=?').bind(now+AUTH_MAX_AGE,tokenHash).run();
  return {account:row,token:match[1]};
 }
-const LOGIN_PAGE=`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>INSTORY 관리자 로그인</title><style>body{background:#f7f7f7;font-family:Pretendard,system-ui,sans-serif;margin:0;color:#333}main{max-width:390px;margin:12vh auto;background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:34px}h1{font-size:23px;margin:0 0 10px}p{font-size:13px;color:#777;line-height:1.8}label{display:block;font-size:13px;margin-top:18px}input{width:100%;box-sizing:border-box;margin-top:9px;padding:13px;border:1px solid #ddd;border-radius:5px;font-size:15px}button{width:100%;padding:14px;margin-top:24px;color:#fff;background:#333;border:0;border-radius:5px;font-size:15px;cursor:pointer}#error{color:#b33}</style></head><body><main><h1>INSTORY 관리자</h1><p>관리자 계정으로 로그인하세요. 사용 중에는 로그인 상태가 자동 연장됩니다.</p><form id="login"><label>관리자 아이디<input name="username" required autocomplete="username"></label><label>비밀번호<input name="password" type="password" required autocomplete="current-password"></label><button type="submit">로그인</button></form><p id="error"></p></main><script>document.querySelector('#login').onsubmit=async e=>{e.preventDefault();const fd=new FormData(e.target);const r=await fetch('/manager/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(Object.fromEntries(fd))});if(r.ok)location.href='/manager'+location.search;else document.querySelector('#error').textContent='로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.'}</script></body></html>`;
+const LOGIN_PAGE=`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>INSTORY 관리자 로그인</title><style>body{background:#f7f7f7;font-family:Pretendard,system-ui,sans-serif;margin:0;color:#333}main{max-width:390px;margin:12vh auto;background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:34px}h1{font-size:23px;margin:0 0 10px}p{font-size:13px;color:#777;line-height:1.8}label{display:block;font-size:13px;margin-top:18px}input{width:100%;box-sizing:border-box;margin-top:9px;padding:13px;border:1px solid #ddd;border-radius:5px;font-size:15px}button{width:100%;padding:14px;margin-top:24px;color:#fff;background:#333;border:0;border-radius:5px;font-size:15px;cursor:pointer}#error{color:#b33}</style></head><body><main><h1>INSTORY 관리자</h1><p>관리자 계정으로 로그인하세요. 사용 중에는 로그인 상태가 자동 연장됩니다.</p><form id="login"><label>관리자 아이디<input name="username" required autocomplete="username"></label><label>비밀번호<input name="password" type="password" required autocomplete="current-password"></label><button type="submit">로그인</button></form><p id="error"></p></main><script>document.querySelector('#login').onsubmit=async e=>{e.preventDefault();const fd=new FormData(e.target);const r=await fetch('/manager/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(Object.fromEntries(fd))});if(r.ok)location.href=new URLSearchParams(location.search).get('site')==='1'?'/manager/site':'/manager'+location.search;else document.querySelector('#error').textContent='로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.'}</script></body></html>`;
 const SETUP_PAGE=LOGIN_PAGE.replace('관리자 로그인','최초 관리자 등록').replace('관리자 계정으로 로그인하세요. 사용 중에는 로그인 상태가 자동 연장됩니다.','최초 1회 관리자 아이디와 비밀번호를 등록하세요.').replace('autocomplete="current-password"','autocomplete="new-password" minlength="12"').replace('>로그인</button>','>관리자 등록</button>').replace("'/manager/login'","'/api/admin/manager-setup'").replace("location.href='/manager'+location.search","location.href='/manager'").replace("else document.querySelector('#error').textContent='로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.'","else {const x=await r.json().catch(()=>({}));document.querySelector('#error').textContent=x.error==='Manager already registered'?'이미 관리자 계정이 등록되어 있습니다. 관리자 로그인 화면으로 이동하세요.':(x.error||'관리자 등록에 실패했습니다.')}");
 
 const categories=new Set(['magazines','insurance-news','finance','current','products','needs','qa','resources','main-links']);
@@ -71,6 +71,31 @@ function normalize(input){if(!input||typeof input!=='object')throw {status:400,m
 }
 export default {async fetch(request,env){
   const h=cors(request,env);const url=new URL(request.url);const parts=url.pathname.split('/').filter(Boolean);
+  // Website UI handoff. This token never authorizes writes.
+  if(url.pathname==='/manager/site'){
+    try{
+      await sessionAccount(request,env);
+      await env.DB.prepare('CREATE TABLE IF NOT EXISTS manager_site_handoffs (token_hash TEXT PRIMARY KEY,expires_at INTEGER NOT NULL)').run();
+      const token=randomToken(),now=Math.floor(Date.now()/1000);
+      await env.DB.prepare('DELETE FROM manager_site_handoffs WHERE expires_at<?').bind(now).run();
+      await env.DB.prepare('INSERT INTO manager_site_handoffs(token_hash,expires_at) VALUES(?,?)').bind(await digest(token),now+3600).run();
+      return Response.redirect('https://www.seoul-ga.com/#/?instory_admin='+token,302);
+    }catch{return Response.redirect(new URL('/manager/login?site=1',url),302)}
+  }
+  if(url.pathname==='/manager/site-check'){
+    const origin=request.headers.get('Origin')||'';
+    const allowed=['https://www.seoul-ga.com','https://seoul-ga.com','https://bo-nu-sepia.vercel.app'];
+    const headers={'content-type':'application/json; charset=utf-8','cache-control':'no-store','vary':'Origin'};
+    if(allowed.includes(origin))headers['access-control-allow-origin']=origin;
+    if(request.method==='OPTIONS')return new Response(null,{status:204,headers:{...headers,'access-control-allow-methods':'POST,OPTIONS','access-control-allow-headers':'Content-Type'}});
+    if(request.method!=='POST'||!allowed.includes(origin))return new Response('{"ok":false}',{status:403,headers});
+    try{
+      const {token}=await request.json();
+      if(!/^[a-f0-9]{64}$/.test(String(token||'')))return new Response('{"ok":false}',{headers});
+      const row=await env.DB.prepare('SELECT expires_at FROM manager_site_handoffs WHERE token_hash=?').bind(await digest(token)).first();
+      return new Response(JSON.stringify({ok:!!row&&row.expires_at>Math.floor(Date.now()/1000)}),{headers});
+    }catch{return new Response('{"ok":false}',{headers})}
+  }
   if(request.method==='OPTIONS')return new Response(null,{status:204,headers:h});
   const reply=(body,status=200)=>json(body,status,h);
   if(url.pathname==='/manager/login'&&request.method==='GET')return new Response(LOGIN_PAGE,{headers:{'content-type':'text/html; charset=utf-8','cache-control':'no-store'}});
