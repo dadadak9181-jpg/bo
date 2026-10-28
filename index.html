@@ -1677,7 +1677,6 @@ window.instoryShareKakao = function(data) {
   }else if(path.startsWith('magazine/')){
    id=path.slice(9);category='magazines';host=document.querySelector('#app main');
   }else if(boards.has(path)){
-   if(path==='main-links')return;
    category=path==='resources'?'products':path;
    host=document.querySelector('#app .listing-tools')||document.querySelector('#app .qa-board')||document.querySelector('#app main.shell.content')||document.querySelector('#app main');
   }else return;
